@@ -1,0 +1,3002 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>
+            PCM & Composites for EV Battery Thermal Management — Full
+            Explanation
+        </title>
+        <link
+            href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=Source+Serif+4:ital,opsz,wght@0,8..60,300;0,8..60,400;0,8..60,600;1,8..60,300&family=JetBrains+Mono:wght@400;500&display=swap"
+            rel="stylesheet"
+        />
+        <style>
+            :root {
+                --bg: #0e0f14;
+                --surface: #15171f;
+                --card: #1c1f2b;
+                --border: #2a2e40;
+                --accent: #f5a623;
+                --accent2: #4fc3f7;
+                --accent3: #81c784;
+                --accent4: #ef5350;
+                --text: #e8e9f0;
+                --muted: #8890aa;
+                --heading: #ffffff;
+            }
+
+            *,
+            *::before,
+            *::after {
+                box-sizing: border-box;
+                margin: 0;
+                padding: 0;
+            }
+
+            html {
+                scroll-behavior: smooth;
+            }
+
+            body {
+                background: var(--bg);
+                color: var(--text);
+                font-family: "Source Serif 4", Georgia, serif;
+                font-size: 17px;
+                line-height: 1.8;
+                min-height: 100vh;
+            }
+
+            /* ─── Noise texture overlay ─── */
+            body::before {
+                content: "";
+                position: fixed;
+                inset: 0;
+                background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+                pointer-events: none;
+                z-index: 999;
+                opacity: 0.45;
+            }
+
+            /* ─── HERO ─── */
+            .hero {
+                position: relative;
+                overflow: hidden;
+                padding: 90px 40px 80px;
+                text-align: center;
+                border-bottom: 1px solid var(--border);
+                background: radial-gradient(
+                    ellipse 80% 60% at 50% 0%,
+                    #1a2340 0%,
+                    var(--bg) 70%
+                );
+            }
+            .hero::after {
+                content: "";
+                position: absolute;
+                left: 50%;
+                top: -60px;
+                transform: translateX(-50%);
+                width: 600px;
+                height: 600px;
+                border-radius: 50%;
+                background: radial-gradient(
+                    circle,
+                    rgba(245, 166, 35, 0.07) 0%,
+                    transparent 70%
+                );
+                pointer-events: none;
+            }
+            .hero-badge {
+                display: inline-block;
+                font-family: "JetBrains Mono", monospace;
+                font-size: 11px;
+                letter-spacing: 0.14em;
+                text-transform: uppercase;
+                color: var(--accent);
+                border: 1px solid var(--accent);
+                padding: 4px 14px;
+                border-radius: 2px;
+                margin-bottom: 24px;
+                opacity: 0;
+                animation: fadeUp 0.6s 0.1s forwards;
+            }
+            .hero h1 {
+                font-family: "Playfair Display", serif;
+                font-size: clamp(28px, 5vw, 54px);
+                font-weight: 900;
+                color: var(--heading);
+                line-height: 1.15;
+                max-width: 860px;
+                margin: 0 auto 20px;
+                opacity: 0;
+                animation: fadeUp 0.7s 0.25s forwards;
+            }
+            .hero h1 em {
+                color: var(--accent);
+                font-style: normal;
+            }
+            .hero-sub {
+                font-size: 16px;
+                color: var(--muted);
+                max-width: 620px;
+                margin: 0 auto 36px;
+                opacity: 0;
+                animation: fadeUp 0.7s 0.4s forwards;
+            }
+            .hero-meta {
+                display: flex;
+                flex-wrap: wrap;
+                gap: 20px;
+                justify-content: center;
+                opacity: 0;
+                animation: fadeUp 0.7s 0.55s forwards;
+            }
+            .hero-meta span {
+                font-family: "JetBrains Mono", monospace;
+                font-size: 12px;
+                color: var(--muted);
+                background: var(--card);
+                border: 1px solid var(--border);
+                padding: 6px 14px;
+                border-radius: 2px;
+            }
+
+            @keyframes fadeUp {
+                from {
+                    opacity: 0;
+                    transform: translateY(18px);
+                }
+                to {
+                    opacity: 1;
+                    transform: translateY(0);
+                }
+            }
+
+            /* ─── LAYOUT ─── */
+            .page {
+                max-width: 1020px;
+                margin: 0 auto;
+                padding: 0 28px 100px;
+            }
+
+            /* ─── TOC ─── */
+            .toc {
+                background: var(--card);
+                border: 1px solid var(--border);
+                border-left: 3px solid var(--accent);
+                padding: 32px 36px;
+                margin: 52px 0 60px;
+                border-radius: 2px;
+            }
+            .toc h2 {
+                font-family: "Playfair Display", serif;
+                font-size: 20px;
+                color: var(--heading);
+                margin-bottom: 20px;
+                letter-spacing: 0.01em;
+            }
+            .toc ol {
+                padding-left: 22px;
+            }
+            .toc li {
+                margin-bottom: 8px;
+            }
+            .toc a {
+                color: var(--accent2);
+                text-decoration: none;
+                font-family: "JetBrains Mono", monospace;
+                font-size: 13px;
+                transition: color 0.2s;
+            }
+            .toc a:hover {
+                color: var(--accent);
+            }
+
+            /* ─── SECTION ─── */
+            .section {
+                margin-bottom: 72px;
+                opacity: 0;
+                transform: translateY(24px);
+                transition:
+                    opacity 0.55s,
+                    transform 0.55s;
+            }
+            .section.visible {
+                opacity: 1;
+                transform: translateY(0);
+            }
+
+            .section-label {
+                font-family: "JetBrains Mono", monospace;
+                font-size: 10.5px;
+                letter-spacing: 0.18em;
+                text-transform: uppercase;
+                color: var(--accent);
+                margin-bottom: 10px;
+            }
+
+            h2.section-title {
+                font-family: "Playfair Display", serif;
+                font-size: clamp(22px, 3.5vw, 34px);
+                font-weight: 700;
+                color: var(--heading);
+                line-height: 1.2;
+                margin-bottom: 28px;
+                padding-bottom: 14px;
+                border-bottom: 1px solid var(--border);
+            }
+            h2.section-title .num {
+                color: var(--accent);
+                font-size: 0.7em;
+                font-style: italic;
+                margin-right: 10px;
+            }
+
+            h3 {
+                font-family: "Playfair Display", serif;
+                font-size: 20px;
+                color: var(--heading);
+                margin: 36px 0 14px;
+                font-weight: 700;
+            }
+
+            p {
+                margin-bottom: 18px;
+                color: var(--text);
+            }
+
+            strong {
+                color: var(--heading);
+                font-weight: 600;
+            }
+
+            em {
+                color: var(--accent);
+                font-style: italic;
+            }
+
+            /* ─── CALLOUT BOXES ─── */
+            .callout {
+                background: var(--card);
+                border: 1px solid var(--border);
+                border-radius: 2px;
+                padding: 22px 26px;
+                margin: 28px 0;
+                position: relative;
+            }
+            .callout.orange {
+                border-left: 3px solid var(--accent);
+            }
+            .callout.blue {
+                border-left: 3px solid var(--accent2);
+            }
+            .callout.green {
+                border-left: 3px solid var(--accent3);
+            }
+            .callout.red {
+                border-left: 3px solid var(--accent4);
+            }
+
+            .callout-title {
+                font-family: "JetBrains Mono", monospace;
+                font-size: 11px;
+                text-transform: uppercase;
+                letter-spacing: 0.12em;
+                margin-bottom: 10px;
+                color: var(--muted);
+            }
+            .callout.orange .callout-title {
+                color: var(--accent);
+            }
+            .callout.blue .callout-title {
+                color: var(--accent2);
+            }
+            .callout.green .callout-title {
+                color: var(--accent3);
+            }
+            .callout.red .callout-title {
+                color: var(--accent4);
+            }
+
+            /* ─── TABLES ─── */
+            .table-wrap {
+                overflow-x: auto;
+                margin: 28px 0;
+            }
+            table {
+                width: 100%;
+                border-collapse: collapse;
+                font-size: 15px;
+                background: var(--card);
+                border: 1px solid var(--border);
+            }
+            thead th {
+                background: #20253a;
+                color: var(--accent);
+                font-family: "JetBrains Mono", monospace;
+                font-size: 11px;
+                letter-spacing: 0.1em;
+                text-transform: uppercase;
+                padding: 12px 16px;
+                text-align: left;
+                border-bottom: 1px solid var(--border);
+            }
+            tbody td {
+                padding: 11px 16px;
+                border-bottom: 1px solid var(--border);
+                vertical-align: top;
+            }
+            tbody tr:last-child td {
+                border-bottom: none;
+            }
+            tbody tr:hover td {
+                background: rgba(255, 255, 255, 0.025);
+            }
+
+            /* ─── FORMULA BLOCK ─── */
+            .formula {
+                background: #0b0c12;
+                border: 1px solid var(--border);
+                border-radius: 2px;
+                padding: 18px 24px;
+                margin: 22px 0;
+                font-family: "JetBrains Mono", monospace;
+                font-size: 14.5px;
+                color: var(--accent2);
+                overflow-x: auto;
+                white-space: pre;
+            }
+
+            /* ─── FLOW GRID ─── */
+            .flow {
+                display: flex;
+                flex-wrap: wrap;
+                gap: 16px;
+                margin: 28px 0;
+            }
+            .flow-step {
+                flex: 1;
+                min-width: 160px;
+                background: var(--card);
+                border: 1px solid var(--border);
+                border-radius: 2px;
+                padding: 18px 20px;
+                position: relative;
+            }
+            .flow-step .step-num {
+                font-family: "JetBrains Mono", monospace;
+                font-size: 11px;
+                color: var(--accent);
+                letter-spacing: 0.1em;
+                margin-bottom: 8px;
+            }
+            .flow-step h4 {
+                font-family: "Playfair Display", serif;
+                font-size: 16px;
+                color: var(--heading);
+                margin-bottom: 6px;
+            }
+            .flow-step p {
+                font-size: 14px;
+                color: var(--muted);
+                margin: 0;
+            }
+
+            /* ─── SAMPLE CARDS ─── */
+            .sample-grid {
+                display: grid;
+                grid-template-columns: repeat(auto-fill, minmax(270px, 1fr));
+                gap: 18px;
+                margin: 28px 0;
+            }
+            .sample-card {
+                background: var(--card);
+                border: 1px solid var(--border);
+                border-radius: 2px;
+                padding: 22px 24px;
+                transition:
+                    border-color 0.2s,
+                    transform 0.2s;
+            }
+            .sample-card:hover {
+                border-color: var(--accent2);
+                transform: translateY(-3px);
+            }
+            .sample-id {
+                font-family: "JetBrains Mono", monospace;
+                font-size: 11px;
+                color: var(--accent);
+                letter-spacing: 0.12em;
+                margin-bottom: 8px;
+            }
+            .sample-card h4 {
+                font-family: "Playfair Display", serif;
+                font-size: 17px;
+                color: var(--heading);
+                margin-bottom: 10px;
+            }
+            .sample-card p {
+                font-size: 14px;
+                color: var(--muted);
+                margin: 0;
+            }
+            .sample-card.highlight {
+                border-color: var(--accent);
+                background: #1f1f0e;
+            }
+            .sample-card.highlight h4 {
+                color: var(--accent);
+            }
+
+            /* ─── BAR CHART ─── */
+            .bar-group {
+                margin: 28px 0;
+            }
+            .bar-label {
+                font-family: "JetBrains Mono", monospace;
+                font-size: 12px;
+                color: var(--muted);
+                margin-bottom: 6px;
+                display: flex;
+                justify-content: space-between;
+                align-items: baseline;
+                flex-wrap: wrap;
+                row-gap: 2px;
+                column-gap: 8px;
+            }
+            .bar-label span:first-child {
+                flex: 1 1 auto;
+                min-width: 0;
+            }
+            .bar-label span:last-child {
+                flex: 0 0 auto;
+                white-space: nowrap;
+            }
+            .bar-track {
+                background: var(--border);
+                border-radius: 1px;
+                height: 22px;
+                overflow: hidden;
+                margin-bottom: 14px;
+                width: 100%;
+                max-width: 100%;
+            }
+            .bar-fill {
+                height: 100%;
+                border-radius: 1px;
+                display: flex;
+                align-items: center;
+                padding-left: 10px;
+                font-family: "JetBrains Mono", monospace;
+                font-size: 11px;
+                color: #000;
+                font-weight: 600;
+                transition: width 1.2s cubic-bezier(0.4, 0, 0.2, 1);
+                width: 0;
+                white-space: nowrap;
+                overflow: hidden;
+            }
+
+            /* ─── BAR CHART RESPONSIVE ─── */
+            @media (max-width: 900px) {
+                .bar-label {
+                    font-size: 11px;
+                }
+            }
+            @media (max-width: 600px) {
+                .bar-group {
+                    margin: 18px 0;
+                }
+                .bar-label {
+                    flex-direction: column;
+                    align-items: flex-start;
+                    gap: 2px;
+                    margin-bottom: 5px;
+                }
+                .bar-label span:first-child {
+                    font-size: 11px;
+                    line-height: 1.45;
+                    white-space: normal;
+                    word-break: break-word;
+                }
+                .bar-label span:last-child {
+                    font-size: 12px;
+                    font-weight: 700;
+                    color: var(--text);
+                }
+                .bar-track {
+                    height: 20px;
+                    margin-bottom: 12px;
+                }
+                .bar-fill {
+                    font-size: 0;
+                    padding-left: 0;
+                }
+            }
+
+            /* ─── DIVIDER ─── */
+            .divider {
+                border: none;
+                border-top: 1px solid var(--border);
+                margin: 60px 0;
+            }
+
+            /* ─── FINDING PILLS ─── */
+            .pills {
+                display: flex;
+                flex-wrap: wrap;
+                gap: 10px;
+                margin: 18px 0;
+            }
+            .pill {
+                background: var(--card);
+                border: 1px solid var(--border);
+                padding: 6px 14px;
+                border-radius: 20px;
+                font-size: 13px;
+                color: var(--text);
+                font-family: "JetBrains Mono", monospace;
+            }
+            .pill.good {
+                border-color: var(--accent3);
+                color: var(--accent3);
+            }
+            .pill.warn {
+                border-color: var(--accent);
+                color: var(--accent);
+            }
+            .pill.bad {
+                border-color: var(--accent4);
+                color: var(--accent4);
+            }
+
+            /* ─── SCROLL PROGRESS ─── */
+            #progress {
+                position: fixed;
+                top: 0;
+                left: 0;
+                height: 3px;
+                background: linear-gradient(
+                    90deg,
+                    var(--accent),
+                    var(--accent2)
+                );
+                z-index: 1000;
+                width: 0;
+                transition: width 0.1s linear;
+            }
+
+            @media (max-width: 768px) {
+                .page {
+                    padding: 0 16px 80px;
+                }
+                .hero {
+                    padding: 60px 20px 50px;
+                }
+            }
+
+            /* ─── VERDICT BOX ─── */
+            .verdict {
+                background: linear-gradient(135deg, #1a1a08, #1a1a0a);
+                border: 2px solid var(--accent);
+                border-radius: 2px;
+                padding: 36px 40px;
+                margin: 40px 0;
+                text-align: center;
+            }
+            .verdict .trophy {
+                font-size: 48px;
+                margin-bottom: 16px;
+                display: block;
+            }
+            .verdict h3 {
+                font-family: "Playfair Display", serif;
+                font-size: 26px;
+                color: var(--accent);
+                margin-bottom: 12px;
+            }
+            .verdict p {
+                color: var(--text);
+                max-width: 600px;
+                margin: 0 auto;
+            }
+
+            /* ─── QUOTE ─── */
+            blockquote {
+                border-left: 3px solid var(--accent);
+                margin: 28px 0;
+                padding: 14px 24px;
+                background: var(--card);
+                font-style: italic;
+                color: var(--muted);
+                font-size: 16px;
+            }
+        </style>
+    </head>
+    <body>
+        <div id="progress"></div>
+
+        <!-- HERO -->
+        <header class="hero">
+            <div class="hero-badge">
+                B.Tech Project — Sem 6 · Mechanical Engineering
+            </div>
+            <h1>
+                Experimental Research on <em>PCM and Composites</em> for EV
+                Battery Thermal Management
+            </h1>
+            <p class="hero-sub">
+                Complete details about the project submitted to J.C. Bose
+                University of Science & Technology YMCA, Faridabad
+            </p>
+            <div class="hero-meta">
+                <span>📖 RT42 Paraffin Wax</span>
+                <span>⚡ Graphite · CNT · Aluminium</span>
+                <span>🔬 Arduino-based Data Acquisition</span>
+                <span>🚗 EV Battery Cooling</span>
+                <span>👥 Nikhil · Reedhima · Saumy · Shailja · Roshan</span>
+            </div>
+        </header>
+
+        <main class="page">
+            <!-- TABLE OF CONTENTS -->
+            <nav class="toc">
+                <h2>📋 Table of Contents</h2>
+                <ol>
+                    <li>
+                        <a href="#intro"
+                            >What This Project Is About — Introduction</a
+                        >
+                    </li>
+                    <li>
+                        <a href="#abstract"
+                            >Abstract: Objectives, Setup & Anticipated
+                            Findings</a
+                        >
+                    </li>
+                    <li><a href="#literature">Literature Review</a></li>
+                    <li>
+                        <a href="#materials"
+                            >Materials & Their Thermophysical Properties</a
+                        >
+                    </li>
+                    <li>
+                        <a href="#setup"
+                            >Experimental Setup — Every Component Explained</a
+                        >
+                    </li>
+                    <li>
+                        <a href="#method"
+                            >Experimental Methodology — Step by Step</a
+                        >
+                    </li>
+                    <li>
+                        <a href="#equations"
+                            >Key Governing Equations Explained</a
+                        >
+                    </li>
+                    <li><a href="#results">Results & Discussion</a></li>
+                    <li>
+                        <a href="#conclusion"
+                            >Conclusions, Limitations & Future Scope</a
+                        >
+                    </li>
+                </ol>
+            </nav>
+
+            <!-- ═══════════════════════════════════════════════ -->
+            <!-- 1. INTRODUCTION -->
+            <!-- ═══════════════════════════════════════════════ -->
+            <section class="section" id="intro">
+                <div class="section-label">Chapter 1</div>
+                <h2 class="section-title">
+                    <span class="num">01.</span> Introduction — Understanding
+                    the Problem
+                </h2>
+
+                <h3>1.1 Why Electric Vehicles?</h3>
+                <p>
+                    Electric Vehicles (EVs) have emerged as the most promising
+                    alternative to petrol/diesel cars. The primary drivers are:
+                    rising <strong>environmental pollution</strong> from fossil
+                    fuel combustion, the
+                    <strong>depletion of fossil fuel reserves</strong>, and
+                    global demand for
+                    <strong>sustainable transportation</strong>. EVs run on
+                    rechargeable <strong>lithium-ion battery packs</strong>,
+                    offering high efficiency, near-zero emissions, quieter
+                    operation, and lower running costs. EV adoption is growing
+                    rapidly across both personal and commercial vehicle
+                    segments.
+                </p>
+
+                <h3>1.2 Why Does Battery Thermal Management Matter?</h3>
+                <p>
+                    Lithium-ion batteries are extremely sensitive to
+                    temperature. During
+                    <strong>charging and discharging cycles</strong>, batteries
+                    generate heat due to two main reasons:
+                </p>
+                <div class="flow">
+                    <div class="flow-step">
+                        <div class="step-num">REASON 01</div>
+                        <h4>Electrochemical Reactions</h4>
+                        <p>
+                            The internal chemical reactions that store/release
+                            energy themselves produce heat as a byproduct.
+                        </p>
+                    </div>
+                    <div class="flow-step">
+                        <div class="step-num">REASON 02</div>
+                        <h4>Internal Resistance</h4>
+                        <p>
+                            Electrical current flowing through the battery's
+                            internal resistance (Joule heating) generates heat
+                            proportional to I²R.
+                        </p>
+                    </div>
+                </div>
+                <p>
+                    If this heat is not properly managed, temperature rises
+                    beyond the
+                    <strong>safe operating range (≈20°C–45°C)</strong>,
+                    affecting battery life and performance. A
+                    <strong>Battery Thermal Management System (BTMS)</strong> is
+                    therefore essential. Its job: maintain uniform temperature
+                    distribution across all battery cells.
+                </p>
+
+                <h3>1.3 Battery Overheating — What Goes Wrong?</h3>
+                <div class="callout red">
+                    <div class="callout-title">
+                        ⚠ Consequences of Battery Overheating
+                    </div>
+                    <p>
+                        Excessive temperature rise causes a cascade of problems
+                        — some gradual, some catastrophic:
+                    </p>
+                </div>
+                <div class="flow">
+                    <div class="flow-step">
+                        <div class="step-num">EFFECT A</div>
+                        <h4>Reduced Efficiency</h4>
+                        <p>
+                            Charging efficiency drops; more energy wasted as
+                            heat.
+                        </p>
+                    </div>
+                    <div class="flow-step">
+                        <div class="step-num">EFFECT B</div>
+                        <h4>Capacity Degradation</h4>
+                        <p>
+                            Faster degradation of battery capacity — battery
+                            holds less charge over time.
+                        </p>
+                    </div>
+                    <div class="flow-step">
+                        <div class="step-num">EFFECT C</div>
+                        <h4>Increased Resistance</h4>
+                        <p>
+                            Higher internal resistance further worsens heat
+                            generation — a vicious cycle.
+                        </p>
+                    </div>
+                    <div class="flow-step">
+                        <div class="step-num">EFFECT D</div>
+                        <h4>Thermal Runaway</h4>
+                        <p>
+                            The worst case: uncontrolled temperature escalation
+                            leading to fire or explosion.
+                        </p>
+                    </div>
+                </div>
+                <p>
+                    Additionally,
+                    <strong>non-uniform temperature distribution</strong> across
+                    cells (some hotter than others) reduces overall reliability
+                    and lifespan of the battery pack.
+                </p>
+
+                <h3>1.4 What are Phase Change Materials (PCM)?</h3>
+                <p>
+                    A <strong>Phase Change Material</strong> is a substance that
+                    absorbs and stores a large amount of heat when it
+                    transitions from one phase to another — typically from
+                    <strong>solid → liquid</strong> (melting).
+                </p>
+                <div class="callout blue">
+                    <div class="callout-title">
+                        🔑 Key Principle: Latent Heat
+                    </div>
+                    <p>
+                        When a PCM melts, it absorbs a large quantity of heat
+                        called <strong>latent heat</strong> while maintaining
+                        <em>nearly constant temperature</em>. This temperature
+                        plateau is ideal for battery cooling — the PCM acts as a
+                        thermal buffer, absorbing heat spikes without letting
+                        the temperature spike.
+                    </p>
+                </div>
+                <p>
+                    PCM-based passive cooling systems offer:
+                    <strong>compact design</strong>,
+                    <strong>silent operation</strong>,
+                    <strong>no moving parts or external power</strong>, and
+                    <strong>effective temperature regulation</strong>.
+                </p>
+
+                <h3>1.5 Why Paraffin Wax Specifically? Why RT42?</h3>
+                <p>
+                    Among all PCMs, <strong>paraffin wax</strong> is the most
+                    popular for low-to-medium temperature applications because:
+                </p>
+                <div class="pills">
+                    <span class="pill good">High latent heat storage</span>
+                    <span class="pill good">Chemically stable</span>
+                    <span class="pill good">Non-corrosive</span>
+                    <span class="pill good">Non-toxic</span>
+                    <span class="pill good">Cost-effective</span>
+                    <span class="pill good">Reliable thermal cycling</span>
+                </div>
+                <p>
+                    <strong>RT42</strong> is a specific grade of paraffin wax
+                    with a melting point of approximately <strong>42°C</strong>,
+                    which is right at the upper safe limit for lithium-ion
+                    batteries. This means RT42 begins absorbing heat precisely
+                    when the battery is about to overheat — perfect timing.
+                    However, there is one major problem:
+                </p>
+                <div class="callout red">
+                    <div class="callout-title">❌ Critical Limitation</div>
+                    <p>
+                        Pure paraffin wax has a very low thermal conductivity of
+                        <strong>~0.2 W/m·K</strong>. This means heat travels
+                        through it very slowly — think of it as a thermal
+                        insulator rather than a heat spreader. For
+                        fast-responding battery cooling, this is a serious
+                        bottleneck.
+                    </p>
+                </div>
+
+                <h3>1.6 The Solution: Conductive Additives</h3>
+                <p>
+                    The solution is to add
+                    <strong>highly thermally conductive particles</strong> into
+                    the paraffin wax. These particles create a network of
+                    heat-conducting pathways inside the PCM, enabling rapid heat
+                    transfer. Three additives are explored in this project:
+                </p>
+                <div class="flow">
+                    <div class="flow-step">
+                        <div class="step-num">ADDITIVE 01</div>
+                        <h4>Aluminium Powder</h4>
+                        <p>
+                            k ≈ 205–237 W/m·K. Affordable and widely available.
+                            Improves bulk heat transfer.
+                        </p>
+                    </div>
+                    <div class="flow-step">
+                        <div class="step-num">ADDITIVE 02</div>
+                        <h4>Graphite Powder</h4>
+                        <p>
+                            k ≈ 100–400 W/m·K. Excellent layered structure
+                            creates 2D heat pathways. Very cost-effective.
+                        </p>
+                    </div>
+                    <div class="flow-step">
+                        <div class="step-num">ADDITIVE 03</div>
+                        <h4>Carbon Nanotubes (CNT)</h4>
+                        <p>
+                            k ≈ 2000–6000 W/m·K. Extraordinary conductivity at
+                            very low concentrations (&lt;1 wt%).
+                        </p>
+                    </div>
+                </div>
+
+                <h3>1.7 Project Objectives (Summary)</h3>
+                <div class="callout green">
+                    <div class="callout-title">
+                        ✅ What This Project Aims to Do
+                    </div>
+                    <p>
+                        <strong><span style="color: #f5a623">1.</span></strong>
+                        Study RT42 paraffin wax as a PCM for EV cooling.<br />
+                        <strong><span style="color: #f5a623">2.</span></strong>
+                        Prepare doped composite PCM samples (Al, Graphite,
+                        CNT).<br />
+                        <strong><span style="color: #f5a623">3.</span></strong>
+                        Design and build an experimental apparatus.<br />
+                        <strong><span style="color: #f5a623">4.</span></strong>
+                        Measure thermal conductivity, specific heat capacity,
+                        melting behaviour, temperature distribution, and
+                        volumetric expansion.<br />
+                        <strong><span style="color: #f5a623">5.</span></strong>
+                        Compare all composites and identify the optimum
+                        composition.
+                    </p>
+                </div>
+            </section>
+
+            <hr class="divider" />
+
+            <!-- ═══════════════════════════════════════════════ -->
+            <!-- 2. ABSTRACT -->
+            <!-- ═══════════════════════════════════════════════ -->
+            <section class="section" id="abstract">
+                <div class="section-label">Abstract</div>
+                <h2 class="section-title">
+                    <span class="num">02.</span> Abstract — What the Project
+                    Covers at a Glance
+                </h2>
+
+                <p>
+                    The abstract is the bird's-eye view of the entire project.
+                    Here is what each part means:
+                </p>
+
+                <h3>Three Critical Properties Being Studied</h3>
+                <p>
+                    The researchers chose to focus on three properties because
+                    they together determine
+                    <em>whether a PCM will work in a real EV battery system</em
+                    >:
+                </p>
+                <div class="flow">
+                    <div class="flow-step">
+                        <div class="step-num">PROPERTY 01</div>
+                        <h4>Thermal Conductivity (k)</h4>
+                        <p>
+                            How fast heat moves through the material. Higher =
+                            faster cooling. Units: W/m·K.
+                        </p>
+                    </div>
+                    <div class="flow-step">
+                        <div class="step-num">PROPERTY 02</div>
+                        <h4>Specific Heat Capacity (Cp)</h4>
+                        <p>
+                            How much heat a material can store per unit mass per
+                            degree. Higher = more storage. Units: kJ/kg·K.
+                        </p>
+                    </div>
+                    <div class="flow-step">
+                        <div class="step-num">PROPERTY 03</div>
+                        <h4>Volumetric Expansion</h4>
+                        <p>
+                            How much the PCM swells when it melts. Too much
+                            expansion can crack containers. Measured as %.
+                        </p>
+                    </div>
+                </div>
+
+                <h3>The Five PCM Samples (from Abstract)</h3>
+                <div class="sample-grid">
+                    <div class="sample-card">
+                        <div class="sample-id">BASELINE</div>
+                        <h4>Pure RT42 Paraffin Wax</h4>
+                        <p>
+                            The reference point. All other composites are
+                            compared against this.
+                        </p>
+                    </div>
+                    <div class="sample-card">
+                        <div class="sample-id">SAMPLE 2</div>
+                        <h4>Paraffin + Graphite (5–7 wt%)</h4>
+                        <p>
+                            Graphite forms a 2D conductive network.
+                            Cost-effective enhancement.
+                        </p>
+                    </div>
+                    <div class="sample-card">
+                        <div class="sample-id">SAMPLE 3</div>
+                        <h4>Paraffin + CNT (0.5–1.0 wt%)</h4>
+                        <p>
+                            Tiny amounts of CNT for massive conductivity boost.
+                            Best heat transfer candidate.
+                        </p>
+                    </div>
+                    <div class="sample-card">
+                        <div class="sample-id">SAMPLE 4</div>
+                        <h4>Paraffin + Aluminium (4–6 wt%)</h4>
+                        <p>
+                            Bulk heat transfer improvement. Economical, stable.
+                        </p>
+                    </div>
+                    <div class="sample-card highlight">
+                        <div class="sample-id">SAMPLE 5 — HYBRID ★</div>
+                        <h4>Paraffin + Al(3%) + Graphite(4%) + CNT(0.5%)</h4>
+                        <p>
+                            Synergistic combination of all three. Expected to be
+                            the best overall performer.
+                        </p>
+                    </div>
+                </div>
+            </section>
+
+            <hr class="divider" />
+
+            <!-- ═══════════════════════════════════════════════ -->
+            <!-- 3. LITERATURE REVIEW -->
+            <!-- ═══════════════════════════════════════════════ -->
+            <section class="section" id="literature">
+                <div class="section-label">Chapter 2</div>
+                <h2 class="section-title">
+                    <span class="num">03.</span> Literature Review — What
+                    Previous Researchers Found
+                </h2>
+
+                <p>
+                    The literature review surveys existing published research to
+                    justify the current study and avoid reinventing the wheel.
+                    Here is what the review found:
+                </p>
+
+                <h3>The Core Problem (Established by Prior Research)</h3>
+                <div class="callout orange">
+                    <div class="callout-title">
+                        📚 What Literature Confirmed
+                    </div>
+                    <p>
+                        PCM-based passive cooling is effective for EV batteries.
+                        RT42 paraffin wax works well because of its ~42°C
+                        melting point and high latent heat. But its very low
+                        thermal conductivity (~0.2 W/m·K) is consistently
+                        identified as the critical limitation across all
+                        literature.
+                    </p>
+                </div>
+
+                <h3>What Additives Researchers Have Tried</h3>
+                <div class="table-wrap">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Additive</th>
+                                <th>Typical Concentration</th>
+                                <th>What It Does</th>
+                                <th>Drawback</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Aluminium Powder</td>
+                                <td>3–10 wt%</td>
+                                <td>
+                                    Improves bulk heat transfer, reduces melting
+                                    time, improves temperature uniformity
+                                </td>
+                                <td>
+                                    Lower conductivity than CNT/graphite; adds
+                                    weight
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Graphite Powder</td>
+                                <td>5–10 wt%</td>
+                                <td>
+                                    Excellent heat distribution, thermal
+                                    stability, reduces thermal resistance
+                                </td>
+                                <td>
+                                    High concentrations increase viscosity,
+                                    reduce latent heat
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Carbon Nanotubes</td>
+                                <td>0.5–1 wt%</td>
+                                <td>
+                                    Rapid heat transfer even at tiny
+                                    concentrations; thermal conductivity up to
+                                    6000 W/m·K
+                                </td>
+                                <td>
+                                    Expensive; prone to agglomeration; difficult
+                                    to disperse uniformly
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Biochar (literature)</td>
+                                <td>Varied</td>
+                                <td>
+                                    Porous carbon structure improves stability
+                                    and leakage resistance
+                                </td>
+                                <td>Less effective than CNT alone</td>
+                            </tr>
+                            <tr>
+                                <td>Graphene Nanoplatelets</td>
+                                <td>Varied</td>
+                                <td>
+                                    Significantly reduced battery surface
+                                    temperature; improved uniformity
+                                </td>
+                                <td>Very expensive; complex to produce</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <h3>Notable Study: Balasundaram & Sivaram (2024)</h3>
+                <p>
+                    This study investigated paraffin + biochar (from Prosopis
+                    Juliflora plant) + aluminium powder. Using FT-IR, XRD, and
+                    SEM characterization, they found that the porous carbon
+                    structure improved structural stability while aluminium
+                    enhanced thermal conductance. Under a heat flux of 2.3
+                    kW/m², the composite PCM
+                    <strong
+                        >reduced base temperature by 8.2°C and improved thermal
+                        conductance by ~50%</strong
+                    >
+                    compared to pure paraffin.
+                </p>
+
+                <h3>Industrial Application Study: Motor Cooling</h3>
+                <p>
+                    Paraffin PCM was placed inside an Al6061 aluminium alloy
+                    casing around a 75 W AC motor. DS18B20 sensors and an ESP32
+                    IoT system monitored temperature. Result:
+                    <strong
+                        >peak motor temperature dropped from 92.5°C to
+                        64.5°C</strong
+                    >
+                    — a 28°C reduction. This directly validates the approach
+                    used in this project.
+                </p>
+
+                <h3>Research Gap Identified (Why THIS Study is Needed)</h3>
+                <div class="callout blue">
+                    <div class="callout-title">
+                        🔍 The Gap in Existing Literature
+                    </div>
+                    <p>
+                        Most studies investigate aluminium, graphite, or CNT
+                        <em>individually</em>. Very few study their
+                        <strong>combined effect in one PCM system</strong>.
+                        Also, most studies don't simultaneously evaluate thermal
+                        conductivity, specific heat capacity, AND volumetric
+                        expansion under identical conditions. This project fills
+                        that gap.
+                    </p>
+                </div>
+            </section>
+
+            <hr class="divider" />
+
+            <!-- ═══════════════════════════════════════════════ -->
+            <!-- 4. MATERIALS -->
+            <!-- ═══════════════════════════════════════════════ -->
+            <section class="section" id="materials">
+                <div class="section-label">Chapter 3</div>
+                <h2 class="section-title">
+                    <span class="num">04.</span> Materials & Their
+                    Thermophysical Properties
+                </h2>
+
+                <h3>4.1 RT42 Paraffin Wax — Why This Specific Grade?</h3>
+                <p>
+                    RT42 is an
+                    <strong>organic, hydrocarbon-based PCM</strong> composed
+                    mainly of long-chain linear alkane molecules (like C₂₄H₅₀).
+                    The "RT" stands for
+                    <em
+                        >Rubitherm, the name of the manufacturer (Rubitherm
+                        Technologies GmbH)</em
+                    >
+                    and "42" refers to its melting point in °C.
+                </p>
+                <p>
+                    Lithium-ion batteries operate efficiently between
+                    <strong>20°C and 45°C</strong>. When temperature exceeds
+                    ~45°C, degradation accelerates rapidly. RT42's melting point
+                    of ~42°C means it starts absorbing heat
+                    <em
+                        >right before the battery crosses its danger
+                        threshold</em
+                    >. It acts like a thermal fuse — absorbing heat spikes and
+                    preventing temperature runaway.
+                </p>
+
+                <div class="table-wrap">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Property</th>
+                                <th>Typical Value</th>
+                                <th>What It Means</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Melting Temperature</td>
+                                <td>40–44°C</td>
+                                <td>
+                                    Starts melting right at battery's danger
+                                    zone — perfectly timed absorption
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Latent Heat of Fusion</td>
+                                <td>170–220 kJ/kg</td>
+                                <td>
+                                    Can absorb 170–220 kilojoules per kilogram
+                                    during melting — huge heat reservoir
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Density (Solid)</td>
+                                <td>880–900 kg/m³</td>
+                                <td>
+                                    Denser when solid than liquid — expands on
+                                    melting
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Density (Liquid)</td>
+                                <td>760–780 kg/m³</td>
+                                <td>
+                                    Less dense when liquid — explains the 10–15%
+                                    volumetric expansion
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Thermal Conductivity</td>
+                                <td>0.2–0.25 W/m·K</td>
+                                <td>
+                                    Very poor — the critical limitation this
+                                    project addresses
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Specific Heat Capacity</td>
+                                <td>2–2.5 kJ/kg·K</td>
+                                <td>Good heat storage even before melting</td>
+                            </tr>
+                            <tr>
+                                <td>Volumetric Expansion</td>
+                                <td>10–15%</td>
+                                <td>
+                                    Expands significantly on melting — container
+                                    must allow for this
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Flash Point</td>
+                                <td>&gt;150°C</td>
+                                <td>
+                                    Won't catch fire until 150°C — safe for EV
+                                    applications
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <h3>4.2 Aluminium Powder — The Economical Enhancer</h3>
+                <p>
+                    Aluminium powder is added to create
+                    <strong>metal particle conduction bridges</strong>
+                    throughout the wax. Heat can travel along these metallic
+                    pathways much faster than through the wax alone.
+                </p>
+
+                <div class="table-wrap">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Property</th>
+                                <th>Value</th>
+                                <th>Relevance</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Thermal Conductivity</td>
+                                <td>205–237 W/m·K</td>
+                                <td>
+                                    ~1000× better than pure paraffin — every
+                                    particle is a heat highway
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Density</td>
+                                <td>2700 kg/m³</td>
+                                <td>
+                                    3× denser than paraffin — adds weight but
+                                    manageable
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Specific Heat Capacity</td>
+                                <td>0.9 kJ/kg·K</td>
+                                <td>
+                                    Much lower than paraffin — dilutes the
+                                    composite's heat storage
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Melting Point</td>
+                                <td>660°C</td>
+                                <td>
+                                    Won't melt anywhere near PCM temperatures —
+                                    structurally stable
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Corrosion Resistance</td>
+                                <td>Good</td>
+                                <td>
+                                    Forms stable oxide layer — safe for repeated
+                                    use
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="callout orange">
+                    <div class="callout-title">⚖ Trade-off</div>
+                    <p>
+                        Aluminium particles don't undergo phase change
+                        themselves, so every gram of aluminium displaces a gram
+                        of wax that would have stored latent heat. Therefore,
+                        doping concentration must be optimized — too much
+                        aluminium reduces the total heat storage capacity.
+                    </p>
+                </div>
+
+                <h3>4.3 Graphite Powder — The Conductive Network Builder</h3>
+                <p>
+                    Graphite has a unique
+                    <strong>layered (hexagonal) carbon structure</strong>. Heat
+                    travels very efficiently <em>along</em> these layers
+                    (in-plane direction), making graphite an excellent 2D heat
+                    spreader. When graphite flakes are mixed into melted wax,
+                    they disperse and orient randomly, creating an
+                    interconnected thermal network throughout the solid PCM.
+                </p>
+
+                <div class="table-wrap">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Property</th>
+                                <th>Value</th>
+                                <th>Relevance</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Thermal Conductivity</td>
+                                <td>100–400 W/m·K</td>
+                                <td>
+                                    500–2000× better than paraffin; extremely
+                                    effective at low concentrations
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Density</td>
+                                <td>2200 kg/m³</td>
+                                <td>
+                                    Lighter than aluminium; good for
+                                    weight-sensitive EV applications
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Specific Heat Capacity</td>
+                                <td>0.7–0.8 kJ/kg·K</td>
+                                <td>
+                                    Lower than paraffin — slight reduction in
+                                    heat storage at high concentrations
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Melting Point</td>
+                                <td>&gt;3000°C</td>
+                                <td>
+                                    Completely stable at any practical
+                                    temperature
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Chemical Stability</td>
+                                <td>Excellent</td>
+                                <td>
+                                    Inert to paraffin; no chemical reaction
+                                    during mixing
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <h3>4.4 Carbon Nanotubes (CNT) — The Nano Superstar</h3>
+                <p>
+                    Carbon nanotubes are
+                    <strong
+                        >cylindrical carbon structures at nanometer
+                        scale</strong
+                    >
+                    (~1–50 nm diameter, several microns long). They are
+                    essentially a graphene sheet rolled into a perfect tube.
+                    Their <em>ballistic phonon transport</em> (vibrations that
+                    carry heat travel through CNTs with almost zero resistance)
+                    gives them extraordinary thermal conductivity.
+                </p>
+
+                <div class="table-wrap">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Property</th>
+                                <th>Value</th>
+                                <th>Relevance</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Thermal Conductivity</td>
+                                <td>2000–6000 W/m·K</td>
+                                <td>
+                                    Up to 30,000× better than paraffin. Even 0.5
+                                    wt% dramatically improves the composite.
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Density</td>
+                                <td>1300–1400 kg/m³</td>
+                                <td>Lighter than aluminium and graphite</td>
+                            </tr>
+                            <tr>
+                                <td>Specific Heat Capacity</td>
+                                <td>~0.7 kJ/kg·K</td>
+                                <td>
+                                    Very low — but since CNT loading is tiny
+                                    (&lt;1%), impact on composite Cp is minimal
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Tensile Strength</td>
+                                <td>Very High</td>
+                                <td>
+                                    Provides structural reinforcement to PCM
+                                    composite
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Aspect Ratio</td>
+                                <td>Very High</td>
+                                <td>
+                                    Long tubes create long conduction paths —
+                                    ideal for network formation
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="callout red">
+                    <div class="callout-title">
+                        ⚠ CNT Challenge: Agglomeration
+                    </div>
+                    <p>
+                        CNTs tend to clump together (agglomerate) due to van der
+                        Waals forces between tubes. Clumps are far less
+                        effective than uniformly dispersed individual tubes.
+                        This is why the project requires extended mechanical
+                        stirring (20–30 minutes) during CNT mixing.
+                    </p>
+                </div>
+
+                <h3>4.5 Expected Effects on All Three Properties</h3>
+                <div class="table-wrap">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Property</th>
+                                <th>Pure Paraffin</th>
+                                <th>+ Aluminium</th>
+                                <th>+ Graphite</th>
+                                <th>+ CNT</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Thermal Conductivity</td>
+                                <td>Lowest (0.2 W/m·K)</td>
+                                <td>Moderate increase</td>
+                                <td>Good increase</td>
+                                <td>Best increase</td>
+                            </tr>
+                            <tr>
+                                <td>Specific Heat Capacity</td>
+                                <td>Highest (2–2.5 kJ/kg·K)</td>
+                                <td>Moderate reduction</td>
+                                <td>Moderate reduction</td>
+                                <td>Slight reduction (tiny loading)</td>
+                            </tr>
+                            <tr>
+                                <td>Volumetric Expansion</td>
+                                <td>Highest (10–15%)</td>
+                                <td>Reduced most</td>
+                                <td>Slightly reduced</td>
+                                <td>Slightly reduced</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <p>
+                    Expected overall conductivity trend:
+                    <strong
+                        >Pure PCM &lt; Aluminium &lt; Graphite &lt; CNT</strong
+                    >
+                </p>
+            </section>
+
+            <hr class="divider" />
+
+            <!-- ═══════════════════════════════════════════════ -->
+            <!-- 5. EXPERIMENTAL SETUP -->
+            <!-- ═══════════════════════════════════════════════ -->
+            <section class="section" id="setup">
+                <div class="section-label">Chapter 4 — Part A</div>
+                <h2 class="section-title">
+                    <span class="num">05.</span> Experimental Setup — Every
+                    Component Explained
+                </h2>
+
+                <p>
+                    The team built a custom experimental rig from scratch. Let's
+                    understand every single component and why it was chosen.
+                </p>
+
+                <h3>5.1 The Aluminium PCM Chamber</h3>
+                <p>
+                    The main container is an <strong>aluminium box</strong> with
+                    dimensions:
+                </p>
+                <div class="table-wrap">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Dimension</th>
+                                <th>Value</th>
+                                <th>Why This Size?</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Length</td>
+                                <td>23.8 cm</td>
+                                <td>
+                                    Large enough to hold 300g of PCM with the
+                                    copper coil embedded inside
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Width</td>
+                                <td>15 cm</td>
+                                <td>
+                                    Provides sufficient volume for uniform heat
+                                    distribution
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Height</td>
+                                <td>10 cm</td>
+                                <td>
+                                    ~15% extra headspace above the PCM fill
+                                    level accommodates volumetric expansion
+                                    during melting
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Wall Thickness</td>
+                                <td>3 mm</td>
+                                <td>
+                                    Thin enough for good heat transfer; thick
+                                    enough for structural rigidity
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Material</td>
+                                <td>Aluminium</td>
+                                <td>
+                                    High thermal conductivity (~205 W/m·K)
+                                    ensures rapid, uniform heat distribution
+                                    from the coil to PCM; lightweight
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="callout blue">
+                    <div class="callout-title">🔍 The Acrylic Window</div>
+                    <p>
+                        One face of the aluminium box was replaced with a
+                        <strong>transparent acrylic sheet (3–5 mm thick)</strong
+                        >. This serves a critical purpose:
+                        <em
+                            >direct visual observation of PCM melting and volume
+                            expansion</em
+                        >. A graduated scale was fixed alongside this window to
+                        measure the rise in PCM level during melting — from
+                        which volumetric expansion is calculated.
+                    </p>
+                </div>
+
+                <h3>5.2 The Copper Coil Heating Element</h3>
+                <p>
+                    Instead of a direct heater touching the PCM, the design uses
+                    <strong>indirect heating via hot water</strong>
+                    circulating through a copper coil embedded inside the PCM.
+                    This is more uniform and controllable.
+                </p>
+                <div class="table-wrap">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Parameter</th>
+                                <th>Value</th>
+                                <th>Significance</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Tube Outer Diameter (OD)</td>
+                                <td>4.4 mm / 6–8 mm (reported both)</td>
+                                <td>
+                                    Small enough to coil tightly; large enough
+                                    for adequate water flow
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Total Tube Length</td>
+                                <td>1.8 m</td>
+                                <td>
+                                    Long coil = large surface area for heat
+                                    transfer from water to PCM
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Number of Turns</td>
+                                <td>6</td>
+                                <td>
+                                    Evenly wound to distribute heat uniformly
+                                    throughout PCM volume
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Material</td>
+                                <td>Copper</td>
+                                <td>
+                                    Very high thermal conductivity (~400 W/m·K);
+                                    excellent corrosion resistance; easy to bend
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <h3>5.3 Hot Water Heating & Circulation System</h3>
+                <p>
+                    A <strong>10-litre bucket</strong> of water is heated using
+                    an <strong>immersion rod heater</strong> to 70–80°C. This
+                    hot water is then pumped through the copper coil using
+                    either:
+                </p>
+                <div class="flow">
+                    <div class="flow-step">
+                        <div class="step-num">OPTION A</div>
+                        <h4>Active Mechanical Pump</h4>
+                        <p>
+                            Forced circulation with controlled flow rate (~1
+                            L/min). More reliable and consistent.
+                        </p>
+                    </div>
+                    <div class="flow-step">
+                        <div class="step-num">OPTION B</div>
+                        <h4>Passive Thermosiphon</h4>
+                        <p>
+                            Buoyancy-driven natural circulation — hot water
+                            rises, cool water falls. No pump needed.
+                        </p>
+                    </div>
+                </div>
+                <p>
+                    Water temperature was maintained at
+                    <strong>75–80°C</strong> throughout experiments. A flow
+                    control valve prevented excessive turbulence.
+                </p>
+                <p>
+                    <em>Why water at 75–80°C?</em> — This ensures a large enough
+                    temperature difference (ΔT ≈ 35°C) between the heat source
+                    and PCM melting point (~42°C) for adequate heat flux without
+                    overheating the system.
+                </p>
+
+                <h3>5.4 Temperature Sensors: DS18B20</h3>
+                <p>
+                    The project uses
+                    <strong
+                        >DS18B20 waterproof digital temperature sensors</strong
+                    >
+                    — a popular, accurate, and affordable sensor.
+                </p>
+                <div class="callout green">
+                    <div class="callout-title">📡 Sensor Specifications</div>
+                    <p>
+                        The DS18B20 communicates via a
+                        <strong>1-Wire digital protocol</strong> — multiple
+                        sensors can share a single data wire. Accuracy: ±0.5°C.
+                        Operating range: −55°C to +125°C. Waterproof
+                        encapsulation — safe to embed inside molten wax.
+                    </p>
+                </div>
+                <p>Sensor placement in the full system:</p>
+                <div class="flow">
+                    <div class="flow-step">
+                        <div class="step-num">SENSOR 1</div>
+                        <h4>Water Inlet</h4>
+                        <p>
+                            Measures temperature of hot water entering the
+                            copper coil.
+                        </p>
+                    </div>
+                    <div class="flow-step">
+                        <div class="step-num">SENSOR 2</div>
+                        <h4>Water Outlet</h4>
+                        <p>
+                            Measures temperature of water exiting coil. ΔT
+                            across coil = heat given to PCM.
+                        </p>
+                    </div>
+                    <div class="flow-step">
+                        <div class="step-num">SENSOR 3</div>
+                        <h4>Left Wall Region</h4>
+                        <p>
+                            Measures temperature at the edge of the PCM —
+                            nearest to the coil.
+                        </p>
+                    </div>
+                    <div class="flow-step">
+                        <div class="step-num">SENSOR 4</div>
+                        <h4>Centre of PCM</h4>
+                        <p>
+                            Measures temperature at the PCM's core — farthest
+                            from heat source. Key indicator of conductivity.
+                        </p>
+                    </div>
+                </div>
+                <p>
+                    A large wall-to-centre ΔT means the heat isn't penetrating
+                    well → <strong>low conductivity</strong>. A small ΔT means
+                    heat is spreading fast → <strong>high conductivity</strong>.
+                </p>
+
+                <h3>5.5 Insulation Layer</h3>
+                <p>
+                    Three sides of the aluminium chamber are wrapped in
+                    <strong>heavy glass wool insulation</strong> (supplemented
+                    with thermocol and foam). The goal: create
+                    <strong>near-adiabatic conditions</strong> (Qloss ≈ 0) so
+                    that all the heat from the water goes into the PCM, not into
+                    the room. Since all samples are tested under identical
+                    insulation, any residual heat loss is constant and does not
+                    affect comparative results.
+                </p>
+
+                <h3>5.6 Arduino-Based Data Acquisition</h3>
+                <p>
+                    An <strong>Arduino UNO microcontroller</strong> collects
+                    temperature data from all DS18B20 sensors in real-time. The
+                    Arduino code reads analog values, converts them to voltage,
+                    then to temperature (°C), and sends the data to a PC via
+                    serial communication every second. This creates a complete
+                    temperature log over time for each experiment.
+                </p>
+                <div class="formula">
+                    // Conversion: Analog → Voltage → Temperature voltage =
+                    analogValue × (5.0 / 1023.0) // 10-bit ADC: 0–5V across 1024
+                    steps temperature = voltage × 100 // LM35 principle: 10mV
+                    per °C // Data logged every 1 second, readings taken every 5
+                    minutes for analysis
+                </div>
+            </section>
+
+            <hr class="divider" />
+
+            <!-- ═══════════════════════════════════════════════ -->
+            <!-- 6. METHODOLOGY -->
+            <!-- ═══════════════════════════════════════════════ -->
+            <section class="section" id="method">
+                <div class="section-label">Chapter 4 — Part B</div>
+                <h2 class="section-title">
+                    <span class="num">06.</span> Experimental Methodology — Step
+                    by Step
+                </h2>
+
+                <h3>6.1 Sample Preparation</h3>
+                <p>Six PCM samples were prepared in total:</p>
+
+                <div class="table-wrap">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Sample ID</th>
+                                <th>Composition</th>
+                                <th>Paraffin (g)</th>
+                                <th>Additive Mass (g)</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>S1</td>
+                                <td>Pure RT42 Paraffin Wax (Baseline)</td>
+                                <td>300</td>
+                                <td>0 (none)</td>
+                            </tr>
+                            <tr>
+                                <td>S2</td>
+                                <td>RT42 + 5 wt% Graphite</td>
+                                <td>300</td>
+                                <td>15 g graphite</td>
+                            </tr>
+                            <tr>
+                                <td>S3</td>
+                                <td>RT42 + 10 wt% Graphite</td>
+                                <td>300</td>
+                                <td>30 g graphite</td>
+                            </tr>
+                            <tr>
+                                <td>S4</td>
+                                <td>RT42 + 1 wt% CNT</td>
+                                <td>300</td>
+                                <td>3 g CNT</td>
+                            </tr>
+                            <tr>
+                                <td>S5 ★</td>
+                                <td>
+                                    RT42 + 3% Al + 4% Graphite + 0.5% CNT
+                                    (Hybrid)
+                                </td>
+                                <td>300</td>
+                                <td>22.5 g total (9 Al + 12 G + 1.5 CNT)</td>
+                            </tr>
+                            <tr>
+                                <td>S6</td>
+                                <td>RT42 + 7 wt% Aluminium Powder</td>
+                                <td>300</td>
+                                <td>21 g aluminium</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="formula">
+                    Weight Percentage Formula: wt% = (Mass of Additive / Mass of
+                    Paraffin) × 100 Example: 5% Graphite → Mass of graphite =
+                    (5/100) × 300g = 15g
+                </div>
+
+                <h3>6.2 Mixing Procedure</h3>
+                <div class="flow">
+                    <div class="flow-step">
+                        <div class="step-num">STEP 1</div>
+                        <h4>Melt the Wax</h4>
+                        <p>
+                            Heat RT42 to 70–80°C until fully liquid. Weigh to
+                            300g accuracy on digital balance.
+                        </p>
+                    </div>
+                    <div class="flow-step">
+                        <div class="step-num">STEP 2</div>
+                        <h4>Weigh Additives</h4>
+                        <p>
+                            Accurately weigh required additive mass (e.g., 15g
+                            graphite for 5% sample) using digital balance.
+                        </p>
+                    </div>
+                    <div class="flow-step">
+                        <div class="step-num">STEP 3</div>
+                        <h4>Add & Stir</h4>
+                        <p>
+                            Slowly add additive to molten wax while stirring
+                            continuously for 10–15 minutes (20–30 min for CNT).
+                        </p>
+                    </div>
+                    <div class="flow-step">
+                        <div class="step-num">STEP 4</div>
+                        <h4>Cast</h4>
+                        <p>
+                            Pour liquid composite into test chamber with copper
+                            coil and T_PCM sensor already in place.
+                        </p>
+                    </div>
+                    <div class="flow-step">
+                        <div class="step-num">STEP 5</div>
+                        <h4>Record Initial Volume</h4>
+                        <p>
+                            Note initial height (h_i) of solid PCM via acrylic
+                            window before starting heating.
+                        </p>
+                    </div>
+                    <div class="flow-step">
+                        <div class="step-num">STEP 6</div>
+                        <h4>Cool & Solidify</h4>
+                        <p>
+                            Allow to cool naturally to ambient temperature
+                            before beginning each experiment.
+                        </p>
+                    </div>
+                </div>
+
+                <h3>6.3 Heating Experiment Procedure</h3>
+                <div class="flow">
+                    <div class="flow-step">
+                        <div class="step-num">STEP A</div>
+                        <h4>Activate Heater</h4>
+                        <p>Heat water in bucket to 75°C using immersion rod.</p>
+                    </div>
+                    <div class="flow-step">
+                        <div class="step-num">STEP B</div>
+                        <h4>Start Circulation</h4>
+                        <p>
+                            Activate pump; hot water flows through copper coil
+                            embedded in PCM.
+                        </p>
+                    </div>
+                    <div class="flow-step">
+                        <div class="step-num">STEP C</div>
+                        <h4>Log Temperatures</h4>
+                        <p>
+                            Arduino logs all sensor temperatures every 1 second;
+                            researcher records every 5 minutes for analysis
+                            tables.
+                        </p>
+                    </div>
+                    <div class="flow-step">
+                        <div class="step-num">STEP D</div>
+                        <h4>Observe Melting</h4>
+                        <p>
+                            Watch PCM through acrylic window — note where
+                            melting starts and how it propagates.
+                        </p>
+                    </div>
+                    <div class="flow-step">
+                        <div class="step-num">STEP E</div>
+                        <h4>Record Expansion</h4>
+                        <p>
+                            Measure final height (h_f) after complete melting.
+                            Note ΔT between wall and centre sensors.
+                        </p>
+                    </div>
+                    <div class="flow-step">
+                        <div class="step-num">STEP F</div>
+                        <h4>Cool & Repeat</h4>
+                        <p>
+                            Cool to ambient; repeat entire procedure for all 6
+                            samples under identical conditions.
+                        </p>
+                    </div>
+                </div>
+
+                <h3>6.4 Melting Point Determination</h3>
+                <p>
+                    A small sample test was also conducted to precisely measure
+                    the melting point of each composite. 3.2g samples were used
+                    with specific additive percentages:
+                </p>
+                <div class="table-wrap">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Sample</th>
+                                <th>Composition</th>
+                                <th>Melting Point (°C)</th>
+                                <th>Observation</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>S1</td>
+                                <td>Pure Paraffin</td>
+                                <td>41–43°C</td>
+                                <td>Baseline; melts in expected RT42 range</td>
+                            </tr>
+                            <tr>
+                                <td>S2</td>
+                                <td>+ 7% Graphite</td>
+                                <td>42–44°C</td>
+                                <td>
+                                    Slight increase — graphite slightly raises
+                                    the effective melting onset
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>S3</td>
+                                <td>+ 2% CNT</td>
+                                <td>41.5–43.5°C</td>
+                                <td>
+                                    Minimal change — CNT loading is very small
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>S4</td>
+                                <td>+ 7% Aluminium</td>
+                                <td>41–43°C</td>
+                                <td>
+                                    Essentially unchanged — Al doesn't affect
+                                    wax chemistry
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <p>
+                    Key finding:
+                    <strong
+                        >All composites maintain essentially the same melting
+                        point as pure paraffin</strong
+                    >. The additives improve conductivity without disrupting the
+                    thermal plateau — this is ideal.
+                </p>
+            </section>
+
+            <hr class="divider" />
+
+            <!-- ═══════════════════════════════════════════════ -->
+            <!-- 7. EQUATIONS -->
+            <!-- ═══════════════════════════════════════════════ -->
+            <section class="section" id="equations">
+                <div class="section-label">Key Physics</div>
+                <h2 class="section-title">
+                    <span class="num">07.</span> Governing Equations — Full
+                    Explanation
+                </h2>
+
+                <h3>
+                    7.1 Total Thermal Energy Absorbed During Phase Transition
+                </h3>
+                <div class="formula">
+                    Q_total = m × C_solid × ΔT_solid [Sensible heat: solid
+                    warming to melting point] + m × L [Latent heat: solid→liquid
+                    transition] + m × C_liquid × ΔT_liquid [Sensible heat:
+                    liquid warming above melting point] Where: m = mass of PCM
+                    (kg) C_solid = specific heat of solid paraffin (~2 kJ/kg·K)
+                    C_liquid = specific heat of liquid paraffin (~2.2 kJ/kg·K) L
+                    = latent heat of fusion (~170–220 kJ/kg for RT42) ΔT =
+                    temperature rise in respective phase (°C or K)
+                </div>
+                <p>
+                    This equation tells us the
+                    <strong>total heat the PCM can absorb</strong> during a
+                    complete heating cycle from room temperature (~25°C) to
+                    above its melting point. The middle term (m × L) is
+                    typically the dominant component — the latent heat is where
+                    PCMs really shine.
+                </p>
+
+                <h3>7.2 Fourier's Law of Heat Conduction (1D Steady-State)</h3>
+                <div class="formula">
+                    Q = (k × A × ΔT) / x Where: Q = heat transfer rate (Watts) k
+                    = thermal conductivity of PCM (W/m·K) ← what we want to find
+                    A = cross-sectional area perpendicular to heat flow (m²) ΔT
+                    = temperature difference between two points (°C) x =
+                    distance between those two points (m)
+                </div>
+                <p>
+                    Rearranging: <strong>k = Q×x / (A×ΔT)</strong>. Since Q
+                    (heat input from water), A (chamber cross-section), and x
+                    (sensor spacing) are all constant and equal across all
+                    experiments, we know:
+                </p>
+                <div class="formula">
+                    k ∝ 1/ΔT A smaller temperature difference (ΔT) between wall
+                    and centre = higher thermal conductivity. A larger ΔT =
+                    poorer conductor (heat piles up at wall, can't reach centre
+                    quickly).
+                </div>
+                <p>
+                    This is how the project
+                    <strong
+                        >compares conductivity without a dedicated conductivity
+                        meter</strong
+                    >
+                    — elegant and valid.
+                </p>
+
+                <h3>7.3 Specific Heat Capacity — Method of Mixtures</h3>
+                <div class="formula">
+                    C_PCM = [m_water × C_water × (T_in − T_out)] / [m_PCM ×
+                    (T_final − T_initial)] Where: m_water = mass of hot water
+                    circulated (kg) C_water = specific heat of water = 4180
+                    J/kg·K (known constant) T_in = water temperature entering
+                    coil (°C) T_out = water temperature exiting coil (°C) m_PCM
+                    = mass of PCM sample = 0.300 kg T_final = final PCM
+                    temperature (°C) T_initial= initial PCM temperature (°C)
+                </div>
+                <p>
+                    This uses a simple <strong>energy balance</strong>: heat
+                    lost by water = heat gained by PCM. Since we know all
+                    water-side quantities (mass, specific heat, inlet/outlet
+                    temps), we can calculate how much heat was transferred, then
+                    back-calculate the PCM's specific heat.
+                </p>
+
+                <h3>7.4 Volumetric Expansion Calculation</h3>
+                <div class="formula">
+                    Height Increase: Δh = h_final − h_initial % Expansion =
+                    (h_final − h_initial) / h_initial × 100 Since
+                    cross-sectional area of chamber is constant: Volume ∝ Height
+                    → % height increase = % volumetric expansion Volumetric
+                    Expansion (absolute): ΔV = A × Δh Where A = cross-sectional
+                    area of PCM chamber (length × width)
+                </div>
+                <p>
+                    Pure paraffin wax has density ~885 kg/m³ (solid) vs ~770
+                    kg/m³ (liquid). Density drops by ~13% on melting → volume
+                    increases by ~13–15%. Container design must always
+                    accommodate this expansion.
+                </p>
+            </section>
+
+            <hr class="divider" />
+
+            <!-- ═══════════════════════════════════════════════ -->
+            <!-- 8. RESULTS -->
+            <!-- ═══════════════════════════════════════════════ -->
+            <section class="section" id="results">
+                <div class="section-label">Chapter 5</div>
+                <h2 class="section-title">
+                    <span class="num">08.</span> Results & Discussion
+                </h2>
+
+                <h3>8.1 Temperature Distribution Analysis</h3>
+                <p>
+                    The sensors inside the PCM chamber revealed how heat
+                    propagated from the walls (where the copper coil is) toward
+                    the centre (farthest from heat source). The key metric:
+                    <strong>ΔT = T_wall(avg) − T_centre</strong>.
+                </p>
+
+                <div class="bar-group">
+                    <div class="bar-label">
+                        <span
+                            >Pure Paraffin Wax (highest ΔT = poorest
+                            conductor)</span
+                        ><span>~10°C ΔT</span>
+                    </div>
+                    <div class="bar-track">
+                        <div
+                            class="bar-fill"
+                            data-width="95"
+                            style="background: #ef5350"
+                        >
+                            Very High ΔT
+                        </div>
+                    </div>
+
+                    <div class="bar-label">
+                        <span>7% Aluminium Powder</span><span>~7°C ΔT</span>
+                    </div>
+                    <div class="bar-track">
+                        <div
+                            class="bar-fill"
+                            data-width="65"
+                            style="background: #f5a623"
+                        >
+                            High ΔT
+                        </div>
+                    </div>
+
+                    <div class="bar-label">
+                        <span>5% Graphite</span><span>~5°C ΔT</span>
+                    </div>
+                    <div class="bar-track">
+                        <div
+                            class="bar-fill"
+                            data-width="50"
+                            style="background: #ffb74d"
+                        >
+                            Moderate ΔT
+                        </div>
+                    </div>
+
+                    <div class="bar-label">
+                        <span>10% Graphite</span><span>~4°C ΔT</span>
+                    </div>
+                    <div class="bar-track">
+                        <div
+                            class="bar-fill"
+                            data-width="38"
+                            style="background: #4fc3f7"
+                        >
+                            Lower ΔT
+                        </div>
+                    </div>
+
+                    <div class="bar-label">
+                        <span>1% CNT</span><span>~2°C ΔT</span>
+                    </div>
+                    <div class="bar-track">
+                        <div
+                            class="bar-fill"
+                            data-width="20"
+                            style="background: #81c784"
+                        >
+                            Low ΔT
+                        </div>
+                    </div>
+
+                    <div class="bar-label">
+                        <span>Hybrid PCM (3% Al + 4% Graphite + 0.5% CNT)</span
+                        ><span>~1.5°C ΔT</span>
+                    </div>
+                    <div class="bar-track">
+                        <div
+                            class="bar-fill"
+                            data-width="12"
+                            style="background: #b39ddb"
+                        >
+                            Lowest ΔT ★
+                        </div>
+                    </div>
+                </div>
+                <p style="font-size: 13px; color: var(--muted)">
+                    ↑ Smaller bars = smaller ΔT = better heat distribution =
+                    higher effective thermal conductivity. Bar length is
+                    proportional to ΔT magnitude (indicative based on project
+                    findings).
+                </p>
+
+                <h3>8.2 Thermal Conductivity Comparison</h3>
+                <p>
+                    Based on the ΔT analysis and correlation with published
+                    literature values:
+                </p>
+                <div class="bar-group">
+                    <div class="bar-label">
+                        <span>Pure Paraffin Wax</span><span>~0.21 W/m·K</span>
+                    </div>
+                    <div class="bar-track">
+                        <div
+                            class="bar-fill"
+                            data-width="7"
+                            style="background: #ef5350"
+                        >
+                            Baseline
+                        </div>
+                    </div>
+
+                    <div class="bar-label">
+                        <span>Paraffin + 7% Aluminium</span
+                        ><span>~0.35 W/m·K</span>
+                    </div>
+                    <div class="bar-track">
+                        <div
+                            class="bar-fill"
+                            data-width="22"
+                            style="background: #f5a623"
+                        >
+                            +67%
+                        </div>
+                    </div>
+
+                    <div class="bar-label">
+                        <span>Paraffin + 5% Graphite</span
+                        ><span>~0.52 W/m·K</span>
+                    </div>
+                    <div class="bar-track">
+                        <div
+                            class="bar-fill"
+                            data-width="37"
+                            style="background: #ffb74d"
+                        >
+                            +148%
+                        </div>
+                    </div>
+
+                    <div class="bar-label">
+                        <span>Paraffin + 10% Graphite</span
+                        ><span>~0.75 W/m·K</span>
+                    </div>
+                    <div class="bar-track">
+                        <div
+                            class="bar-fill"
+                            data-width="55"
+                            style="background: #4fc3f7"
+                        >
+                            +257%
+                        </div>
+                    </div>
+
+                    <div class="bar-label">
+                        <span>Paraffin + 1% CNT</span><span>~0.95 W/m·K</span>
+                    </div>
+                    <div class="bar-track">
+                        <div
+                            class="bar-fill"
+                            data-width="72"
+                            style="background: #81c784"
+                        >
+                            +352%
+                        </div>
+                    </div>
+
+                    <div class="bar-label">
+                        <span>Hybrid PCM (Al+Graphite+CNT)</span
+                        ><span>~1.05 W/m·K ★</span>
+                    </div>
+                    <div class="bar-track">
+                        <div
+                            class="bar-fill"
+                            data-width="85"
+                            style="background: #b39ddb"
+                        >
+                            +400% ★
+                        </div>
+                    </div>
+                </div>
+                <p style="font-size: 13px; color: var(--muted)">
+                    ↑ Thermal conductivity values are estimated from temperature
+                    gradient analysis + literature correlation (direct
+                    measurement instrument not available).
+                </p>
+
+                <h3>8.3 Melting Behaviour</h3>
+                <p>
+                    Pure paraffin wax melted <strong>slowest</strong>: melting
+                    started at the walls (near the coil) and crept inward very
+                    slowly, with the centre remaining solid long after the edges
+                    were liquid. After doping:
+                </p>
+                <div class="callout green">
+                    <div class="callout-title">
+                        📊 Melting Time Ranking (Fastest → Slowest)
+                    </div>
+                    <p>
+                        <strong>Hybrid PCM</strong> &lt; 1% CNT &lt; 10%
+                        Graphite &lt; 5% Graphite &lt; 7% Aluminium &lt;
+                        <strong>Pure Paraffin (slowest)</strong>
+                    </p>
+                </div>
+                <p>
+                    The CNT composite melted fastest because CNTs create
+                    <em>highly efficient thermal pathways</em> that conduct heat
+                    to the centre almost instantly. Graphite comes second — its
+                    flat flakes create broad 2D heat spreading networks.
+                    Aluminium provides moderate improvement — particles are
+                    isolated rather than forming continuous networks at 7%
+                    concentration.
+                </p>
+
+                <h3>8.4 Specific Heat Capacity</h3>
+                <p>
+                    As expected from theory, adding conductive particles (which
+                    have lower Cp than paraffin)
+                    <strong>reduces the composite's Cp</strong>.
+                </p>
+                <div class="bar-group">
+                    <div class="bar-label">
+                        <span
+                            >Pure Paraffin Wax (highest Cp — best heat
+                            storage)</span
+                        ><span>~2.3 kJ/kg·K</span>
+                    </div>
+                    <div class="bar-track">
+                        <div
+                            class="bar-fill"
+                            data-width="95"
+                            style="background: #81c784"
+                        >
+                            Best storage
+                        </div>
+                    </div>
+
+                    <div class="bar-label">
+                        <span>Paraffin + 1% CNT (minimal reduction)</span
+                        ><span>~2.2 kJ/kg·K</span>
+                    </div>
+                    <div class="bar-track">
+                        <div
+                            class="bar-fill"
+                            data-width="90"
+                            style="background: #4fc3f7"
+                        >
+                            Nearly unchanged
+                        </div>
+                    </div>
+
+                    <div class="bar-label">
+                        <span>Paraffin + 5% Graphite</span
+                        ><span>~2.1 kJ/kg·K</span>
+                    </div>
+                    <div class="bar-track">
+                        <div
+                            class="bar-fill"
+                            data-width="84"
+                            style="background: #ffb74d"
+                        >
+                            Slight reduction
+                        </div>
+                    </div>
+
+                    <div class="bar-label">
+                        <span>Hybrid PCM</span><span>~2.05 kJ/kg·K</span>
+                    </div>
+                    <div class="bar-track">
+                        <div
+                            class="bar-fill"
+                            data-width="80"
+                            style="background: #b39ddb"
+                        >
+                            Acceptable
+                        </div>
+                    </div>
+
+                    <div class="bar-label">
+                        <span>Paraffin + 7% Aluminium (most reduction)</span
+                        ><span>~1.95 kJ/kg·K</span>
+                    </div>
+                    <div class="bar-track">
+                        <div
+                            class="bar-fill"
+                            data-width="74"
+                            style="background: #f5a623"
+                        >
+                            Moderate reduction
+                        </div>
+                    </div>
+                </div>
+                <div class="callout orange">
+                    <div class="callout-title">
+                        ⚖ The Trade-off is Acceptable
+                    </div>
+                    <p>
+                        Even the largest reduction (~0.35 kJ/kg·K for
+                        aluminium-doped PCM) still leaves the composite with a
+                        Cp of ~1.95 kJ/kg·K — significantly higher than metals,
+                        water coolants, or air. The large gain in thermal
+                        conductivity far outweighs this small loss in heat
+                        storage capacity.
+                    </p>
+                </div>
+
+                <h3>8.5 Volumetric Expansion</h3>
+                <p>
+                    Pure paraffin shows the highest expansion (~13–15%). Adding
+                    solid particles reduces expansion because:
+                </p>
+                <div class="flow">
+                    <div class="flow-step">
+                        <div class="step-num">REASON 1</div>
+                        <h4>Particle Density</h4>
+                        <p>
+                            Metal/carbon particles are denser than paraffin.
+                            Denser composite → less expansion per unit mass.
+                        </p>
+                    </div>
+                    <div class="flow-step">
+                        <div class="step-num">REASON 2</div>
+                        <h4>Structural Matrix</h4>
+                        <p>
+                            Particles form a rigid skeleton within the wax,
+                            physically constraining volumetric swelling.
+                        </p>
+                    </div>
+                    <div class="flow-step">
+                        <div class="step-num">REASON 3</div>
+                        <h4>Uniform Expansion</h4>
+                        <p>
+                            Better conductivity means more uniform temperature →
+                            more controlled, uniform expansion rather than
+                            localized bulging.
+                        </p>
+                    </div>
+                </div>
+                <div class="callout green">
+                    <div class="callout-title">
+                        📊 Expansion Ranking (Most → Least)
+                    </div>
+                    <p>
+                        <strong>Pure Paraffin (~13–15%)</strong> &gt; 5%
+                        Graphite &gt; 1% CNT &gt; 10% Graphite &gt; Hybrid PCM ≈
+                        <strong>7% Aluminium (~8–10%) — Lowest</strong>
+                    </p>
+                </div>
+
+                <h3>8.6 Effect of Each Additive — In-Depth</h3>
+                <div class="callout blue">
+                    <div class="callout-title">🔷 Graphite Effect</div>
+                    <p>
+                        Graphite creates
+                        <em>2D conductive plates</em> throughout the PCM. At
+                        10%, the plates are close enough to create continuous
+                        conductive networks. Higher concentration = more heat
+                        pathways = faster melting. 10% graphite shows distinctly
+                        better performance than 5%. Very cost-effective —
+                        graphite powder is cheap and readily available in India.
+                    </p>
+                </div>
+                <div class="callout green">
+                    <div class="callout-title">🟢 CNT Effect</div>
+                    <p>
+                        CNTs are 1D conductors (tubes, not plates). Their
+                        extremely high intrinsic conductivity (2000–6000 W/m·K)
+                        means even at 1% by weight, they dramatically improve
+                        heat transfer. CNTs essentially "short-circuit" heat
+                        from hot regions to cool regions. The challenge:
+                        achieving uniform dispersion. The project reports
+                        careful extended stirring to minimize agglomeration.
+                    </p>
+                </div>
+                <div class="callout orange">
+                    <div class="callout-title">🟡 Aluminium Effect</div>
+                    <p>
+                        Aluminium particles (spherical) improve conductivity
+                        through particle-to-particle contact within the PCM. At
+                        7%, particles are numerous enough to occasionally touch,
+                        creating metal conduction paths. Less effective than
+                        graphite or CNT for conductivity enhancement, but
+                        aluminium's key advantage is
+                        <em>greatest reduction in volumetric expansion</em> due
+                        to its high density and rigid structure.
+                    </p>
+                </div>
+
+                <h3>8.7 Comparative Performance Summary</h3>
+                <div class="table-wrap">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Performance Metric</th>
+                                <th>Best Sample</th>
+                                <th>Second Best</th>
+                                <th>Worst</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Thermal Conductivity</td>
+                                <td>Hybrid PCM ★</td>
+                                <td>1% CNT</td>
+                                <td>Pure Paraffin</td>
+                            </tr>
+                            <tr>
+                                <td>Fastest Melting</td>
+                                <td>Hybrid PCM ★</td>
+                                <td>1% CNT</td>
+                                <td>Pure Paraffin</td>
+                            </tr>
+                            <tr>
+                                <td>Temperature Uniformity</td>
+                                <td>Hybrid PCM ★</td>
+                                <td>1% CNT</td>
+                                <td>Pure Paraffin</td>
+                            </tr>
+                            <tr>
+                                <td>Heat Storage (Cp)</td>
+                                <td>Pure Paraffin</td>
+                                <td>1% CNT</td>
+                                <td>7% Aluminium</td>
+                            </tr>
+                            <tr>
+                                <td>Minimum Expansion</td>
+                                <td>Hybrid PCM / 7% Al ★</td>
+                                <td>10% Graphite</td>
+                                <td>Pure Paraffin</td>
+                            </tr>
+                            <tr>
+                                <td>Cost Effectiveness</td>
+                                <td>5–10% Graphite ★</td>
+                                <td>7% Al</td>
+                                <td>1% CNT (most expensive)</td>
+                            </tr>
+                            <tr>
+                                <td>Overall Balanced Performance</td>
+                                <td><strong>Hybrid PCM ★★</strong></td>
+                                <td>10% Graphite</td>
+                                <td>Pure Paraffin</td>
+                            </tr>
+                            <tr>
+                                <td>Best for EV BTMS</td>
+                                <td><strong>Hybrid PCM ★★</strong></td>
+                                <td>1% CNT</td>
+                                <td>Pure Paraffin</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="verdict">
+                    <span class="trophy">🏆</span>
+                    <h3>Winner: Hybrid PCM</h3>
+                    <p>
+                        <strong
+                            >Paraffin RT42 + 3% Aluminium + 4% Graphite + 0.5%
+                            CNT</strong
+                        >
+                        provides the best overall combination: high thermal
+                        conductivity, fastest heat transfer, controlled
+                        volumetric expansion, adequate heat storage, good
+                        stability, lower cost than pure CNT, and realistic
+                        industrial fabricability. This is the recommended
+                        composition for EV Battery Thermal Management Systems.
+                    </p>
+                </div>
+
+                <h3>8.8 Why is the Hybrid PCM Better than Pure CNT PCM?</h3>
+                <p>
+                    While 1% CNT alone gives excellent conductivity, the Hybrid
+                    PCM wins overall because:
+                </p>
+                <div class="flow">
+                    <div class="flow-step">
+                        <div class="step-num">HYBRID ①</div>
+                        <h4>Graphite (4%)</h4>
+                        <p>
+                            Provides broad 2D heat spreading, uniform heat
+                            distribution, and cost reduction.
+                        </p>
+                    </div>
+                    <div class="flow-step">
+                        <div class="step-num">HYBRID ②</div>
+                        <h4>Aluminium (3%)</h4>
+                        <p>
+                            Reduces volumetric expansion; adds structural
+                            stability; provides additional 3D conduction paths.
+                        </p>
+                    </div>
+                    <div class="flow-step">
+                        <div class="step-num">HYBRID ③</div>
+                        <h4>CNT (0.5%)</h4>
+                        <p>
+                            Even 0.5% CNT contributes significantly. Less CNT =
+                            lower cost, easier dispersion, less agglomeration
+                            risk.
+                        </p>
+                    </div>
+                    <div class="flow-step">
+                        <div class="step-num">RESULT</div>
+                        <h4>Synergy</h4>
+                        <p>
+                            Three additives working together create a
+                            multi-dimensional conductive network: 3D (Al), 2D
+                            (Graphite), 1D (CNT).
+                        </p>
+                    </div>
+                </div>
+            </section>
+
+            <hr class="divider" />
+
+            <!-- ═══════════════════════════════════════════════ -->
+            <!-- 9. CONCLUSION -->
+            <!-- ═══════════════════════════════════════════════ -->
+            <section class="section" id="conclusion">
+                <div class="section-label">Chapter 6</div>
+                <h2 class="section-title">
+                    <span class="num">09.</span> Conclusions, Limitations &
+                    Future Scope
+                </h2>
+
+                <h3>9.1 Key Findings Summarized</h3>
+                <div class="pills">
+                    <span class="pill good"
+                        >Pure paraffin has poorest conductivity (~0.2
+                        W/m·K)</span
+                    >
+                    <span class="pill good"
+                        >All additives improve heat transfer significantly</span
+                    >
+                    <span class="pill good"
+                        >CNT gives maximum conductivity improvement even at low
+                        %</span
+                    >
+                    <span class="pill good"
+                        >Graphite = best cost-performance balance</span
+                    >
+                    <span class="pill good"
+                        >Aluminium = best expansion control</span
+                    >
+                    <span class="pill good">Hybrid PCM wins overall</span>
+                    <span class="pill warn"
+                        >Conductivity gain comes with slight Cp reduction —
+                        acceptable trade-off</span
+                    >
+                    <span class="pill warn"
+                        >Melting point unchanged — critical advantage</span
+                    >
+                </div>
+
+                <h3>9.2 Limitations of This Study</h3>
+                <div class="flow">
+                    <div class="flow-step">
+                        <div class="step-num">LIMIT 01</div>
+                        <h4>Lab Scale</h4>
+                        <p>
+                            Small 300g samples. Real EV battery pack requires kg
+                            quantities. Scaling up may change dispersion
+                            uniformity.
+                        </p>
+                    </div>
+                    <div class="flow-step">
+                        <div class="step-num">LIMIT 02</div>
+                        <h4>No Direct k Meter</h4>
+                        <p>
+                            Thermal conductivity was estimated comparatively via
+                            ΔT analysis, not measured with a precision
+                            instrument (Hot Disk, etc.).
+                        </p>
+                    </div>
+                    <div class="flow-step">
+                        <div class="step-num">LIMIT 03</div>
+                        <h4>Manual Stirring</h4>
+                        <p>
+                            Hand stirring may not achieve perfectly uniform
+                            dispersion, especially for CNTs. Ultrasonic bath or
+                            high-shear mixer would be better.
+                        </p>
+                    </div>
+                    <div class="flow-step">
+                        <div class="step-num">LIMIT 04</div>
+                        <h4>No Cyclic Testing</h4>
+                        <p>
+                            Long-term thermal cycling (1000s of melt-freeze
+                            cycles) was not studied. Real EV applications
+                            require cyclic stability over years.
+                        </p>
+                    </div>
+                    <div class="flow-step">
+                        <div class="step-num">LIMIT 05</div>
+                        <h4>Heat Loss</h4>
+                        <p>
+                            Despite insulation, heat losses could not be
+                            eliminated completely. Q_loss ≈ 0 is an assumption,
+                            not a measurement.
+                        </p>
+                    </div>
+                </div>
+
+                <h3>9.3 Specific Limitations of Each Additive</h3>
+                <div class="table-wrap">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Additive</th>
+                                <th>Limitations</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Graphite</td>
+                                <td>
+                                    High concentrations (>10%) increase
+                                    viscosity of liquid PCM; reduce latent heat
+                                    storage due to volume displacement
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>CNT</td>
+                                <td>
+                                    High cost; agglomeration tendency; complex
+                                    mixing; nanoparticle health/safety concerns
+                                    in open-air labs
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Aluminium</td>
+                                <td>
+                                    Lower enhancement per gram than
+                                    CNT/graphite; long-term exposure to moisture
+                                    → surface oxidation possible
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <h3>9.4 Future Scope</h3>
+                <div class="sample-grid">
+                    <div class="sample-card">
+                        <div class="sample-id">FUTURE 01</div>
+                        <h4>CFD Simulation</h4>
+                        <p>
+                            Numerical modelling of PCM melting and heat transfer
+                            inside realistic EV battery module geometry.
+                        </p>
+                    </div>
+                    <div class="sample-card">
+                        <div class="sample-id">FUTURE 02</div>
+                        <h4>Real Battery Integration</h4>
+                        <p>
+                            Test composite PCM wrapped around actual lithium-ion
+                            pouch/cylindrical cells during charge-discharge
+                            cycles.
+                        </p>
+                    </div>
+                    <div class="sample-card">
+                        <div class="sample-id">FUTURE 03</div>
+                        <h4>Cyclic Stability</h4>
+                        <p>
+                            Conduct 500–1000 melt-freeze cycles and measure
+                            property degradation over time.
+                        </p>
+                    </div>
+                    <div class="sample-card">
+                        <div class="sample-id">FUTURE 04</div>
+                        <h4>Expanded Graphite</h4>
+                        <p>
+                            Use expanded graphite (EG) instead of powder — EG
+                            forms 3D porous networks with superior conductivity
+                            at lower loading.
+                        </p>
+                    </div>
+                    <div class="sample-card">
+                        <div class="sample-id">FUTURE 05</div>
+                        <h4>Encapsulation</h4>
+                        <p>
+                            Microencapsulate PCM in polymer shells — prevents
+                            leakage entirely, improves safety for automotive
+                            use.
+                        </p>
+                    </div>
+                    <div class="sample-card">
+                        <div class="sample-id">FUTURE 06</div>
+                        <h4>Ultrasonic Dispersion</h4>
+                        <p>
+                            Use ultrasonic bath for CNT mixing to achieve truly
+                            uniform nanoparticle distribution without
+                            agglomeration.
+                        </p>
+                    </div>
+                </div>
+
+                <h3>9.5 Potential Applications of This Research</h3>
+                <div class="pills">
+                    <span class="pill good"
+                        >EV Battery Thermal Management Systems (primary
+                        application)</span
+                    >
+                    <span class="pill good">Solar Thermal Energy Storage</span>
+                    <span class="pill good"
+                        >Electronic device cooling (laptops, mobiles)</span
+                    >
+                    <span class="pill good"
+                        >Power electronics (inverters, converters)</span
+                    >
+                    <span class="pill good">Aerospace thermal management</span>
+                    <span class="pill good"
+                        >Portable medical device cooling</span
+                    >
+                    <span class="pill good"
+                        >Smart thermal packaging (cold chain logistics)</span
+                    >
+                </div>
+
+                <!-- Sources -->
+                <nav class="toc">
+                    <h2>📋 Sources</h2>
+                    <ol>
+                        <li>
+                            <a
+                                href="https://drive.google.com/file/d/14AtOw2j_aHQa8Y8ZcoyaDMMdvfLYxnC3/view?usp=drive_link"
+                                >Final Project Report</a
+                            >
+                        </li>
+                        <li>
+                            <a
+                                href="https://drive.google.com/file/d/1phRIGiODVs28D_wd-SZY_9NH0LeMHHRM/view?usp=drive_link"
+                                >Programmable Resolution DS18B20 sensor
+                                report</a
+                            >
+                        </li>
+                        <li>
+                            <a
+                                href="https://drive.google.com/file/d/1QXBTdaCbMMMgdv0rM8rx8Gf1AE0505sC/view?usp=drive_link"
+                                >Enhancing Motor Cooling Performance</a
+                            >
+                        </li>
+                        <li>
+                            <a
+                                href="https://drive.google.com/file/d/1BxCJ4pQQBWHjIkeJhOz-tCz9hyARp0mA/view?usp=drive_link"
+                                >Sustainable Thermal Management For Electronic
+                                Devices</a
+                            >
+                        </li>
+                        <li>
+                            <a
+                                href="https://drive.google.com/file/d/1l1WHbiwiWklMK6T8vWkW9eTNdGvR7L5F/view?usp=drive_link"
+                                >Box Design 1</a
+                            >
+                        </li>
+                        <li>
+                            <a
+                                href="https://drive.google.com/file/d/1EzSULCyLKcY5dMkKpuAVdZCF0UrHUvnn/view?usp=drive_link"
+                                >Box Design 2</a
+                            >
+                        </li>
+                    </ol>
+                </nav>
+
+                <h3>9.6 Final Verdict</h3>
+                <blockquote>
+                    "The experimental study successfully demonstrated that
+                    conductive additives significantly improve the thermal
+                    behaviour of paraffin-based PCMs. The developed PCM
+                    composites show strong potential for advanced thermal
+                    management systems, particularly in Electric Vehicle battery
+                    cooling applications where efficient heat dissipation and
+                    temperature control are critically important."
+                </blockquote>
+                <p>
+                    This project provides a solid foundation and validated
+                    methodology for further research into advanced PCM-based
+                    thermal management systems. The identified optimal
+                    composition —
+                    <strong>RT42 + 3% Al + 4% Graphite + 0.5% CNT</strong> —
+                    balances all competing engineering requirements and is a
+                    realistic, practical candidate for commercialization in EV
+                    thermal management.
+                </p>
+
+                <div class="callout blue">
+                    <div class="callout-title">👥 Project Team</div>
+                    <p>
+                        <strong>Students:</strong> Nikhil Kumar (23001013079),
+                        Reedhima Chaubey (23001013096), Saumy (23001013111),
+                        Shailja Kumari (23001013113), Roshan Kumar
+                        (24001013509)<br />
+                        <strong>Supervisors:</strong> Prof. Nikhil Dev &amp;
+                        Prof. Sandhya Dixit<br />
+                        <strong>Institution:</strong> J.C. Bose University of
+                        Science &amp; Technology YMCA, Faridabad, Haryana<br />
+                        <strong>Programme:</strong> B.Tech Mechanical
+                        Engineering (2023–2027)
+                    </p>
+                </div>
+            </section>
+        </main>
+
+        <script>
+            // ─── Scroll progress bar ───
+            window.addEventListener("scroll", () => {
+                const total = document.body.scrollHeight - window.innerHeight;
+                document.getElementById("progress").style.width =
+                    (window.scrollY / total) * 100 + "%";
+            });
+
+            // ─── Intersection observer for section animations ───
+            const observer = new IntersectionObserver(
+                (entries) => {
+                    entries.forEach((e) => {
+                        if (e.isIntersecting) e.target.classList.add("visible");
+                    });
+                },
+                { threshold: 0.08 },
+            );
+            document
+                .querySelectorAll(".section")
+                .forEach((s) => observer.observe(s));
+
+            // ─── Animate bars when visible ───
+            const barObserver = new IntersectionObserver(
+                (entries) => {
+                    entries.forEach((e) => {
+                        if (e.isIntersecting) {
+                            const fills =
+                                e.target.querySelectorAll(".bar-fill");
+                            fills.forEach((f) => {
+                                f.style.width = f.dataset.width + "%";
+                            });
+                        }
+                    });
+                },
+                { threshold: 0.3 },
+            );
+            document
+                .querySelectorAll(".bar-group")
+                .forEach((b) => barObserver.observe(b));
+        </script>
+    </body>
+</html>
