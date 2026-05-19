@@ -1,0 +1,1218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mechanical Workshop — Milling Section | JC Bose University</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Source+Code+Pro:wght@400;600&family=Lato:wght@300;400;700&display=swap');
+
+  :root {
+    --ink: #1a1208;
+    --paper: #faf7f2;
+    --aged: #f0ead8;
+    --rust: #c0392b;
+    --steel: #2c3e50;
+    --brass: #b8860b;
+    --copper: #d4721a;
+    --muted: #7a7060;
+    --light-rule: #ddd5c0;
+    --highlight: #fff3cd;
+    --code-bg: #2c3e50;
+    --code-fg: #a8d8a8;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: 'Lato', sans-serif;
+    font-weight: 300;
+    line-height: 1.8;
+    font-size: 16px;
+  }
+
+  /* ── HEADER ── */
+  header {
+    background: var(--steel);
+    color: #fff;
+    padding: 3rem 2rem 2.5rem;
+    position: relative;
+    overflow: hidden;
+  }
+  header::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: repeating-linear-gradient(
+      45deg,
+      transparent,
+      transparent 18px,
+      rgba(255,255,255,0.03) 18px,
+      rgba(255,255,255,0.03) 20px
+    );
+  }
+  header::after {
+    content: '';
+    position: absolute; bottom: 0; left: 0; right: 0; height: 4px;
+    background: linear-gradient(90deg, var(--rust), var(--copper), var(--brass));
+  }
+  .header-inner { max-width: 900px; margin: 0 auto; position: relative; }
+  .institute-tag {
+    font-size: 0.72rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: #aab8c8;
+    margin-bottom: 0.6rem;
+    font-weight: 700;
+  }
+  header h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2rem, 5vw, 3.2rem);
+    font-weight: 900;
+    line-height: 1.1;
+    margin-bottom: 0.4rem;
+  }
+  header h1 span { color: var(--copper); }
+  .header-sub {
+    font-size: 0.9rem;
+    color: #aab8c8;
+    letter-spacing: 0.05em;
+  }
+  .badge-row { margin-top: 1.2rem; display: flex; gap: 0.6rem; flex-wrap: wrap; }
+  .badge {
+    background: rgba(255,255,255,0.1);
+    border: 1px solid rgba(255,255,255,0.2);
+    padding: 0.2rem 0.7rem;
+    border-radius: 2px;
+    font-size: 0.72rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: #cdd8e4;
+  }
+
+  /* ── NAV ── */
+  nav {
+    background: var(--ink);
+    position: sticky; top: 0; z-index: 100;
+    overflow-x: auto;
+    border-bottom: 3px solid var(--rust);
+  }
+  nav ul {
+    max-width: 900px; margin: 0 auto;
+    display: flex; list-style: none;
+    padding: 0 1rem;
+  }
+  nav ul li a {
+    display: block;
+    padding: 0.8rem 1rem;
+    color: #ccc;
+    text-decoration: none;
+    font-size: 0.78rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    font-weight: 700;
+    white-space: nowrap;
+    transition: color 0.2s, background 0.2s;
+  }
+  nav ul li a:hover { color: #fff; background: rgba(255,255,255,0.05); }
+
+  /* ── MAIN LAYOUT ── */
+  main { max-width: 900px; margin: 0 auto; padding: 2rem 1.5rem 4rem; }
+
+  /* ── SECTIONS ── */
+  .section {
+    margin-bottom: 3.5rem;
+    padding-bottom: 2.5rem;
+    border-bottom: 1px solid var(--light-rule);
+    animation: fadeUp 0.5s ease both;
+  }
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(18px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  .section-label {
+    font-size: 0.68rem;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    font-weight: 700;
+    color: var(--rust);
+    margin-bottom: 0.4rem;
+  }
+  h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(1.5rem, 3.5vw, 2rem);
+    font-weight: 700;
+    color: var(--steel);
+    line-height: 1.2;
+    margin-bottom: 1.2rem;
+    padding-bottom: 0.6rem;
+    border-bottom: 2px solid var(--aged);
+  }
+  h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: var(--steel);
+    margin: 1.6rem 0 0.6rem;
+  }
+  h4 {
+    font-size: 0.85rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin: 1.2rem 0 0.4rem;
+  }
+  p { margin-bottom: 0.9rem; }
+
+  /* ── LISTS ── */
+  ul.content-list, ol.content-list {
+    padding-left: 1.4rem;
+    margin-bottom: 1rem;
+  }
+  ul.content-list li, ol.content-list li {
+    margin-bottom: 0.4rem;
+    font-size: 0.95rem;
+  }
+
+  /* ── WARNING / CALLOUT BOXES ── */
+  .callout {
+    border-left: 4px solid var(--brass);
+    background: var(--aged);
+    padding: 1rem 1.2rem;
+    margin: 1.4rem 0;
+    border-radius: 0 4px 4px 0;
+    font-size: 0.93rem;
+  }
+  .callout.danger { border-color: var(--rust); background: #fdf0ee; }
+  .callout.info   { border-color: #2980b9; background: #eef6fb; }
+  .callout strong { color: var(--rust); }
+  .callout-title {
+    font-size: 0.7rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    font-weight: 700;
+    margin-bottom: 0.4rem;
+    color: var(--muted);
+  }
+
+  /* ── FORMULA BLOCKS ── */
+  .formula {
+    background: var(--code-bg);
+    color: var(--code-fg);
+    font-family: 'Source Code Pro', monospace;
+    padding: 1rem 1.4rem;
+    border-radius: 4px;
+    margin: 1rem 0;
+    font-size: 0.92rem;
+    overflow-x: auto;
+    border-left: 4px solid var(--copper);
+  }
+  .formula .comment { color: #85a0b0; }
+  .formula .var { color: #f0c060; }
+
+  /* ── GRID CARDS ── */
+  .card-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 1rem;
+    margin: 1.2rem 0;
+  }
+  .card {
+    background: #fff;
+    border: 1px solid var(--light-rule);
+    border-top: 3px solid var(--copper);
+    padding: 1rem;
+    border-radius: 2px;
+    transition: box-shadow 0.2s;
+  }
+  .card:hover { box-shadow: 0 4px 18px rgba(0,0,0,0.09); }
+  .card-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.6rem;
+    font-weight: 900;
+    color: var(--light-rule);
+    line-height: 1;
+    margin-bottom: 0.3rem;
+  }
+  .card-title {
+    font-size: 0.82rem;
+    font-weight: 700;
+    color: var(--steel);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    margin-bottom: 0.4rem;
+  }
+  .card p { font-size: 0.82rem; color: var(--muted); margin: 0; }
+
+  /* ── STEPS ── */
+  .steps { counter-reset: step; margin: 1rem 0; }
+  .step {
+    display: flex; gap: 1rem;
+    margin-bottom: 0.9rem;
+    align-items: flex-start;
+  }
+  .step-num {
+    counter-increment: step;
+    min-width: 2rem; height: 2rem;
+    background: var(--steel);
+    color: #fff;
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Source Code Pro', monospace;
+    font-size: 0.78rem;
+    font-weight: 600;
+    border-radius: 50%;
+    flex-shrink: 0;
+    margin-top: 0.1rem;
+  }
+  .step-body { font-size: 0.92rem; }
+
+  /* ── COMPARISON TABLE ── */
+  .table-wrap { overflow-x: auto; margin: 1.2rem 0; }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.88rem;
+  }
+  thead tr {
+    background: var(--steel);
+    color: #fff;
+  }
+  thead th {
+    padding: 0.7rem 1rem;
+    text-align: left;
+    font-weight: 700;
+    font-size: 0.78rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+  tbody tr:nth-child(even) { background: var(--aged); }
+  tbody td {
+    padding: 0.6rem 1rem;
+    border-bottom: 1px solid var(--light-rule);
+    vertical-align: top;
+  }
+
+  /* ── SAFETY GRID ── */
+  .safety-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    gap: 0.8rem;
+    margin: 1rem 0;
+  }
+  .safety-item {
+    display: flex; gap: 0.8rem; align-items: flex-start;
+    background: #fff;
+    border: 1px solid var(--light-rule);
+    padding: 0.8rem;
+    border-radius: 2px;
+    font-size: 0.85rem;
+  }
+  .safety-icon {
+    font-size: 1.3rem;
+    flex-shrink: 0;
+    margin-top: 0.1rem;
+  }
+
+  /* ── PILL TAGS ── */
+  .tags { display: flex; flex-wrap: wrap; gap: 0.4rem; margin: 0.8rem 0; }
+  .tag {
+    background: var(--aged);
+    border: 1px solid var(--light-rule);
+    padding: 0.15rem 0.6rem;
+    border-radius: 20px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+  }
+
+  /* ── TOC ── */
+  .toc {
+    background: var(--aged);
+    border: 1px solid var(--light-rule);
+    padding: 1.4rem 1.6rem;
+    border-radius: 4px;
+    margin-bottom: 2.5rem;
+  }
+  .toc h3 { margin-top: 0; border-bottom: 1px solid var(--light-rule); padding-bottom: 0.5rem; }
+  .toc ol {
+    padding-left: 1.4rem;
+    columns: 2;
+    column-gap: 2rem;
+    margin: 0;
+  }
+  .toc li { margin-bottom: 0.4rem; break-inside: avoid; }
+  .toc a {
+    color: var(--steel);
+    text-decoration: none;
+    font-size: 0.88rem;
+    transition: color 0.2s;
+  }
+  .toc a:hover { color: var(--rust); }
+
+  /* ── DIVIDER ── */
+  .rule {
+    border: none;
+    border-top: 1px solid var(--light-rule);
+    margin: 1.5rem 0;
+  }
+
+  /* ── EXERCISE HEADER ── */
+  .exercise-header {
+    background: linear-gradient(135deg, var(--steel), #3d556a);
+    color: #fff;
+    padding: 1.4rem 1.6rem;
+    border-radius: 4px 4px 0 0;
+    margin-bottom: 0;
+  }
+  .exercise-header .ex-num {
+    font-size: 0.68rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: #aab8c8;
+    margin-bottom: 0.2rem;
+    font-weight: 700;
+  }
+  .exercise-header h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.35rem;
+    font-weight: 700;
+    color: #fff;
+    border-bottom: none;
+    margin-bottom: 0;
+    padding-bottom: 0;
+  }
+  .exercise-body {
+    background: #fff;
+    border: 1px solid var(--light-rule);
+    border-top: none;
+    padding: 1.4rem 1.6rem;
+    border-radius: 0 0 4px 4px;
+    margin-bottom: 2rem;
+  }
+
+  /* ── FOOTER ── */
+  footer {
+    background: var(--ink);
+    color: #6a7a8a;
+    text-align: center;
+    padding: 1.5rem;
+    font-size: 0.78rem;
+    letter-spacing: 0.06em;
+  }
+
+  @media (max-width: 600px) {
+    .toc ol { columns: 1; }
+    .card-grid { grid-template-columns: 1fr 1fr; }
+    nav ul li a { padding: 0.7rem 0.6rem; font-size: 0.68rem; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ═══════════════════════ HEADER ═══════════════════════ -->
+<header>
+  <div class="header-inner">
+    <div class="institute-tag">J.C. Bose University of Science &amp; Technology, YMCA · Faridabad · Haryana</div>
+    <h1>Mechanical <span>Workshop</span></h1>
+    <div class="header-sub">Milling Section — Workshop Manual &nbsp;|&nbsp; B.Tech 6th Semester</div>
+    <div class="badge-row">
+      <span class="badge">SEC-WS-601/21</span>
+      <span class="badge">2 Credits</span>
+      <span class="badge">70 Marks Practical</span>
+      <span class="badge">3 Hr Exam</span>
+      <span class="badge">NAAC 'A' Grade</span>
+    </div>
+  </div>
+</header>
+
+<!-- ═══════════════════════ NAV ═══════════════════════ -->
+<nav>
+  <ul>
+    <li><a href="#overview">Overview</a></li>
+    <li><a href="#safety">Safety</a></li>
+    <li><a href="#shaper">Shaper</a></li>
+    <li><a href="#drilling">Drilling</a></li>
+    <li><a href="#milling">Milling</a></li>
+    <li><a href="#gears">Gears</a></li>
+    <li><a href="#ex1">Ex-1</a></li>
+    <li><a href="#ex2">Ex-2</a></li>
+    <li><a href="#ex3">Ex-3</a></li>
+  </ul>
+</nav>
+
+<!-- ═══════════════════════ MAIN ═══════════════════════ -->
+<main>
+
+  <!-- TABLE OF CONTENTS -->
+  <div class="toc">
+    <h3>📋 Contents at a Glance</h3>
+    <ol>
+      <li><a href="#overview">Department Vision, Mission &amp; Outcomes</a></li>
+      <li><a href="#course">Course Objectives &amp; Outcomes</a></li>
+      <li><a href="#safety">Safety Precautions (Milling Section)</a></li>
+      <li><a href="#shaper">Shaping Machine (Shaper)</a></li>
+      <li><a href="#drilling">Drilling Machine &amp; Tools</a></li>
+      <li><a href="#milling">Milling Machine</a></li>
+      <li><a href="#gears">Gear Cutting Operations</a></li>
+      <li><a href="#ex1">Exercise 1 — Gear Cutting</a></li>
+      <li><a href="#ex2">Exercise 2 — Drilling, Tapping, Recessing &amp; Chamfering</a></li>
+      <li><a href="#ex3">Exercise 3 — Single Point Brazed Tool</a></li>
+    </ol>
+  </div>
+
+  <!-- ─── SECTION 0: OVERVIEW ─── -->
+  <div id="overview" class="section">
+    <div class="section-label">Department of Mechanical Engineering</div>
+    <h2>Vision, Mission &amp; Programme Outcomes</h2>
+
+    <div class="callout info">
+      <div class="callout-title">Vision</div>
+      To be a centre of excellence by producing high calibre, competent and self-reliant mechanical engineers, who possess scientific temperament and would engage in activities relevant to industries with ethical values and flair to research.
+    </div>
+
+    <h3>Mission</h3>
+    <ul class="content-list">
+      <li>Provide efficient engineers for global requirements by imparting quality education.</li>
+      <li>Explore, create and develop innovations in various aspects of engineering through industries and institutions.</li>
+      <li>Emphasise on practical skills and socially relevant technology.</li>
+    </ul>
+
+    <h3>Programme Educational Objectives (PEOs)</h3>
+    <div class="card-grid">
+      <div class="card"><div class="card-num">PEO1</div><div class="card-title">Practical Skills</div><p>Train students with practical skills and experimental practices in core and applied areas of ME beyond books.</p></div>
+      <div class="card"><div class="card-num">PEO2</div><div class="card-title">Design &amp; Development</div><p>Enable students to design, develop and maintain mechanical equipment useful for society.</p></div>
+      <div class="card"><div class="card-num">PEO3</div><div class="card-title">Teamwork &amp; Ethics</div><p>Improve team building, leadership skills with high regard for ethical values and social responsibilities.</p></div>
+      <div class="card"><div class="card-num">PEO4</div><div class="card-title">Communication</div><p>Enable students to communicate effectively and demonstrate knowledge of project management and independent research.</p></div>
+    </div>
+
+    <h3>Programme Outcomes (POs) — 12 Graduate Attributes</h3>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>PO</th><th>Attribute</th><th>Description</th></tr></thead>
+        <tbody>
+          <tr><td>PO1</td><td>Engineering Knowledge</td><td>Apply mathematics, science, engineering fundamentals &amp; ME to solve engineering problems.</td></tr>
+          <tr><td>PO2</td><td>Problem Analysis</td><td>Identify, formulate and analyse ME problems; design experiments, analyse &amp; interpret data.</td></tr>
+          <tr><td>PO3</td><td>Design/Development</td><td>Design solutions meeting desired needs with consideration for public health, safety, cultural, societal &amp; environmental factors.</td></tr>
+          <tr><td>PO4</td><td>Complex Investigations</td><td>Use research-based methods to provide valid conclusions through experiment design and data synthesis.</td></tr>
+          <tr><td>PO5</td><td>Modern Tool Usage</td><td>Create, select and apply appropriate techniques, resources and modern IT tools to ME activities.</td></tr>
+          <tr><td>PO6</td><td>Engineer &amp; Society</td><td>Assess societal, health, safety, legal and cultural issues relevant to ME practice.</td></tr>
+          <tr><td>PO7</td><td>Environment &amp; Sustainability</td><td>Understand impact of ME solutions in societal/environmental contexts; need for sustainable development.</td></tr>
+          <tr><td>PO8</td><td>Ethics</td><td>Apply ethical principles and commit to professional ethics and norms of ME practice.</td></tr>
+          <tr><td>PO9</td><td>Individual &amp; Team Work</td><td>Function as an individual and as a member/leader in diverse and multidisciplinary teams.</td></tr>
+          <tr><td>PO10</td><td>Communication</td><td>Communicate effectively; write reports, design documentation; make effective presentations.</td></tr>
+          <tr><td>PO11</td><td>Project Management</td><td>Demonstrate knowledge of ME and management principles to manage projects in multidisciplinary environments.</td></tr>
+          <tr><td>PO12</td><td>Life-Long Learning</td><td>Engage in independent research and lifelong learning amid technological changes in ME.</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3>Programme Specific Outcomes (PSOs)</h3>
+    <ul class="content-list">
+      <li><strong>PSO1:</strong> Ability to assimilate practical knowledge and Mechanical Engineering skills in the profession.</li>
+      <li><strong>PSO2:</strong> Ability to innovate in specific aspects of Mechanical Engineering maintaining high standards of social well-being and ethical values.</li>
+    </ul>
+  </div>
+
+  <!-- ─── SECTION: COURSE ─── -->
+  <div id="course" class="section">
+    <div class="section-label">SEC-WS-601/21 · Workshop-VI</div>
+    <h2>Course Overview</h2>
+
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Credits</th><th>L–T–P</th><th>Sessional</th><th>Practical</th><th>Total</th><th>Duration</th></tr></thead>
+        <tbody>
+          <tr><td>2</td><td>0–0–4</td><td>30 Marks</td><td>70 Marks</td><td>100 Marks</td><td>3 Hours</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p><strong>Pre-requisite:</strong> Workshop I through V &nbsp;|&nbsp; <strong>Successive:</strong> Workshop VII</p>
+    <p><strong>Objective:</strong> Perform various operations on milling, shaper, drilling and CNC machine centre; test weld beads at different positions in arc welding.</p>
+
+    <h3>Course Outcomes (COs)</h3>
+    <div class="card-grid">
+      <div class="card"><div class="card-num">CO1</div><div class="card-title">Gear Cutting</div><p>Cut gears on a work piece by gear hobbing / gear shaper.</p></div>
+      <div class="card"><div class="card-num">CO2</div><div class="card-title">Machining</div><p>Create various jobs on conventional lathe, milling/shaper and CNC turning centre.</p></div>
+      <div class="card"><div class="card-num">CO3</div><div class="card-title">Welding</div><p>Prepare various jobs by Arc, MIG/MAG, TIG and gas welding techniques.</p></div>
+      <div class="card"><div class="card-num">CO4</div><div class="card-title">RAC</div><p>Learn troubleshooting of metering devices, testing of leakage and electrical wiring of coolers, deep freezers and air conditioners.</p></div>
+    </div>
+
+    <h3>List of Exercises</h3>
+    <h4>Section A — Machine Shop</h4>
+    <ol class="content-list">
+      <li>Job with drilling, tapping, recessing and chamfering on milling/shaper &amp; drilling machine.</li>
+      <li>Single-point brazed tool with carbide tip on mild steel shank — milling &amp; brazing.</li>
+      <li>Machine round hole on broaching machine.</li>
+      <li>Gear cutting by gear hobbing / gear shaper.</li>
+      <li>CNC part program — face milling, end milling and hole making operations.</li>
+    </ol>
+    <h4>Section B — Welding Shop</h4>
+    <ol class="content-list" start="6">
+      <li>Straight continuous bead in vertical position (upward/downward) on M.S. plate by arc welding.</li>
+      <li>T-fillet joint in flat position on M.S. plate by MIG/MAG welding.</li>
+      <li>Straight continuous bead on stainless steel / aluminium by TIG welding.</li>
+      <li>Straight continuous bead on stainless steel using M.S. electrode by manual arc welding.</li>
+    </ol>
+    <h4>Section C — RAC Shop</h4>
+    <ol class="content-list" start="10">
+      <li>Study humidification and dehumidification in refrigeration.</li>
+      <li>Study metering devices; electrical wiring of refrigerator, coolers and deep freezers.</li>
+      <li>Identify leakage of refrigeration system.</li>
+      <li>Test, repair and maintenance of window and split-type air conditioning.</li>
+    </ol>
+    <div class="callout"><strong>Note:</strong> Nine exercises total must be performed — at least two from each section. Remaining three may be selected from the list above or designed by the institution as per available facilities.</div>
+  </div>
+
+  <!-- ─── SECTION 1: SAFETY ─── -->
+  <div id="safety" class="section">
+    <div class="section-label">Section 1</div>
+    <h2>Safety Precautions — Milling Section</h2>
+
+    <div class="callout danger">
+      <strong>⚠ WARNING:</strong> Do NOT use any tool or machine without the supervision or guidance of a teacher.
+    </div>
+
+    <h3>Personal Protective Equipment (PPE)</h3>
+    <div class="safety-grid">
+      <div class="safety-item"><span class="safety-icon">🥽</span><span>Safety glasses must be worn at all times in work areas.</span></div>
+      <div class="safety-item"><span class="safety-icon">👢</span><span>Sturdy footwear must be worn at all times in work areas.</span></div>
+      <div class="safety-item"><span class="safety-icon">👕</span><span>Close-fitting / protective clothing must be worn.</span></div>
+      <div class="safety-item"><span class="safety-icon">💇</span><span>Long and loose hair must be properly contained.</span></div>
+      <div class="safety-item"><span class="safety-icon">💍</span><span>Rings and jewellery must NOT be worn.</span></div>
+      <div class="safety-item"><span class="safety-icon">🚶</span><span>Do not run while working in the milling workshop.</span></div>
+    </div>
+
+    <h3>Machine &amp; Work Safety Rules</h3>
+    <ul class="content-list">
+      <li>Wear appropriate safety glasses at all times.</li>
+      <li>Ensure the milling machine has a start/stop button within easy reach of the operator.</li>
+      <li>Ensure the work piece and cutter are mounted securely before taking a cut.</li>
+      <li>Check that work is mounted squarely.</li>
+      <li>Mount work in a vice that is bolted or held magnetically to the table; use proper hand tools for adjustments.</li>
+      <li>Hold milling cutters with a cloth to avoid being cut when handling them.</li>
+      <li>Move table as far as possible from cutter while setting up work — to avoid hand injury.</li>
+      <li>Mill the largest surface first.</li>
+      <li>Keep hands, brushes and rags away from the revolving milling cutter.</li>
+      <li>Use a vacuum, brush or rake to remove cuttings <em>only after</em> the cutter has stopped moving.</li>
+      <li>Change cutting compounds periodically.</li>
+      <li>Keep cutters sharpened correctly and in good condition.</li>
+      <li>Keep the working surface clear of scraps, tools and materials.</li>
+      <li>Remove cutting tools from spindle when cleaning the machine.</li>
+      <li>Keep the floor around the milling machine free of oil and grease.</li>
+      <li>Use lifting equipment when moving heavy work to or from milling machines.</li>
+      <li>Make sure power is off before changing cutters.</li>
+      <li>Always stay at the machine when it is in operation.</li>
+      <li>When using cutting oil, prevent splashing using appropriate splash guards. Cutting oil on floor creates a slip hazard.</li>
+    </ul>
+  </div>
+
+  <!-- ─── SECTION 2: SHAPER ─── -->
+  <div id="shaper" class="section">
+    <div class="section-label">Section 2</div>
+    <h2>Shaping Machine (Shaper)</h2>
+
+    <h3>Introduction</h3>
+    <p>Shaping is a process of machining a flat surface — horizontal, vertical, inclined, concave or convex — using a <strong>reciprocating single-point tool</strong>. A shaping machine is a reciprocating-type machine tool. It was designed by <strong>James Nesmith</strong>, an Englishman, in the year <strong>1836</strong>, specifically to produce flat surfaces.</p>
+
+    <h3>Working Principle</h3>
+    <p>The shaper machines horizontal, vertical and angular surfaces of a metal piece. A single-point cutting tool reciprocates over a stationary work piece that is rigidly gripped in a machine vice or clamped on the table. The tool is held in a tool head mounted on the ram. When the ram moves <strong>forward</strong>, material cutting begins; on the <strong>backward (return) stroke</strong>, no cutting occurs. The return stroke is faster — achieved through the quick return mechanism — reducing idle time and increasing production rate.</p>
+
+    <h3>Quick Return Mechanism</h3>
+    <p>The ram moves slower during the forward cutting stroke and faster during the return stroke, reducing idle time and increasing production. Three mechanisms achieve this:</p>
+    <div class="tags">
+      <span class="tag">Crank &amp; Slotted Link</span>
+      <span class="tag">Hydraulic</span>
+      <span class="tag">Whitworth</span>
+    </div>
+
+    <h4>(a) Crank and Slotted Link Mechanism</h4>
+    <p>An electric motor drives a pinion (S) at uniform speed, which rotates a large <strong>bull gear</strong> inside the column (centre at point O). A slotted link pivoted about point K has a sliding block N inside it; P is the crank pin and OP acts as a crank. As the bull gear rotates, the sliding block circulates on the crank pin circle, providing a rocking movement to the rocker arm. The top of the slotted link is connected to the ram, so bull-gear rotation is converted into the ram's reciprocating movement.</p>
+    <p>The <strong>stroke length</strong> is the distance the ram moves forward or backward — it depends on the distance between the bull-gear centre and the sliding block centre, and is adjusted according to work length.</p>
+
+    <h4>Ratchet &amp; Pawl Mechanism — Automatic Table Feed</h4>
+    <p>The table travels in the cross direction when the cross-feed screw rotates. The cross-feed screw is attached to a ratchet wheel. A spring-loaded pawl seats between the ratchet teeth inside a rocker arm. The bull gear drives gear B through gear A; a crank pin on a slider in gear B's slot drives the rocker arm through a connecting rod. The rocker arm rocks about the ratchet centre, and the pawl advances the ratchet in one direction only — moving the table across. To <strong>reverse</strong> the table feed direction, the pawl is turned 180°. To <strong>disengage</strong> power feed, the pawl is removed from the ratchet wheel.</p>
+
+    <h3>Types of Shaper</h3>
+    <h4>By Driving Mechanism</h4>
+    <ul class="content-list"><li>Crank type shaper</li><li>Hydraulic shaper</li><li>Geared shaper</li></ul>
+    <h4>By Type of Cutting Stroke</h4>
+    <ul class="content-list"><li>Push cut shaper</li><li>Draw cut shaper</li></ul>
+    <h4>By Position of Ram Travel</h4>
+    <ul class="content-list"><li>Horizontal shaper</li><li>Vertical shaper</li></ul>
+
+    <h3>Parts of Shaper</h3>
+    <div class="card-grid">
+      <div class="card"><div class="card-title">Base</div><p>Heavy casting; supports all other parts; absorbs vibrations.</p></div>
+      <div class="card"><div class="card-title">Column</div><p>Vertical box-like casting mounted on the base; contains the driving mechanism (bull gear).</p></div>
+      <div class="card"><div class="card-title">Cross Rail</div><p>Horizontal guide on which the table slides in the cross direction.</p></div>
+      <div class="card"><div class="card-title">Table</div><p>Holds and supports the work piece; moves horizontally (cross feed) and vertically.</p></div>
+      <div class="card"><div class="card-title">Ram</div><p>Reciprocates back and forth; carries the tool head.</p></div>
+      <div class="card"><div class="card-title">Tool Head</div><p>Contains the tool slide, clapper box and tool post. Holds the cutting tool; can be swivelled for angular cuts.</p></div>
+    </div>
+
+    <h3>Specifications of Shaper</h3>
+    <ul class="content-list">
+      <li>Travel of ram (maximum length of stroke)</li>
+      <li>Type of drive</li>
+      <li>Range of speed</li>
+      <li>Horsepower of motor</li>
+      <li>Cutting-to-return stroke ratio</li>
+      <li>Maximum vertical and horizontal travel of table</li>
+      <li>Approximate weight and floor space covered</li>
+    </ul>
+
+    <h3>Tools Used in Shaper</h3>
+    <ul class="content-list">
+      <li>Right hand tool</li>
+      <li>Left hand tool</li>
+      <li>Roughing tool</li>
+      <li>Slot cutting tool</li>
+    </ul>
+
+    <h3>Operations Performed on Shaper</h3>
+    <div class="tags">
+      <span class="tag">Horizontal surface</span>
+      <span class="tag">Vertical surface</span>
+      <span class="tag">Angular surface</span>
+      <span class="tag">Concave surface</span>
+      <span class="tag">V-groove</span>
+      <span class="tag">Deep slot</span>
+      <span class="tag">Step cut</span>
+      <span class="tag">Keyway (internal &amp; external)</span>
+    </div>
+
+    <h3>Safety Precautions for Shaper</h3>
+    <ul class="content-list">
+      <li>Work piece must be properly gripped in machine vice or clamped on the table.</li>
+      <li>Do not use a blunt tool.</li>
+      <li>Deep cuts should be avoided.</li>
+      <li>Stroke length must be adjusted according to the work piece length.</li>
+      <li>Do not touch the machining surface by hand while the ram is reciprocating.</li>
+      <li>A long-handle brush must be used to remove chips and scraps from the work table.</li>
+    </ul>
+  </div>
+
+  <!-- ─── SECTION 3: DRILLING ─── -->
+  <div id="drilling" class="section">
+    <div class="section-label">Section 3</div>
+    <h2>Drilling Machine</h2>
+
+    <h3>What is Drilling?</h3>
+    <p>Drilling is the process of producing a <strong>cylindrical hole</strong> in a work piece using a cutting tool called a <strong>drill</strong>.</p>
+
+    <h3>Types of Drill</h3>
+    <div class="card-grid">
+      <div class="card"><div class="card-title">Flat Drill</div><p>Simple flat-ended drill; used for soft materials.</p></div>
+      <div class="card"><div class="card-title">Straight Fluted Drill</div><p>Straight flutes; suitable for brass and bronze.</p></div>
+      <div class="card"><div class="card-title">Twist Drill</div><p>Most widely used; helical flutes; two types: parallel shank &amp; taper shank.</p></div>
+      <div class="card"><div class="card-title">Oil Hole Drill</div><p>Has holes through body for coolant delivery.</p></div>
+      <div class="card"><div class="card-title">Centre Drill</div><p>Produces the initial centre mark before drilling.</p></div>
+      <div class="card"><div class="card-title">Step Drill</div><p>Drills holes of multiple diameters in one pass.</p></div>
+      <div class="card"><div class="card-title">Core Drill</div><p>Enlarges existing holes; three or four flutes.</p></div>
+    </div>
+
+    <h3>Twist Drill — Detailed</h3>
+    <p>The twist drill consists of two main parts: <strong>shank</strong> (held in the machine) and <strong>body</strong> (the cutting unit — comprising flutes, land margin, cutting edge and drill point). By shank shape it is classified as:</p>
+    <ul class="content-list">
+      <li><strong>Parallel shank twist drill</strong> — for smaller sizes; held in a chuck.</li>
+      <li><strong>Taper shank twist drill</strong> — self-holding taper (Morse taper) directly into the spindle for larger drills.</li>
+    </ul>
+    <p>The <strong>point angle</strong> for drilling mild steel, cast iron and general work is <strong>118°</strong>. It increases for hard materials and decreases for soft materials. Twist drills are generally made from HCS (High Carbon Steel) or HSS (High Speed Steel).</p>
+
+    <h3>Speed, Feed and Machining Time Formulae</h3>
+
+    <div class="formula">
+      <span class="comment">// Cutting Speed</span><br>
+      <span class="var">S</span> = (π × <span class="var">D</span> × <span class="var">N</span>) / 1000 &nbsp; m/min<br>
+      <span class="comment">// D = diameter of drill (mm), N = spindle speed (rpm)</span>
+    </div>
+    <div class="formula">
+      <span class="comment">// Feed (per minute)</span><br>
+      <span class="var">F<sub>m</sub></span> = <span class="var">f<sub>r</sub></span> × <span class="var">N</span><br>
+      <span class="comment">// f_r = feed per revolution (mm/rev)</span>
+    </div>
+    <div class="formula">
+      <span class="comment">// Machining Time for Drilling</span><br>
+      <span class="var">T</span> = (<span class="var">L</span> + 0.3<span class="var">d</span>) / (<span class="var">f<sub>r</sub></span> × <span class="var">N</span>)<br>
+      <span class="comment">// L = depth of drilled hole, d = diameter of drill</span>
+    </div>
+
+    <h3>Counter Sinking</h3>
+    <p>Counter sinking converts a drilled hole into a <strong>cone/chamfered shape</strong> at one end using a counter-sinking bit held in the drill chuck. The tool makes a <strong>90° angle</strong> at the hole mouth for easy tap entry and proper seating of countersunk-head screws. Counter sink tools are available in many sizes and are generally made of HSS.</p>
+
+    <h3>Types of Drilling Machines</h3>
+    <ul class="content-list">
+      <li>Portable Drilling Machine</li>
+      <li>Bench or Sensitive Drilling Machine</li>
+      <li>Upright Drilling Machine</li>
+      <li>Multiple Spindle Drilling Machine</li>
+      <li>Radial Drilling Machine</li>
+      <li>Deep Hole Drilling Machine</li>
+      <li>Gang Drilling Machine</li>
+      <li>Horizontal Drilling Machine</li>
+      <li>Automatic Drilling Machine</li>
+    </ul>
+
+    <h3>Main Parts of Drilling Machine</h3>
+    <div class="tags">
+      <span class="tag">Head</span>
+      <span class="tag">Spindle</span>
+      <span class="tag">Drill Chuck</span>
+      <span class="tag">Table</span>
+      <span class="tag">Base</span>
+      <span class="tag">Column</span>
+    </div>
+
+    <h3>Operations on Drilling Machine</h3>
+    <div class="card-grid">
+      <div class="card"><div class="card-title">Drilling</div><p>Producing a cylindrical hole using a drill bit.</p></div>
+      <div class="card"><div class="card-title">Reaming</div><p>Enlarging and finishing a drilled hole to precise size.</p></div>
+      <div class="card"><div class="card-title">Counter Sinking</div><p>Creating a cone-shaped opening at the top of a hole.</p></div>
+      <div class="card"><div class="card-title">Boring / Counter Boring</div><p>Enlarging a hole with a single-point tool.</p></div>
+      <div class="card"><div class="card-title">Spot Facing</div><p>Smoothing a circular seat around a hole.</p></div>
+      <div class="card"><div class="card-title">Tapping</div><p>Cutting internal threads in a drilled hole.</p></div>
+    </div>
+
+    <h3>Precautions While Drilling</h3>
+    <ul class="content-list">
+      <li>Mark a dark indentation with a centre punch for proper hole location.</li>
+      <li>The drill bit must be properly fitted in the drill chuck or spindle.</li>
+      <li>Never leave the drill chuck key in the chuck.</li>
+      <li>Set speed and feed according to the work material.</li>
+      <li>Use proper coolant during drilling.</li>
+      <li>For large holes, first drill a small pilot hole.</li>
+    </ul>
+
+    <h3>Threading Tools — Taps</h3>
+    <p>Taps are used to make <strong>internal threads</strong> in a drilled hole (the operation is <strong>tapping</strong>). Made of HCS or HSS. They consist of a body (with external threads for cutting) and shank (square tang for the tap wrench). Thread specifications — size, type and pitch — are marked on the shank. <strong>Taps are supplied in a set of three:</strong></p>
+
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Type</th><th>Also Known As</th><th>Tapered Teeth at End</th><th>Identification Mark</th><th>Purpose</th></tr></thead>
+        <tbody>
+          <tr><td>Taper Tap</td><td>Rougher / First Tap</td><td>8–10 teeth</td><td>Single circle on shank</td><td>Easy entry; starts thread formation</td></tr>
+          <tr><td>Intermediate Tap</td><td>Second Tap</td><td>3–4 teeth</td><td>Double circle on shank</td><td>Follows taper tap; deepens threads</td></tr>
+          <tr><td>Bottoming Tap</td><td>Plug / Final / 3rd Tap</td><td>0–1 tooth</td><td>No circle mark</td><td>Cuts threads to the bottom of a blind hole</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3>Drill Size for Tapping — Formula</h3>
+    <div class="formula">
+      <span class="comment">// Metric thread</span><br>
+      <span class="var">D.S.</span> = <span class="var">T.S.</span> − 2 × 0.61 × <span class="var">P</span><br><br>
+      <span class="comment">// BSW / BSP / BA thread</span><br>
+      <span class="var">D.S.</span> = <span class="var">T.S.</span> − 2 × 0.64 × <span class="var">P</span><br><br>
+      <span class="comment">// D.S. = Drill Size, T.S. = Tap Size, P = Pitch</span><br>
+      <span class="comment">// For BSW/BSP/BA: P = 1 / TPI (threads per inch)</span>
+    </div>
+
+    <h3>Precautions While Tapping</h3>
+    <ul class="content-list">
+      <li>Drilling size must be exact as per tap size (use formula above).</li>
+      <li>Job must be properly clamped in the vice.</li>
+      <li>The drilled hole must be exactly perpendicular to the work surface.</li>
+      <li>Tap must be properly gripped in the tap wrench.</li>
+      <li>Tap must be held exactly perpendicular to the work surface.</li>
+      <li>Rotate one full turn clockwise, then half turn anticlockwise — this breaks and ejects chips.</li>
+      <li>Use proper lubricant during tapping.</li>
+      <li>Store taps at proper place after use.</li>
+    </ul>
+  </div>
+
+  <!-- ─── SECTION 4: MILLING ─── -->
+  <div id="milling" class="section">
+    <div class="section-label">Section 4</div>
+    <h2>Milling Machine</h2>
+
+    <h3>Introduction &amp; Working Principle</h3>
+    <p>The milling machine is the <strong>most versatile</strong> of all machine tools. Metal is removed from the work piece using a <strong>rotating milling cutter</strong> — a multi-point cutting tool. The work piece is fed into the rotating cutter and metal is removed in the form of chips.</p>
+
+    <h3>Classification of Milling Machine</h3>
+    <h4>1. Column and Knee Type</h4>
+    <ul class="content-list">
+      <li>Plain milling machine</li>
+      <li>Universal milling machine</li>
+      <li>Omniversal milling machine</li>
+      <li>Vertical milling machine</li>
+    </ul>
+    <h4>2. Other Types</h4>
+    <ul class="content-list">
+      <li>Table type milling machine</li>
+      <li>Planer type milling machine</li>
+      <li>Special purpose milling machine</li>
+    </ul>
+
+    <h3>Parts of Milling Machine</h3>
+    <div class="card-grid">
+      <div class="card"><div class="card-title">Base</div><p>Heavy casting; provides stability and supports all other parts.</p></div>
+      <div class="card"><div class="card-title">Elevating Screw</div><p>Raises and lowers the knee to control depth of cut.</p></div>
+      <div class="card"><div class="card-title">Knee</div><p>Supports the saddle and table; moves vertically.</p></div>
+      <div class="card"><div class="card-title">Saddle</div><p>Sits on the knee; carries the table; moves front-to-back (cross feed).</p></div>
+      <div class="card"><div class="card-title">Table</div><p>Holds the work piece; moves left-right (longitudinal feed).</p></div>
+      <div class="card"><div class="card-title">Column</div><p>Vertical body; houses spindle mechanism.</p></div>
+      <div class="card"><div class="card-title">Spindle</div><p>Rotates and holds the milling cutter.</p></div>
+      <div class="card"><div class="card-title">Head</div><p>Contains the spindle; may be vertical or horizontal.</p></div>
+    </div>
+
+    <h3>Size / Specification of Milling Machine</h3>
+    <ul class="content-list">
+      <li>Table size (length × width)</li>
+      <li>Maximum longitudinal, cross and vertical travel of table</li>
+      <li>Number of spindle speeds</li>
+      <li>Number of feeds</li>
+      <li>Spindle nose taper</li>
+      <li>Power required</li>
+      <li>Type of machine</li>
+      <li>Net weight and floor area</li>
+    </ul>
+
+    <h3>Fundamentals of Milling Process</h3>
+
+    <h4>Peripheral Milling</h4>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Type</th><th>Cutter Rotation vs. Feed</th><th>Effect on Work Piece</th><th>Advantage</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Up Milling</strong> (Conventional)</td><td>Opposite direction</td><td>Tends to lift work piece from table; risk of cutter grabbing work before cut starts</td><td>Good when backlash is present; wider application</td></tr>
+          <tr><td><strong>Down Milling</strong> (Climb)</td><td>Same direction</td><td>Tendency to pull work piece into cutter</td><td>Better surface finish; longer tool life</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h4>Vertical Milling</h4>
+    <p>Cutter axis is vertical and generally perpendicular to the work surface. Examples: slot milling, face milling, end milling.</p>
+
+    <h3>Milling Attachments</h3>
+    <ul class="content-list">
+      <li>Vertical milling attachment</li>
+      <li>Universal milling attachment</li>
+      <li>Slotting attachment</li>
+      <li>Rotary table attachment</li>
+      <li>Index head attachment</li>
+    </ul>
+
+    <h3>Standard Milling Cutters (generally made of HSS)</h3>
+    <div class="card-grid">
+      <div class="card"><div class="card-title">Plain Milling Cutter</div><p>Cylindrical cutter for flat surfaces (slab milling).</p></div>
+      <div class="card"><div class="card-title">Side Milling Cutter</div><p>Teeth on periphery and one or both sides.</p></div>
+      <div class="card"><div class="card-title">Angle Milling Cutter</div><p>Conical surfaces; single or double angle.</p></div>
+      <div class="card"><div class="card-title">Metal Slitting Saw</div><p>Thin disc for slotting and parting.</p></div>
+      <div class="card"><div class="card-title">End Milling Cutter</div><p>Teeth on end and periphery; used in vertical milling.</p></div>
+      <div class="card"><div class="card-title">T-Slot Milling Cutter</div><p>Specialised for cutting T-slots in machine tables.</p></div>
+    </div>
+
+    <h3>Milling Operations</h3>
+    <div class="tags">
+      <span class="tag">Plain milling</span>
+      <span class="tag">Face milling</span>
+      <span class="tag">Side milling</span>
+      <span class="tag">Straddle milling</span>
+      <span class="tag">Angular milling</span>
+      <span class="tag">Gang milling</span>
+      <span class="tag">Form milling</span>
+      <span class="tag">End milling</span>
+      <span class="tag">Gear cutting</span>
+      <span class="tag">Thread milling</span>
+      <span class="tag">Keyway/slot milling</span>
+    </div>
+
+    <h3>Cutting Speed, Feed and Depth of Cut</h3>
+    <div class="formula">
+      <span class="comment">// Cutting Speed</span><br>
+      <span class="var">S</span> = (π × <span class="var">D</span> × <span class="var">N</span>) / 1000 &nbsp; m/min<br>
+      <span class="comment">// D = diameter of cutter (mm), N = spindle speed (rpm)</span><br><br>
+      <span class="comment">// Feed: distance the work piece advances under the cutter (mm/min or mm/tooth)</span><br><br>
+      <span class="comment">// Depth of Cut: thickness of material removed in one pass (expressed in mm)</span>
+    </div>
+
+    <h3>Milling Cutter Materials</h3>
+    <ul class="content-list">
+      <li><strong>Tool Steel:</strong> High Speed Steel (HSS), High Carbon Steel (HCS)</li>
+      <li><strong>Cemented Carbide</strong></li>
+      <li><strong>Stellite</strong></li>
+    </ul>
+
+    <h3>Indexing Head</h3>
+    <p><strong>Indexing</strong> is the method of dividing the periphery of a work piece into any number of equal parts. The <strong>indexing head</strong> (dividing head) is the attachment used. It is used for cutting gears, ratchet wheels, keyways, fluted drills, taps and reamers.</p>
+
+    <h4>Types of Indexing Heads</h4>
+    <ul class="content-list">
+      <li>Plain or simple dividing head</li>
+      <li>Universal dividing head</li>
+      <li>Optical dividing head</li>
+    </ul>
+
+    <h4>Construction of Indexing Head</h4>
+    <ul class="content-list">
+      <li><strong>Base:</strong> Fitted in T-slots of the milling table; supports all other parts.</li>
+      <li><strong>Spindle:</strong> At the centre; has a taper hole for the live centre; supported on a swivelling block (can tilt 5° below horizontal to 10° beyond vertical); carries the worm wheel; for direct/rapid indexing, the index plate is fitted directly on the spindle nose.</li>
+      <li><strong>Worm Shaft:</strong> At right angles to the main spindle; carries a single-threaded worm meshing with the worm wheel; index plate on front end; rotated by a handle.</li>
+      <li><strong>Index Plate:</strong> Circular disc with concentric circles of equally-spaced holes; the crank is positioned in the required circle and rotated through a calculated amount; the sector arm eliminates the need to count holes each time.</li>
+      <li><strong>Driven Shaft:</strong> Parallel to spindle; perpendicular to worm shaft.</li>
+      <li><strong>Dead Centre:</strong> Work is held between the spindle centre and this dead centre; can slide to required location.</li>
+    </ul>
+
+    <h4>Working Principle of Dividing Head</h4>
+    <p>When the crank is rotated through a required number of holes in the index plate, the work rotates a proportional amount via the worm and worm wheel. For <strong>differential indexing</strong>, a gear train between the main spindle and driven shaft simultaneously rotates the index plate slightly — allowing divisions that are not directly achievable with the index plate holes. In differential indexing, the index plate lock pin is released.</p>
+
+    <h4>Indexing Methods</h4>
+    <ul class="content-list">
+      <li>Direct or rapid indexing</li>
+      <li>Plain or simple indexing</li>
+      <li>Compound indexing</li>
+      <li>Differential indexing</li>
+      <li>Angular indexing</li>
+    </ul>
+
+    <h3>Safety Precautions for Milling Machine</h3>
+    <ul class="content-list">
+      <li>Ensure cutter and arbor are securely fixed.</li>
+      <li>Use cutters that are correctly ground and in good condition.</li>
+      <li>Move table with work as far from cutter as possible while setting up.</li>
+      <li>Check speed and feed — must be appropriate.</li>
+      <li>Keep hands away from the work during machining.</li>
+      <li>Do not strike milling cutters.</li>
+      <li>Clean the machine after work; remove chips with a brush.</li>
+    </ul>
+  </div>
+
+  <!-- ─── SECTION 5: GEARS ─── -->
+  <div id="gears" class="section">
+    <div class="section-label">Section 5</div>
+    <h2>Gear Manufacturing</h2>
+
+    <h3>Basic Purpose of Gears</h3>
+    <p>Gears transmit power and motion <strong>positively (without slip)</strong> between parallel, intersecting or non-intersecting non-parallel shafts — with or without change in direction or speed of rotation.</p>
+
+    <h3>General Applications</h3>
+    <ul class="content-list">
+      <li>Speed gearbox, feed gearbox and kinematic units of machine tools</li>
+      <li>Speed drives in textile, jute and similar machinery</li>
+      <li>Automobile gear boxes</li>
+      <li>Metal forming machine speed and feed drives</li>
+      <li>Mining and tea-processing machinery</li>
+      <li>Heavy-duty gear boxes in cement, sugar, crane and conveyor industries</li>
+      <li>Precision instruments, clocks and watches</li>
+      <li>Industrial robots and toys</li>
+    </ul>
+
+    <h3>Types of Gears</h3>
+    <h4>By Configuration</h4>
+    <ul class="content-list">
+      <li><strong>External gear</strong> — teeth on outer surface; meshes externally</li>
+      <li><strong>Internal gear</strong> — teeth on inner surface; meshes internally with a pinion</li>
+    </ul>
+    <h4>By Axes of Transmission</h4>
+    <ul class="content-list">
+      <li><strong>Spur gears</strong> (parallel shafts) — straight-toothed or helical (single or double helical/herringbone)</li>
+      <li><strong>Bevel gears</strong> (intersecting shafts) — straight-toothed, spiral or hypoid</li>
+      <li><strong>Worm and worm wheel</strong> (non-parallel, non-intersecting shafts)</li>
+      <li><strong>Hypoid and spiral gears</strong></li>
+    </ul>
+    <h4>By Pattern of Motion</h4>
+    <ul class="content-list">
+      <li>Rotation to rotation — wheel type gears (straight or helical)</li>
+      <li>Rotation to translation or vice versa — rack and pinion</li>
+    </ul>
+
+    <h3>Gear Manufacturing Processes</h3>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Category</th><th>Processes</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Forming</strong></td><td>Casting, Sintering, Injection moulding, Extruding, Cold drawing, Stamping, Preforming, Forging</td></tr>
+          <tr><td><strong>Machining — Roughing</strong></td><td>Form milling, Rack generation, Gear shaping, Hobbing</td></tr>
+          <tr><td><strong>Machining — Finishing</strong></td><td>Shaving, Grinding, Burnishing, Lapping, Honing</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3>Gear Milling (Forming)</h3>
+    <p>Gear milling can produce all types of gears. A <strong>form-milling cutter</strong> selected for a specific gear type and module is used. The cutter's cutting edge has a shape identical to the space between the gear teeth. The gear blank periphery is divided into equal parts (equal to the number of teeth) using indexing. After each tooth space is cut, the indexing head advances the blank by one tooth pitch.</p>
+    <div class="callout">
+      <div class="callout-title">Disadvantages of Gear Milling</div>
+      <ul class="content-list" style="margin:0">
+        <li>Slower than other gear generation methods (teeth cut one by one).</li>
+        <li>Not suitable for large batch sizes.</li>
+        <li>Economical only for small batch sizes; other methods have high capital cost.</li>
+      </ul>
+    </div>
+
+    <h3>Gear Shaping</h3>
+    <p>Uses a <strong>gear-shaped cutting tool</strong> (pinion-shaped or rack-shaped cutter) that reciprocates axially across the gear blank while the blank rotates around the cutter — a true shape-generation process. The gear-shaped tool cuts itself into mesh with the gear blank. Accuracy is good, but errors in one tooth of the cutter are directly transferred to the gear. Can also cut <strong>internal gears</strong>.</p>
+
+    <h3>Gear Hobbing</h3>
+    <p>A machining process in which gear teeth are <strong>progressively generated</strong> by a series of cuts with a <strong>helical cutting tool (hob)</strong>. All motions are rotary — the hob and gear blank rotate continuously as if meshing together, until all teeth are cut. This is a highly productive continuous generating process.</p>
+
+    <h3>Gear Finishing</h3>
+    <p>Surface finish and dimensional accuracy from roughing processes may not be sufficient for precision applications. Finishing operations include:</p>
+    <div class="tags">
+      <span class="tag">Shaving</span>
+      <span class="tag">Grinding</span>
+      <span class="tag">Honing</span>
+      <span class="tag">Lapping</span>
+      <span class="tag">Burnishing</span>
+    </div>
+    <p>During shaving, the cutting teeth of the shaving cutter interact with the mating gear to provide high accuracy and surface finish.</p>
+  </div>
+
+  <!-- ─── EXERCISE 1 ─── -->
+  <div id="ex1">
+    <div class="exercise-header">
+      <div class="ex-num">Exercise 1</div>
+      <h2>Gear Cutting by Gear Hobbing / Gear Shaper</h2>
+    </div>
+    <div class="exercise-body">
+      <p><strong>Aim:</strong> To perform gear cutting operation by Gear Hobbing / Gear Shaper.</p>
+      <p>Refer to the theory sections above (Gear Manufacturing — Sections on Gear Milling, Gear Shaping, Gear Hobbing, and Gear Finishing) for all relevant theory.</p>
+      <h4>Observations to Record</h4>
+      <p>Students must fill in <strong>Table A — Machine Tool Specifications</strong>:</p>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Machine</th><th>Type &amp; Make</th><th>Size</th><th>Speed to Tool</th><th>Speed to Work</th><th>Feed to Tool</th><th>Feed to Work</th><th>Surface Produced</th></tr></thead>
+          <tbody><tr><td colspan="8" style="text-align:center;color:var(--muted);font-style:italic;">Fill in during lab session</td></tr></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- ─── EXERCISE 2 ─── -->
+  <div id="ex2">
+    <div class="exercise-header">
+      <div class="ex-num">Exercise 2</div>
+      <h2>Drilling, Tapping, Recessing &amp; Chamfering on a Block</h2>
+    </div>
+    <div class="exercise-body">
+      <p><strong>Aim:</strong> To prepare a job consisting of drilling, tapping, recessing and chamfering operations on milling/shaper and drilling machine.</p>
+      <p><strong>Material:</strong> MS Flat — 72 × 26 × 15 mm</p>
+      <p><strong>Machines Used:</strong> Milling machine, Shaper, Drilling machine</p>
+
+      <h4>Tools &amp; Equipment Required</h4>
+      <ul class="content-list">
+        <li>Vernier caliper (200 mm)</li>
+        <li>Vernier height gauge (300 mm)</li>
+        <li>Flat file (150 mm)</li>
+        <li>Shell end mill cutter</li>
+        <li>Single-point cutting tool</li>
+        <li>Double-end spanner</li>
+        <li>Surface plate, Angle plate</li>
+        <li>Centre punch, Centre drill</li>
+        <li>Twist drill (∅6.5 mm)</li>
+        <li>Drill chuck key</li>
+        <li>Counter sinking tool</li>
+        <li>Drill chuck and sleeve MT4, Drift</li>
+        <li>Tap set M8 × 1.25 mm</li>
+      </ul>
+
+      <h4>Drawing Dimensions</h4>
+      <ul class="content-list">
+        <li>Overall dimensions: 72 mm × 26 mm × 15 mm</li>
+        <li>Recess to maintain thickness: 13 mm</li>
+        <li>Hole: ∅6.5 mm pilot, tapped to M8</li>
+        <li>Chamfer: 1 × 45° on all sides except bottom</li>
+      </ul>
+
+      <h4>Step-by-Step Procedure</h4>
+      <div class="steps">
+        <div class="step"><div class="step-num">1</div><div class="step-body">Mark the work piece for drilling ∅6.5 mm as per drawing.</div></div>
+        <div class="step"><div class="step-num">2</div><div class="step-body">Hold the work piece on punching plate and mark a centre punch at the intersection point for the drilling operation.</div></div>
+        <div class="step"><div class="step-num">3</div><div class="step-body">Hold the work piece in the drilling vice and clamp the vice on the drill machine table.</div></div>
+        <div class="step"><div class="step-num">4</div><div class="step-body">Fit the drill chuck in the spindle of the drill machine and hold the centre drill in the drill chuck.</div></div>
+        <div class="step"><div class="step-num">5</div><div class="step-body">Set the machine RPM appropriate for the centre drill.</div></div>
+        <div class="step"><div class="step-num">6</div><div class="step-body">Make a centre drill hole at the punched mark.</div></div>
+        <div class="step"><div class="step-num">7</div><div class="step-body">Remove centre drill; fit the ∅6.5 mm twist drill in the chuck.</div></div>
+        <div class="step"><div class="step-num">8</div><div class="step-body">Drill the ∅6.5 mm hole for the subsequent tapping operation.</div></div>
+        <div class="step"><div class="step-num">9</div><div class="step-body">Remove drill; fit the counter-sinking tool in the drill chuck.</div></div>
+        <div class="step"><div class="step-num">10</div><div class="step-body">Remove burr and sharp edges from the drilled hole using the counter-sinking tool.</div></div>
+        <div class="step"><div class="step-num">11</div><div class="step-body">Remove counter-sinking tool and work piece from the drilling vice.</div></div>
+        <div class="step"><div class="step-num">12</div><div class="step-body">Mark the work piece for the recessing operation as per drawing.</div></div>
+        <div class="step"><div class="step-num">13</div><div class="step-body">Hold work piece in the machine vice of milling machine/shaper; mount the shell end mill cutter / single-point cutting tool on the tool holder.</div></div>
+        <div class="step"><div class="step-num">14</div><div class="step-body">Set the RPM and feed of the machine for the recessing operation.</div></div>
+        <div class="step"><div class="step-num">15</div><div class="step-body">Remove extra material from the work piece; maintain thickness 13 mm as per drawing.</div></div>
+        <div class="step"><div class="step-num">16</div><div class="step-body">Remove work piece from shaper/milling; hold in bench vice for tapping M8.</div></div>
+        <div class="step"><div class="step-num">17</div><div class="step-body">Use M8 tap set (taper → intermediate → bottoming) for tapping the M8 hole.</div></div>
+        <div class="step"><div class="step-num">18</div><div class="step-body">Chamfer all edges (1 × 45°) using a flat file (150 mm).</div></div>
+        <div class="step"><div class="step-num">19</div><div class="step-body">Punch the roll number on the side; remove all burrs.</div></div>
+      </div>
+
+      <h4>Precautions</h4>
+      <ul class="content-list">
+        <li>Hold the work piece properly in the machine vice.</li>
+        <li>Use cutters and single-point cutting tools that are correctly ground and in good condition.</li>
+        <li>Move the table as far as possible from the cutter while setting up.</li>
+        <li>Check speed, feed and depth of cut — must be correct.</li>
+        <li>Keep hands away from the work during machining.</li>
+        <li>Do not strike over milling cutters, single-point tools, drills or tap sets.</li>
+        <li>Use proper coolant during drilling and tapping.</li>
+        <li>Clean the machine after completion and remove chips with a brush.</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- ─── EXERCISE 3 ─── -->
+  <div id="ex3" style="margin-top:2rem;">
+    <div class="exercise-header">
+      <div class="ex-num">Exercise 3</div>
+      <h2>Single Point Brazed Tool with Carbide Tip on MS Shank</h2>
+    </div>
+    <div class="exercise-body">
+      <p><strong>Aim:</strong> To prepare a single-point brazed tool with carbide tip on a mild steel shank involving milling operation.</p>
+      <p><strong>Material:</strong> MS flat SQ. 25 × 160 mm and a carbide bit (insert).</p>
+      <p><strong>Machine Used:</strong> Vertical milling machine</p>
+
+      <h4>Tools &amp; Equipment Required</h4>
+      <ul class="content-list">
+        <li>Vernier caliper (200 mm)</li>
+        <li>Flat file (150 mm)</li>
+        <li>End mill cutter</li>
+        <li>Double-end spanner</li>
+      </ul>
+
+      <h4>About the Tool (37 Type / 38 Type)</h4>
+      <p>The single-point brazed tool consists of a <strong>mild steel shank</strong> with a <strong>carbide tip (insert) brazed</strong> onto it. The 37 Type is a right-hand tool; the 38 Type is left-hand. Key dimensions for the 25 × 160 mm shank: shank width W = 25 mm, height H = 25 mm, length L = 160 mm, overhang E = 10 mm. The carbide insert dimensions: A = 24 mm, C = 6 mm, R = 1 mm.</p>
+
+      <h4>Step-by-Step Procedure</h4>
+      <div class="steps">
+        <div class="step"><div class="step-num">1</div><div class="step-body">Cut the MS flat to SQ. 25 mm in 160 mm length on the power hacksaw.</div></div>
+        <div class="step"><div class="step-num">2</div><div class="step-body">Remove burr and sharp edges from all surfaces using the flat file.</div></div>
+        <div class="step"><div class="step-num">3</div><div class="step-body">Hold the work piece in the machine vice of the milling machine.</div></div>
+        <div class="step"><div class="step-num">4</div><div class="step-body">Set the end mill cutter on the tool holder of the milling machine.</div></div>
+        <div class="step"><div class="step-num">5</div><div class="step-body">Remove extra material from the shank as per the carbide insert dimensions (to create the seat/pocket for brazing).</div></div>
+        <div class="step"><div class="step-num">6</div><div class="step-body">Remove the end mill cutter from the tool holder and the work piece from the machine vice.</div></div>
+        <div class="step"><div class="step-num">7</div><div class="step-body">Send the machined shank to the welding section for tip (insert) brazing.</div></div>
+      </div>
+
+      <h4>Precautions</h4>
+      <ul class="content-list">
+        <li>Hold the work piece and cutting tool properly on the machine.</li>
+        <li>Use milling cutters that are correctly ground and in good condition.</li>
+        <li>Move table as far from cutter as possible while setting up.</li>
+        <li>Check speed, feed and depth of cut — must be correct.</li>
+        <li>Keep hands away from the work during machining.</li>
+        <li>Clean the machine after completion and remove chips with a brush.</li>
+      </ul>
+
+      <div class="callout">
+        <div class="callout-title">Result</div>
+        The machined shank for the single-point brazed tool with carbide tip has been completed as per drawing. The shank is then forwarded to the welding shop for brazing of the carbide insert.
+      </div>
+    </div>
+  </div>
+
+</main>
+
+<!-- ═══════════════════════ FOOTER ═══════════════════════ -->
+<footer>
+  J.C. Bose University of Science &amp; Technology, YMCA · Sector-6, Faridabad, Haryana-121006 · Accredited 'A' Grade by NAAC
+</footer>
+
+</body>
+</html>
