@@ -1,0 +1,1351 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>
+            PCM Property Units — Thermal Conductivity, Specific Heat &amp;
+            Volumetric Expansion
+        </title>
+        <link
+            href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=Source+Serif+4:ital,opsz,wght@0,8..60,300;0,8..60,400;0,8..60,600;1,8..60,300&family=JetBrains+Mono:wght@400;500&display=swap"
+            rel="stylesheet"
+        />
+        <style>
+            /* ═══════════════════════════════════════════════════════
+               DESIGN SYSTEM  —  identical tokens to pcm-sem6-project
+               ═══════════════════════════════════════════════════════ */
+            :root {
+                --bg: #0e0f14;
+                --surface: #15171f;
+                --card: #1c1f2b;
+                --border: #2a2e40;
+                --accent: #f5a623;
+                --accent2: #4fc3f7;
+                --accent3: #81c784;
+                --accent4: #ef5350;
+                --text: #e8e9f0;
+                --muted: #8890aa;
+                --heading: #ffffff;
+            }
+
+            *,
+            *::before,
+            *::after {
+                box-sizing: border-box;
+                margin: 0;
+                padding: 0;
+            }
+
+            html {
+                scroll-behavior: smooth;
+            }
+
+            body {
+                background: var(--bg);
+                color: var(--text);
+                font-family: "Source Serif 4", Georgia, serif;
+                font-size: 17px;
+                line-height: 1.8;
+                min-height: 100vh;
+            }
+
+            /* Noise texture overlay */
+            body::before {
+                content: "";
+                position: fixed;
+                inset: 0;
+                background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+                pointer-events: none;
+                z-index: 999;
+                opacity: 0.45;
+            }
+
+            /* ─── HERO ─── */
+            .hero {
+                position: relative;
+                overflow: hidden;
+                padding: 90px 40px 80px;
+                text-align: center;
+                border-bottom: 1px solid var(--border);
+                background: radial-gradient(
+                    ellipse 80% 60% at 50% 0%,
+                    #1a2340 0%,
+                    var(--bg) 70%
+                );
+            }
+            .hero::after {
+                content: "";
+                position: absolute;
+                left: 50%;
+                top: -60px;
+                transform: translateX(-50%);
+                width: 600px;
+                height: 600px;
+                border-radius: 50%;
+                background: radial-gradient(
+                    circle,
+                    rgba(245, 166, 35, 0.07) 0%,
+                    transparent 70%
+                );
+                pointer-events: none;
+            }
+            .hero-badge {
+                display: inline-block;
+                font-family: "JetBrains Mono", monospace;
+                font-size: 11px;
+                letter-spacing: 0.14em;
+                text-transform: uppercase;
+                color: var(--accent);
+                border: 1px solid var(--accent);
+                padding: 4px 14px;
+                border-radius: 2px;
+                margin-bottom: 24px;
+                opacity: 0;
+                animation: fadeUp 0.6s 0.1s forwards;
+            }
+            .hero h1 {
+                font-family: "Playfair Display", serif;
+                font-size: clamp(28px, 5vw, 54px);
+                font-weight: 900;
+                color: var(--heading);
+                line-height: 1.15;
+                max-width: 860px;
+                margin: 0 auto 20px;
+                opacity: 0;
+                animation: fadeUp 0.7s 0.25s forwards;
+            }
+            .hero h1 em {
+                color: var(--accent);
+                font-style: normal;
+            }
+            .hero-sub {
+                font-size: 16px;
+                color: var(--muted);
+                max-width: 640px;
+                margin: 0 auto 36px;
+                opacity: 0;
+                animation: fadeUp 0.7s 0.4s forwards;
+            }
+            .hero-meta {
+                display: flex;
+                flex-wrap: wrap;
+                gap: 20px;
+                justify-content: center;
+                opacity: 0;
+                animation: fadeUp 0.7s 0.55s forwards;
+            }
+            .hero-meta span {
+                font-family: "JetBrains Mono", monospace;
+                font-size: 12px;
+                color: var(--muted);
+                background: var(--card);
+                border: 1px solid var(--border);
+                padding: 6px 14px;
+                border-radius: 2px;
+            }
+
+            @keyframes fadeUp {
+                from {
+                    opacity: 0;
+                    transform: translateY(18px);
+                }
+                to {
+                    opacity: 1;
+                    transform: translateY(0);
+                }
+            }
+
+            /* ─── LAYOUT ─── */
+            .page {
+                max-width: 1020px;
+                margin: 0 auto;
+                padding: 0 28px 100px;
+            }
+
+            /* ─── TOC ─── */
+            .toc {
+                background: var(--card);
+                border: 1px solid var(--border);
+                border-left: 3px solid var(--accent);
+                padding: 32px 36px;
+                margin: 52px 0 60px;
+                border-radius: 2px;
+            }
+            .toc h2 {
+                font-family: "Playfair Display", serif;
+                font-size: 20px;
+                color: var(--heading);
+                margin-bottom: 20px;
+            }
+            .toc ol {
+                padding-left: 22px;
+            }
+            .toc li {
+                margin-bottom: 8px;
+            }
+            .toc a {
+                color: var(--accent2);
+                text-decoration: none;
+                font-family: "JetBrains Mono", monospace;
+                font-size: 13px;
+                transition: color 0.2s;
+            }
+            .toc a:hover {
+                color: var(--accent);
+            }
+
+            /* ─── SECTION ─── */
+            .section {
+                margin-bottom: 72px;
+                opacity: 0;
+                transform: translateY(24px);
+                transition:
+                    opacity 0.55s,
+                    transform 0.55s;
+            }
+            .section.visible {
+                opacity: 1;
+                transform: translateY(0);
+            }
+            .section-label {
+                font-family: "JetBrains Mono", monospace;
+                font-size: 10.5px;
+                letter-spacing: 0.18em;
+                text-transform: uppercase;
+                color: var(--accent);
+                margin-bottom: 10px;
+            }
+            h2.section-title {
+                font-family: "Playfair Display", serif;
+                font-size: clamp(22px, 3.5vw, 34px);
+                font-weight: 700;
+                color: var(--heading);
+                line-height: 1.2;
+                margin-bottom: 28px;
+                padding-bottom: 14px;
+                border-bottom: 1px solid var(--border);
+            }
+            h2.section-title .num {
+                color: var(--accent);
+                font-size: 0.7em;
+                font-style: italic;
+                margin-right: 10px;
+            }
+            h3 {
+                font-family: "Playfair Display", serif;
+                font-size: 20px;
+                color: var(--heading);
+                margin: 36px 0 14px;
+                font-weight: 700;
+            }
+            p {
+                margin-bottom: 18px;
+                color: var(--text);
+            }
+            strong {
+                color: var(--heading);
+                font-weight: 600;
+            }
+            em {
+                color: var(--accent);
+                font-style: italic;
+            }
+
+            /* ─── CALLOUTS ─── */
+            .callout {
+                background: var(--card);
+                border: 1px solid var(--border);
+                border-radius: 2px;
+                padding: 22px 26px;
+                margin: 28px 0;
+            }
+            .callout.orange {
+                border-left: 3px solid var(--accent);
+            }
+            .callout.blue {
+                border-left: 3px solid var(--accent2);
+            }
+            .callout.green {
+                border-left: 3px solid var(--accent3);
+            }
+            .callout.red {
+                border-left: 3px solid var(--accent4);
+            }
+            .callout-title {
+                font-family: "JetBrains Mono", monospace;
+                font-size: 11px;
+                text-transform: uppercase;
+                letter-spacing: 0.12em;
+                margin-bottom: 10px;
+                color: var(--muted);
+            }
+            .callout.orange .callout-title {
+                color: var(--accent);
+            }
+            .callout.blue .callout-title {
+                color: var(--accent2);
+            }
+            .callout.green .callout-title {
+                color: var(--accent3);
+            }
+            .callout.red .callout-title {
+                color: var(--accent4);
+            }
+
+            /* ─── TABLES ─── */
+            .table-wrap {
+                overflow-x: auto;
+                margin: 28px 0;
+            }
+            table {
+                width: 100%;
+                border-collapse: collapse;
+                font-size: 15px;
+                background: var(--card);
+                border: 1px solid var(--border);
+            }
+            thead th {
+                background: #20253a;
+                color: var(--accent);
+                font-family: "JetBrains Mono", monospace;
+                font-size: 11px;
+                letter-spacing: 0.1em;
+                text-transform: uppercase;
+                padding: 12px 16px;
+                text-align: left;
+                border-bottom: 1px solid var(--border);
+            }
+            tbody td {
+                padding: 11px 16px;
+                border-bottom: 1px solid var(--border);
+                vertical-align: top;
+            }
+            tbody tr:last-child td {
+                border-bottom: none;
+            }
+            tbody tr:hover td {
+                background: rgba(255, 255, 255, 0.025);
+            }
+
+            /* ─── FORMULA BLOCK ─── */
+            .formula {
+                background: #0b0c12;
+                border: 1px solid var(--border);
+                border-radius: 2px;
+                padding: 18px 24px;
+                margin: 22px 0;
+                font-family: "JetBrains Mono", monospace;
+                font-size: 13.5px;
+                color: var(--accent2);
+                overflow-x: auto;
+                white-space: pre;
+                line-height: 1.7;
+            }
+
+            /* ─── FLOW GRID ─── */
+            .flow {
+                display: flex;
+                flex-wrap: wrap;
+                gap: 16px;
+                margin: 28px 0;
+            }
+            .flow-step {
+                flex: 1;
+                min-width: 180px;
+                background: var(--card);
+                border: 1px solid var(--border);
+                border-radius: 2px;
+                padding: 18px 20px;
+            }
+            .flow-step .step-num {
+                font-family: "JetBrains Mono", monospace;
+                font-size: 10px;
+                color: var(--accent);
+                letter-spacing: 0.1em;
+                margin-bottom: 8px;
+                text-transform: uppercase;
+            }
+            .flow-step h4 {
+                font-family: "Playfair Display", serif;
+                font-size: 16px;
+                color: var(--heading);
+                margin-bottom: 8px;
+            }
+            .flow-step p {
+                font-size: 14px;
+                color: var(--muted);
+                margin: 0;
+                line-height: 1.65;
+            }
+
+            /* ─── SAMPLE CARDS GRID ─── */
+            .sample-grid {
+                display: grid;
+                grid-template-columns: repeat(auto-fill, minmax(270px, 1fr));
+                gap: 18px;
+                margin: 28px 0;
+            }
+            .sample-card {
+                background: var(--card);
+                border: 1px solid var(--border);
+                border-radius: 2px;
+                padding: 22px 24px;
+                transition:
+                    border-color 0.2s,
+                    transform 0.2s;
+            }
+            .sample-card:hover {
+                border-color: var(--accent2);
+                transform: translateY(-3px);
+            }
+            .sample-id {
+                font-family: "JetBrains Mono", monospace;
+                font-size: 11px;
+                color: var(--accent);
+                letter-spacing: 0.12em;
+                margin-bottom: 8px;
+            }
+            .sample-card h4 {
+                font-family: "Playfair Display", serif;
+                font-size: 17px;
+                color: var(--heading);
+                margin-bottom: 10px;
+            }
+            .sample-card p {
+                font-size: 14px;
+                color: var(--muted);
+                margin: 0;
+                line-height: 1.65;
+            }
+            .sample-card.highlight {
+                border-color: var(--accent);
+                background: #1f1f0e;
+            }
+            .sample-card.highlight h4 {
+                color: var(--accent);
+            }
+
+            /* ─── PILLS ─── */
+            .pills {
+                display: flex;
+                flex-wrap: wrap;
+                gap: 10px;
+                margin: 18px 0;
+            }
+            .pill {
+                background: var(--card);
+                border: 1px solid var(--border);
+                padding: 6px 14px;
+                border-radius: 20px;
+                font-size: 13px;
+                color: var(--text);
+                font-family: "JetBrains Mono", monospace;
+            }
+            .pill.good {
+                border-color: var(--accent3);
+                color: var(--accent3);
+            }
+            .pill.warn {
+                border-color: var(--accent);
+                color: var(--accent);
+            }
+            .pill.bad {
+                border-color: var(--accent4);
+                color: var(--accent4);
+            }
+
+            /* ─── DIVIDER ─── */
+            .divider {
+                border: none;
+                border-top: 1px solid var(--border);
+                margin: 60px 0;
+            }
+
+            /* ─── VERDICT BOX ─── */
+            .verdict {
+                background: linear-gradient(135deg, #1a1a08, #1a1a0a);
+                border: 2px solid var(--accent);
+                border-radius: 2px;
+                padding: 36px 40px;
+                margin: 40px 0;
+                text-align: center;
+            }
+            .verdict .trophy {
+                font-size: 48px;
+                margin-bottom: 16px;
+                display: block;
+            }
+            .verdict h3 {
+                font-family: "Playfair Display", serif;
+                font-size: 26px;
+                color: var(--accent);
+                margin-bottom: 12px;
+            }
+            .verdict p {
+                color: var(--text);
+                max-width: 600px;
+                margin: 0 auto;
+            }
+
+            /* ─── BLOCKQUOTE ─── */
+            blockquote {
+                border-left: 3px solid var(--accent);
+                margin: 28px 0;
+                padding: 14px 24px;
+                background: var(--card);
+                font-style: italic;
+                color: var(--muted);
+                font-size: 16px;
+                border-radius: 0 2px 2px 0;
+            }
+
+            /* ─── SCROLL PROGRESS ─── */
+            #progress {
+                position: fixed;
+                top: 0;
+                left: 0;
+                height: 3px;
+                background: linear-gradient(
+                    90deg,
+                    var(--accent),
+                    var(--accent2)
+                );
+                z-index: 1000;
+                width: 0;
+                transition: width 0.1s linear;
+            }
+
+            @media (max-width: 768px) {
+                .page {
+                    padding: 0 16px 80px;
+                }
+                .hero {
+                    padding: 60px 20px 50px;
+                }
+            }
+
+            /* ═══════════════════════════════════════════════════════
+               PAGE-SPECIFIC COMPONENTS
+               ═══════════════════════════════════════════════════════ */
+
+            /* Unit breakdown symbol cards */
+            .unit-breakdown {
+                display: flex;
+                flex-wrap: wrap;
+                gap: 14px;
+                margin: 24px 0 32px;
+            }
+            .unit-part {
+                flex: 1;
+                min-width: 150px;
+                background: var(--card);
+                border: 1px solid var(--border);
+                border-top: 2px solid var(--accent2);
+                border-radius: 2px;
+                padding: 18px 20px;
+            }
+            .unit-part .u-symbol {
+                font-family: "JetBrains Mono", monospace;
+                font-size: 28px;
+                font-weight: 700;
+                color: var(--accent2);
+                line-height: 1;
+                margin-bottom: 5px;
+            }
+            .unit-part .u-name {
+                font-family: "JetBrains Mono", monospace;
+                font-size: 9px;
+                letter-spacing: 0.18em;
+                text-transform: uppercase;
+                color: var(--accent);
+                margin-bottom: 10px;
+            }
+            .unit-part p {
+                font-size: 13.5px;
+                color: var(--muted);
+                line-height: 1.6;
+                margin: 0;
+            }
+
+            /* High / Low value comparison grid */
+            .value-grid {
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                gap: 14px;
+                margin: 20px 0 28px;
+            }
+            @media (max-width: 540px) {
+                .value-grid {
+                    grid-template-columns: 1fr;
+                }
+            }
+            .value-card {
+                background: var(--card);
+                border: 1px solid var(--border);
+                border-radius: 2px;
+                padding: 20px 22px;
+            }
+            .value-card.high {
+                border-top: 2px solid var(--accent3);
+            }
+            .value-card.low {
+                border-top: 2px solid var(--accent4);
+            }
+            .value-card .vc-tag {
+                font-family: "JetBrains Mono", monospace;
+                font-size: 9.5px;
+                letter-spacing: 0.14em;
+                text-transform: uppercase;
+                margin-bottom: 8px;
+            }
+            .value-card.high .vc-tag {
+                color: var(--accent3);
+            }
+            .value-card.low .vc-tag {
+                color: var(--accent4);
+            }
+            .value-card .vc-example {
+                font-family: "JetBrains Mono", monospace;
+                font-size: 11.5px;
+                color: var(--accent);
+                background: var(--bg);
+                border: 1px solid var(--border);
+                border-radius: 2px;
+                padding: 3px 9px;
+                display: inline-block;
+                margin-bottom: 10px;
+            }
+            .value-card h4 {
+                font-family: "Playfair Display", serif;
+                font-size: 16px;
+                color: var(--heading);
+                margin-bottom: 8px;
+            }
+            .value-card p {
+                font-size: 13.5px;
+                color: var(--muted);
+                margin: 0;
+                line-height: 1.65;
+            }
+
+            /* Inline unit code badge */
+            .unit-tag {
+                font-family: "JetBrains Mono", monospace;
+                font-size: 0.8em;
+                color: var(--accent2);
+                background: #0b0c12;
+                border: 1px solid var(--border);
+                border-radius: 2px;
+                padding: 1px 7px;
+                white-space: nowrap;
+                vertical-align: middle;
+            }
+        </style>
+    </head>
+    <body>
+        <div id="progress"></div>
+
+        <!-- ═══════════════════════ HERO ═══════════════════════ -->
+        <header class="hero">
+            <div class="hero-badge">
+                Study Companion &mdash; PCM &amp; EV Thermal Management
+            </div>
+            <h1>Understanding <em>Key Property Units</em></h1>
+            <p class="hero-sub">
+                A clear, in-depth explanation of what the units for Thermal
+                Conductivity, Specific Heat Capacity, and Volumetric Expansion
+                actually mean &mdash; and why they matter for EV battery design.
+            </p>
+            <div class="hero-meta">
+                <span>🌡️ W/m·K — Thermal Conductivity</span>
+                <span>🧪 kJ/kg·K — Specific Heat</span>
+                <span>📐 % — Volumetric Expansion</span>
+                <span>⚡ EV Battery Context</span>
+            </div>
+        </header>
+
+        <main class="page">
+            <!-- TABLE OF CONTENTS -->
+            <nav class="toc">
+                <h2>📋 Contents</h2>
+                <ol>
+                    <li>
+                        <a href="#unit-1"
+                            >Unit 01 — Thermal Conductivity · W/m·K</a
+                        >
+                    </li>
+                    <li>
+                        <a href="#unit-2"
+                            >Unit 02 — Specific Heat Capacity · kJ/kg·K</a
+                        >
+                    </li>
+                    <li>
+                        <a href="#unit-3">Unit 03 — Volumetric Expansion · %</a>
+                    </li>
+                    <li>
+                        <a href="#unit-4"
+                            >Unit 04 — All Three Properties Compared</a
+                        >
+                    </li>
+                </ol>
+            </nav>
+
+            <!-- ═══════════════════════════════════════════════ -->
+            <!-- UNIT 1 — THERMAL CONDUCTIVITY                  -->
+            <!-- ═══════════════════════════════════════════════ -->
+            <section class="section" id="unit-1">
+                <div class="section-label">Unit 01 — Q &amp; A</div>
+                <h2 class="section-title">
+                    <span class="num">01.</span> Thermal Conductivity
+                    <span class="unit-tag">W/m·K</span>
+                </h2>
+
+                <blockquote>
+                    "What does the unit of thermal conductivity signify, and how
+                    do you interpret it?"
+                </blockquote>
+
+                <p>
+                    The unit for thermal conductivity is
+                    <strong>Watts per metre-Kelvin (W/m·K)</strong>. Each symbol
+                    in this compound unit carries a distinct physical meaning
+                    that, together, describe how efficiently a material moves
+                    heat.
+                </p>
+
+                <h3>Breaking Down Each Symbol</h3>
+                <div class="unit-breakdown">
+                    <div class="unit-part">
+                        <div class="u-symbol">W</div>
+                        <div class="u-name">Watts</div>
+                        <p>
+                            The rate of heat energy flow. 1 Watt = 1 Joule of
+                            heat transferred every second. This tells you the
+                            "power" of heat moving through the material.
+                        </p>
+                    </div>
+                    <div class="unit-part">
+                        <div class="u-symbol">m</div>
+                        <div class="u-name">Metres</div>
+                        <p>
+                            The thickness of the material the heat must travel
+                            through. A thicker slab offers more total
+                            resistance, so k is normalised per unit thickness.
+                        </p>
+                    </div>
+                    <div class="unit-part">
+                        <div class="u-symbol">K</div>
+                        <div class="u-name">Kelvin</div>
+                        <p>
+                            The temperature difference (gradient) between the
+                            hot face and the cold face. A larger &Delta;T drives
+                            more heat flow; k is normalised per 1 K of gradient.
+                        </p>
+                    </div>
+                </div>
+
+                <h3>What the Combined Unit Tells You</h3>
+
+                <div class="formula">
+                    k = Q · x / (A · ΔT) Read as: "Watts of heat per metre of
+                    thickness per Kelvin of temperature difference" Practical
+                    meaning: A material with k = 1 W/m·K transfers exactly 1
+                    Watt of heat through a slab 1 metre thick when the
+                    temperature difference across its two faces is 1 Kelvin (= 1
+                    °C gap).
+                </div>
+
+                <p>
+                    In plain terms: thermal conductivity tells you
+                    <strong
+                        >how quickly heat moves through a 1 m thick slice of the
+                        material for every degree of temperature difference
+                        across it</strong
+                    >. The higher the number, the faster heat travels through.
+                </p>
+
+                <h3>Interpreting the Value</h3>
+                <div class="value-grid">
+                    <div class="value-card high">
+                        <div class="vc-tag">High Value &rarr; Conductor</div>
+                        <div class="vc-example">Copper ≈ 385 W/m·K</div>
+                        <h4>Heat moves very quickly</h4>
+                        <p>
+                            A high k means heat generated near a battery cell
+                            spreads rapidly through the surrounding material,
+                            preventing dangerous localised hotspots from
+                            forming. This is exactly what a good BTMS material
+                            must do.
+                        </p>
+                    </div>
+                    <div class="value-card low">
+                        <div class="vc-tag">Low Value &rarr; Insulator</div>
+                        <div class="vc-example">Pure Paraffin ≈ 0.21 W/m·K</div>
+                        <h4>Heat stays trapped</h4>
+                        <p>
+                            At 0.21 W/m·K, pure paraffin wax is a poor
+                            conductor. Heat piles up near the cell surface
+                            instead of spreading to the cooler, unmelted PCM
+                            further away — a thermal bottleneck.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="callout orange">
+                    <div class="callout-title">
+                        ⚡ Why This Matters for EV Batteries
+                    </div>
+                    <p>
+                        During fast charging or high-power discharge, cells can
+                        generate heat faster than the surrounding PCM can absorb
+                        it if k is too low. Adding graphite, CNT, or aluminium
+                        to paraffin raises k dramatically — the Hybrid PCM
+                        reaches
+                        <strong>~1.05 W/m·K (+400% vs. pure paraffin)</strong>,
+                        eliminating the thermal bottleneck and keeping cell
+                        surface temperatures uniform and safe.
+                    </p>
+                </div>
+
+                <div class="pills">
+                    <span class="pill good"
+                        >Higher k = faster heat spread = safer cell</span
+                    >
+                    <span class="pill warn"
+                        >Pure paraffin k ≈ 0.21 W/m·K — inadequate alone</span
+                    >
+                    <span class="pill good"
+                        >Hybrid PCM k ≈ 1.05 W/m·K — +400% improvement</span
+                    >
+                </div>
+            </section>
+
+            <hr class="divider" />
+
+            <!-- ═══════════════════════════════════════════════ -->
+            <!-- UNIT 2 — SPECIFIC HEAT CAPACITY                -->
+            <!-- ═══════════════════════════════════════════════ -->
+            <section class="section" id="unit-2">
+                <div class="section-label">Unit 02 — Q &amp; A</div>
+                <h2 class="section-title">
+                    <span class="num">02.</span> Specific Heat Capacity
+                    <span class="unit-tag">kJ/kg·K</span>
+                </h2>
+
+                <blockquote>
+                    "What does the unit of specific heat capacity signify, and
+                    how do you interpret it?"
+                </blockquote>
+
+                <p>
+                    The unit for specific heat capacity is
+                    <strong>kilojoules per kilogram-Kelvin (kJ/kg·K)</strong>.
+                    It quantifies how much thermal energy a material can store
+                    per unit of mass for each degree of temperature rise.
+                </p>
+
+                <h3>Breaking Down Each Symbol</h3>
+                <div class="unit-breakdown">
+                    <div class="unit-part">
+                        <div class="u-symbol">kJ</div>
+                        <div class="u-name">Kilojoules</div>
+                        <p>
+                            The amount of heat energy added to (or removed from)
+                            the material. 1 kJ = 1,000 Joules of thermal energy.
+                        </p>
+                    </div>
+                    <div class="unit-part">
+                        <div class="u-symbol">kg</div>
+                        <div class="u-name">Kilograms</div>
+                        <p>
+                            The mass of the material being heated. Expressing it
+                            per kilogram makes C<sub>p</sub> an intrinsic
+                            material property, independent of sample size.
+                        </p>
+                    </div>
+                    <div class="unit-part">
+                        <div class="u-symbol">K</div>
+                        <div class="u-name">Kelvin</div>
+                        <p>
+                            The resulting change in temperature. Because this is
+                            a temperature <em>difference</em>, 1 K = 1 °C, so
+                            the numeric value is the same in both scales.
+                        </p>
+                    </div>
+                </div>
+
+                <h3>What the Combined Unit Tells You</h3>
+
+                <div class="formula">
+                    C_p = Q / (m · ΔT) Read as: "kilojoules of energy needed per
+                    kilogram of material per 1 Kelvin (1 °C) of temperature
+                    rise" Practical meaning: Pure paraffin with C_p ≈ 2.3
+                    kJ/kg·K needs 2.3 kJ to raise 1 kg by exactly 1 °C. Water
+                    (C_p ≈ 4.18 kJ/kg·K) needs 4.18 kJ for the same result — it
+                    heats up more slowly.
+                </div>
+
+                <p>
+                    Think of C<sub>p</sub> as the material's
+                    <strong>"thermal inertia"</strong> &mdash; its resistance to
+                    temperature change. A high C<sub>p</sub> means the material
+                    soaks up a large amount of heat before its own temperature
+                    rises noticeably.
+                </p>
+
+                <h3>Interpreting the Value</h3>
+                <div class="value-grid">
+                    <div class="value-card high">
+                        <div class="vc-tag">
+                            High C<sub>p</sub> &rarr; Thermal Sponge
+                        </div>
+                        <div class="vc-example">Water ≈ 4.18 kJ/kg·K</div>
+                        <h4>Large heat storage capacity</h4>
+                        <p>
+                            Absorbs a large amount of heat with only a small
+                            temperature rise. Pure paraffin at ~2.3 kJ/kg·K
+                            buffers heat spikes during fast charging, preventing
+                            sudden cell temperature surges.
+                        </p>
+                    </div>
+                    <div class="value-card low">
+                        <div class="vc-tag">
+                            Low C<sub>p</sub> &rarr; Quick Responder
+                        </div>
+                        <div class="vc-example">Aluminium ≈ 0.90 kJ/kg·K</div>
+                        <h4>Small heat storage capacity</h4>
+                        <p>
+                            Temperature rises quickly for little heat input.
+                            Metals heat up and cool down fast &mdash; excellent
+                            for dissipating heat, but they cannot buffer large
+                            thermal pulses the way PCMs can.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="callout blue">
+                    <div class="callout-title">
+                        🧪 The Trade-off in Composite PCMs
+                    </div>
+                    <p>
+                        Adding conductive particles (graphite, CNT, aluminium)
+                        to paraffin slightly reduces the composite C<sub>p</sub>
+                        — because metals and carbons have lower specific heats
+                        than wax. Even so, the composite C<sub>p</sub> remains
+                        well above metals or air.
+                        <strong
+                            >The small loss in heat storage is far outweighed by
+                            the large gain in thermal conductivity</strong
+                        >, making the system both a better conductor and a
+                        capable thermal buffer.
+                    </p>
+                </div>
+
+                <div class="pills">
+                    <span class="pill good"
+                        >Higher C<sub>p</sub> = more heat absorbed per °C =
+                        gentler temperature swings</span
+                    >
+                    <span class="pill warn"
+                        >Pure paraffin C<sub>p</sub> ≈ 2.3 kJ/kg·K — strong
+                        baseline</span
+                    >
+                    <span class="pill warn"
+                        >Hybrid PCM C<sub>p</sub> ≈ 2.05 kJ/kg·K — minor
+                        reduction, fully acceptable</span
+                    >
+                </div>
+            </section>
+
+            <hr class="divider" />
+
+            <!-- ═══════════════════════════════════════════════ -->
+            <!-- UNIT 3 — VOLUMETRIC EXPANSION                  -->
+            <!-- ═══════════════════════════════════════════════ -->
+            <section class="section" id="unit-3">
+                <div class="section-label">Unit 03 — Q &amp; A</div>
+                <h2 class="section-title">
+                    <span class="num">03.</span> Volumetric Expansion
+                    <span class="unit-tag">%</span>
+                </h2>
+
+                <blockquote>
+                    "What does the unit of volumetric expansion signify, and how
+                    do you interpret it?"
+                </blockquote>
+
+                <p>
+                    The <strong>%</strong> (percentage) here is a
+                    <em>dimensionless ratio</em> that expresses the
+                    <strong>relative increase in volume</strong> when the PCM
+                    transitions from its solid state to its liquid state during
+                    melting. Unlike the previous two properties, there is no
+                    physical unit because it compares volume to itself.
+                </p>
+
+                <h3>The Calculation</h3>
+
+                <div class="formula">
+                    % Expansion = (V_liquid − V_solid) / V_solid × 100 Example
+                    (pure paraffin wax): V_solid = 100 mL → V_liquid ≈ 113 – 115
+                    mL % Expansion = (115 − 100) / 100 × 100 = 13 – 15 % Density
+                    relationship: ρ_solid ≈ 885 kg/m³ → ρ_liquid ≈ 770 kg/m³
+                    Density drop ≈ 13 % on melting (same molecules, looser
+                    packing)
+                </div>
+
+                <h3>Three Dimensions of Interpretation</h3>
+                <div class="flow">
+                    <div class="flow-step">
+                        <div class="step-num">
+                            Dimension 01 — The Physical Change
+                        </div>
+                        <h4>Volume Grows, Mass Stays Constant</h4>
+                        <p>
+                            A 10% expansion means 100 mL of solid PCM becomes
+                            110 mL of liquid. The mass is unchanged &mdash; the
+                            molecules simply rearrange into a looser packing in
+                            the liquid phase, occupying more space.
+                        </p>
+                    </div>
+                    <div class="flow-step">
+                        <div class="step-num">
+                            Dimension 02 — Engineering Impact
+                        </div>
+                        <h4>Container Design &mdash; Ullage</h4>
+                        <p>
+                            If a container is filled 100% with solid PCM, the
+                            pressure during melting will cause bulging, leaking,
+                            or cracking. Engineers must always leave "headspace"
+                            (ullage) &mdash; typically 15–20% free volume
+                            &mdash; to accommodate the expansion safely.
+                        </p>
+                    </div>
+                    <div class="flow-step">
+                        <div class="step-num">
+                            Dimension 03 — Density Relationship
+                        </div>
+                        <h4>Higher % = Larger Density Drop</h4>
+                        <p>
+                            A higher expansion percentage directly implies a
+                            significant density drop during phase change. This
+                            density change is what <em>causes</em> the volume
+                            increase &mdash; the same mass now occupies a bigger
+                            space.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="callout green">
+                    <div class="callout-title">
+                        📐 How Additives Reduce Expansion
+                    </div>
+                    <p>
+                        Solid particles (graphite, CNT, aluminium) embedded in
+                        the paraffin matrix physically
+                        <strong>constrain the wax from expanding freely</strong
+                        >. Furthermore, better thermal conductivity from the
+                        additives creates a more uniform temperature
+                        distribution during melting &mdash; so the PCM melts
+                        evenly rather than in localised patches that generate
+                        pressure hotspots. Together these effects reduce the
+                        effective volumetric expansion of composite PCMs.
+                    </p>
+                </div>
+
+                <div class="callout red">
+                    <div class="callout-title">
+                        ⚠️ Why This Matters for EV Battery Packs
+                    </div>
+                    <p>
+                        In an EV battery module the PCM sits directly around the
+                        cell casing. Excessive expansion applies
+                        <strong>mechanical pressure to the cell walls</strong>,
+                        potentially deforming the casing, disrupting the
+                        electrode stack inside, or &mdash; in worst cases
+                        &mdash; contributing to a thermal runaway event. Low
+                        volumetric expansion is therefore a
+                        <strong>critical safety requirement</strong>, not a
+                        convenience.
+                    </p>
+                </div>
+
+                <div class="pills">
+                    <span class="pill bad"
+                        >Pure paraffin expansion ≈ 13–15% — significant design
+                        challenge</span
+                    >
+                    <span class="pill warn"
+                        >Hybrid PCM expansion ≈ 8–10% — substantially
+                        reduced</span
+                    >
+                    <span class="pill good"
+                        >Lower % = safer container design = lower mechanical
+                        risk</span
+                    >
+                </div>
+            </section>
+
+            <hr class="divider" />
+
+            <!-- ═══════════════════════════════════════════════ -->
+            <!-- UNIT 4 — ALL THREE COMPARED                    -->
+            <!-- ═══════════════════════════════════════════════ -->
+            <section class="section" id="unit-4">
+                <div class="section-label">
+                    Unit 04 — Synthesis &amp; Comparison
+                </div>
+                <h2 class="section-title">
+                    <span class="num">04.</span> All Three Properties — Compared
+                    &amp; Contextualised
+                </h2>
+
+                <blockquote>
+                    "What do these units of the three critical properties
+                    signify and interpret? Also compare them and their units as
+                    per the context of EV battery thermal management."
+                </blockquote>
+
+                <p>
+                    These three properties are the
+                    <strong>core design variables</strong>
+                    for any Phase Change Material used in an EV Battery Thermal
+                    Management System (BTMS). Together they determine whether a
+                    PCM will perform safely and effectively under fast charging,
+                    high-power discharge, and repeated thermal cycling over the
+                    vehicle's lifetime.
+                </p>
+
+                <!-- ── Three property deep-dive cards ── -->
+                <h3>Each Property in EV Context</h3>
+                <div class="sample-grid">
+                    <div class="sample-card">
+                        <div class="sample-id">Property 01</div>
+                        <h4>Thermal Conductivity <em>k</em></h4>
+                        <p>
+                            <strong>Unit:</strong> W/m·K<br /><br />
+                            <strong>Significance:</strong> Measures the rate at
+                            which heat is conducted through the material.<br /><br />
+                            <strong>In EV context:</strong> A higher k means the
+                            PCM quickly moves heat away from battery cells,
+                            preventing localised overheating. Low thermal
+                            conductivity is the primary drawback of pure PCMs,
+                            often requiring additives like graphite or CNT to
+                            raise it.<br /><br />
+                            <strong>Desired direction:</strong> As high as
+                            possible. Pure paraffin (~0.21 W/m·K) is inadequate
+                            alone; the Hybrid PCM (~1.05 W/m·K) is far more
+                            effective.
+                        </p>
+                    </div>
+                    <div class="sample-card">
+                        <div class="sample-id">Property 02</div>
+                        <h4>Specific Heat Capacity C<sub>p</sub></h4>
+                        <p>
+                            <strong>Unit:</strong> kJ/kg·K<br /><br />
+                            <strong>Significance:</strong> Quantifies the
+                            material's "thermal inertia" — how much energy it
+                            stores per unit mass per degree.<br /><br />
+                            <strong>In EV context:</strong> A high C<sub>p</sub>
+                            allows the PCM to absorb large heat spikes during
+                            fast charging before its own temperature rises
+                            significantly — the "thermal buffer" role.<br /><br />
+                            <strong>Desired direction:</strong> As high as
+                            possible, but note that additives reduce it
+                            slightly. The trade-off is always acceptable —
+                            conductivity gain far outweighs the minor storage
+                            loss.
+                        </p>
+                    </div>
+                    <div class="sample-card highlight">
+                        <div class="sample-id">Property 03</div>
+                        <h4>Volumetric Expansion</h4>
+                        <p>
+                            <strong>Unit:</strong> % (dimensionless)<br /><br />
+                            <strong>Significance:</strong> Measures the change
+                            in physical size as the PCM melts from solid to
+                            liquid.<br /><br />
+                            <strong>In EV context:</strong> Excessive expansion
+                            creates internal pressure, potentially cracking
+                            protective containers or damaging cell electrodes.
+                            Engineers must design void spaces or flexible
+                            housings to accommodate growth.<br /><br />
+                            <strong>Desired direction:</strong> As low as
+                            possible. Rigid particle additives (especially
+                            aluminium) constrain the paraffin matrix and reduce
+                            expansion.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- ── Comparison table ── -->
+                <h3>Side-by-Side Comparison</h3>
+                <div class="table-wrap">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Property</th>
+                                <th>Unit</th>
+                                <th>Primary Role</th>
+                                <th>Desired Value</th>
+                                <th>Key Constraint in EV BTMS</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>
+                                    <strong>Thermal Conductivity (k)</strong>
+                                </td>
+                                <td>W/m·K</td>
+                                <td>Heat Transport</td>
+                                <td
+                                    style="
+                                        color: var(--accent3);
+                                        font-family:
+                                            &quot;JetBrains Mono&quot;,
+                                            monospace;
+                                        font-size: 13px;
+                                    "
+                                >
+                                    &#8593; High
+                                </td>
+                                <td>
+                                    Higher k ensures heat doesn't get "trapped"
+                                    near the cell — prevents localised thermal
+                                    runaway.
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <strong
+                                        >Specific Heat Capacity
+                                        (C<sub>p</sub>)</strong
+                                    >
+                                </td>
+                                <td>kJ/kg·K</td>
+                                <td>Heat Storage</td>
+                                <td
+                                    style="
+                                        color: var(--accent3);
+                                        font-family:
+                                            &quot;JetBrains Mono&quot;,
+                                            monospace;
+                                        font-size: 13px;
+                                    "
+                                >
+                                    &#8593; High
+                                </td>
+                                <td>
+                                    Higher C<sub>p</sub> allows the system to
+                                    buffer larger temperature spikes before
+                                    phase change is complete.
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><strong>Volumetric Expansion</strong></td>
+                                <td>% (dimensionless)</td>
+                                <td>System Safety &amp; Integrity</td>
+                                <td
+                                    style="
+                                        color: var(--accent4);
+                                        font-family:
+                                            &quot;JetBrains Mono&quot;,
+                                            monospace;
+                                        font-size: 13px;
+                                    "
+                                >
+                                    &#8595; Low
+                                </td>
+                                <td>
+                                    Lower expansion simplifies mechanical design
+                                    of the battery pack and reduces risk of
+                                    container failure or cell damage.
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- ── Interaction between properties ── -->
+                <h3>How the Three Properties Interact</h3>
+                <div class="flow">
+                    <div class="flow-step">
+                        <div class="step-num">Interaction 01</div>
+                        <h4>k vs C<sub>p</sub></h4>
+                        <p>
+                            Adding conductive particles raises k but slightly
+                            lowers C<sub>p</sub> — the primary trade-off. For EV
+                            BTMS, this trade-off is always worthwhile: faster
+                            heat transport prevents dangerous hotspots more
+                            effectively than a marginally higher heat storage
+                            buffer would.
+                        </p>
+                    </div>
+                    <div class="flow-step">
+                        <div class="step-num">Interaction 02</div>
+                        <h4>k vs Expansion</h4>
+                        <p>
+                            Higher k leads to more uniform temperature
+                            distribution during melting. Uniform melting means
+                            controlled, even expansion rather than localised
+                            bulging — so improving conductivity indirectly
+                            reduces mechanical stress from volumetric change.
+                        </p>
+                    </div>
+                    <div class="flow-step">
+                        <div class="step-num">Interaction 03</div>
+                        <h4>C<sub>p</sub> vs Expansion</h4>
+                        <p>
+                            A higher C<sub>p</sub> means the PCM absorbs more
+                            heat before completing the solid&#8594;liquid
+                            transition, delaying full expansion. Materials that
+                            melt slowly and uniformly are mechanically safer for
+                            tightly packed battery modules.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- ── Verdict ── -->
+                <div class="verdict">
+                    <span class="trophy">🔬</span>
+                    <h3>The Ideal PCM: All Three Optimised</h3>
+                    <p>
+                        The Hybrid PCM (RT42 + 3% Al + 4% Graphite + 0.5% CNT)
+                        achieves the best balance across all three properties:
+                        <strong>high thermal conductivity (~1.05 W/m·K)</strong>
+                        for rapid heat distribution,
+                        <strong>adequate specific heat (~2.05 kJ/kg·K)</strong>
+                        for thermal buffering, and
+                        <strong>reduced volumetric expansion (~8–10%)</strong>
+                        for mechanical safety — making it the recommended
+                        formulation for EV Battery Thermal Management Systems.
+                    </p>
+                </div>
+            </section>
+        </main>
+        <!-- /#main -->
+
+        <script>
+            // ─── Scroll progress bar ───────────────────────────────
+            window.addEventListener("scroll", () => {
+                const total = document.body.scrollHeight - window.innerHeight;
+                document.getElementById("progress").style.width =
+                    (window.scrollY / total) * 100 + "%";
+            });
+
+            // ─── Section fade-in observer ──────────────────────────
+            const observer = new IntersectionObserver(
+                (entries) => {
+                    entries.forEach((e) => {
+                        if (e.isIntersecting) e.target.classList.add("visible");
+                    });
+                },
+                { threshold: 0.08 },
+            );
+            document
+                .querySelectorAll(".section")
+                .forEach((s) => observer.observe(s));
+        </script>
+    </body>
+</html>
