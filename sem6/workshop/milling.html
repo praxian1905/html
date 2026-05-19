@@ -1,0 +1,1059 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Chapter: Milling</title>
+		<link
+			href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=Source+Serif+4:ital,opsz,wght@0,8..60,300;0,8..60,400;0,8..60,600;1,8..60,300&family=JetBrains+Mono:wght@400;500&display=swap"
+			rel="stylesheet"
+		/>
+		<style>
+			:root {
+				--bg: #0e0f14;
+				--surface: #15171f;
+				--card: #1c1f2b;
+				--border: #2a2e40;
+				--accent: #f5a623;
+				--accent2: #4fc3f7;
+				--accent3: #81c784;
+				--accent4: #ef5350;
+				--text: #e8e9f0;
+				--muted: #8890aa;
+				--heading: #ffffff;
+			}
+
+			*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+			html { scroll-behavior: smooth; }
+
+			body {
+				background: var(--bg);
+				color: var(--text);
+				font-family: "Source Serif 4", Georgia, serif;
+				font-size: 17px;
+				line-height: 1.8;
+				min-height: 100vh;
+			}
+
+			body::before {
+				content: "";
+				position: fixed;
+				inset: 0;
+				background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+				pointer-events: none;
+				z-index: 999;
+				opacity: 0.45;
+			}
+
+			strong { color: var(--heading); font-weight: 600; }
+			em { color: var(--accent); font-style: italic; }
+			p { margin-bottom: 18px; color: var(--text); }
+
+			h3 {
+				font-family: "Playfair Display", serif;
+				font-size: 20px;
+				color: var(--heading);
+				margin: 36px 0 14px;
+				font-weight: 700;
+			}
+
+			blockquote {
+				border-left: 3px solid var(--accent);
+				margin: 28px 0;
+				padding: 14px 24px;
+				background: var(--card);
+				font-style: italic;
+				color: var(--muted);
+				font-size: 16px;
+				border-radius: 0 2px 2px 0;
+			}
+
+			.page {
+				max-width: 1020px;
+				margin: 0 auto;
+				padding: 0 28px 100px;
+			}
+
+			#progress {
+				position: fixed;
+				top: 0;
+				left: 0;
+				height: 3px;
+				background: linear-gradient(90deg, var(--accent), var(--accent2));
+				z-index: 1000;
+				width: 0;
+				transition: width 0.1s linear;
+			}
+
+			.hero {
+				position: relative;
+				overflow: hidden;
+				padding: 90px 40px 80px;
+				text-align: center;
+				border-bottom: 1px solid var(--border);
+				background: radial-gradient(ellipse 80% 60% at 50% 0%, #1a2340 0%, var(--bg) 70%);
+			}
+			.hero::after {
+				content: "";
+				position: absolute;
+				left: 50%;
+				top: -60px;
+				transform: translateX(-50%);
+				width: 600px;
+				height: 600px;
+				border-radius: 50%;
+				background: radial-gradient(circle, rgba(245,166,35,0.07) 0%, transparent 70%);
+				pointer-events: none;
+			}
+
+			.hero-badge {
+				display: inline-block;
+				font-family: "JetBrains Mono", monospace;
+				font-size: 11px;
+				letter-spacing: 0.14em;
+				text-transform: uppercase;
+				color: var(--accent);
+				border: 1px solid var(--accent);
+				padding: 4px 14px;
+				border-radius: 2px;
+				margin-bottom: 24px;
+				opacity: 0;
+				animation: fadeUp 0.6s 0.1s forwards;
+			}
+
+			.hero h1 {
+				font-family: "Playfair Display", serif;
+				font-size: clamp(28px, 5vw, 54px);
+				font-weight: 900;
+				color: var(--heading);
+				line-height: 1.15;
+				max-width: 860px;
+				margin: 0 auto 20px;
+				opacity: 0;
+				animation: fadeUp 0.7s 0.25s forwards;
+			}
+			.hero h1 em { color: var(--accent); font-style: normal; }
+
+			.hero-sub {
+				font-size: 16px;
+				color: var(--muted);
+				max-width: 620px;
+				margin: 0 auto 36px;
+				opacity: 0;
+				animation: fadeUp 0.7s 0.4s forwards;
+			}
+
+			.hero-meta {
+				display: flex;
+				flex-wrap: wrap;
+				gap: 20px;
+				justify-content: center;
+				opacity: 0;
+				animation: fadeUp 0.7s 0.55s forwards;
+			}
+			.hero-meta span {
+				font-family: "JetBrains Mono", monospace;
+				font-size: 12px;
+				color: var(--muted);
+				background: var(--card);
+				border: 1px solid var(--border);
+				padding: 6px 14px;
+				border-radius: 2px;
+			}
+
+			@keyframes fadeUp {
+				from { opacity: 0; transform: translateY(18px); }
+				to { opacity: 1; transform: translateY(0); }
+			}
+
+			.toc {
+				background: var(--card);
+				border: 1px solid var(--border);
+				border-left: 3px solid var(--accent);
+				padding: 32px 36px;
+				margin: 52px 0 60px;
+				border-radius: 2px;
+			}
+			.toc h2 {
+				font-family: "Playfair Display", serif;
+				font-size: 20px;
+				color: var(--heading);
+				margin-bottom: 20px;
+			}
+			.toc ol { padding-left: 22px; }
+			.toc li { margin-bottom: 8px; }
+			.toc a {
+				color: var(--accent2);
+				text-decoration: none;
+				font-family: "JetBrains Mono", monospace;
+				font-size: 13px;
+				transition: color 0.2s;
+			}
+			.toc a:hover { color: var(--accent); }
+
+			.section {
+				margin-bottom: 72px;
+				opacity: 0;
+				transform: translateY(24px);
+				transition: opacity 0.55s, transform 0.55s;
+			}
+			.section.visible { opacity: 1; transform: translateY(0); }
+
+			.section-label {
+				font-family: "JetBrains Mono", monospace;
+				font-size: 10.5px;
+				letter-spacing: 0.18em;
+				text-transform: uppercase;
+				color: var(--accent);
+				margin-bottom: 10px;
+			}
+
+			h2.section-title {
+				font-family: "Playfair Display", serif;
+				font-size: clamp(22px, 3.5vw, 34px);
+				font-weight: 700;
+				color: var(--heading);
+				line-height: 1.2;
+				margin-bottom: 28px;
+				padding-bottom: 14px;
+				border-bottom: 1px solid var(--border);
+			}
+			h2.section-title .num {
+				color: var(--accent);
+				font-size: 0.7em;
+				font-style: italic;
+				margin-right: 10px;
+			}
+
+			.callout {
+				background: var(--card);
+				border: 1px solid var(--border);
+				border-radius: 2px;
+				padding: 22px 26px;
+				margin: 28px 0;
+			}
+			.callout.orange { border-left: 3px solid var(--accent); }
+			.callout.blue { border-left: 3px solid var(--accent2); }
+			.callout.green { border-left: 3px solid var(--accent3); }
+			.callout.red { border-left: 3px solid var(--accent4); }
+
+			.callout-title {
+				font-family: "JetBrains Mono", monospace;
+				font-size: 11px;
+				text-transform: uppercase;
+				letter-spacing: 0.12em;
+				margin-bottom: 10px;
+			}
+			.callout.orange .callout-title { color: var(--accent); }
+			.callout.blue .callout-title { color: var(--accent2); }
+			.callout.green .callout-title { color: var(--accent3); }
+			.callout.red .callout-title { color: var(--accent4); }
+
+			.table-wrap { overflow-x: auto; margin: 28px 0; }
+			table {
+				width: 100%;
+				border-collapse: collapse;
+				font-size: 15px;
+				background: var(--card);
+				border: 1px solid var(--border);
+			}
+			thead th {
+				background: #20253a;
+				color: var(--accent);
+				font-family: "JetBrains Mono", monospace;
+				font-size: 11px;
+				letter-spacing: 0.1em;
+				text-transform: uppercase;
+				padding: 12px 16px;
+				text-align: left;
+				border-bottom: 1px solid var(--border);
+			}
+			tbody td {
+				padding: 11px 16px;
+				border-bottom: 1px solid var(--border);
+				vertical-align: top;
+			}
+			tbody tr:last-child td { border-bottom: none; }
+			tbody tr:hover td { background: rgba(255,255,255,0.025); }
+
+			.formula {
+				background: #0b0c12;
+				border: 1px solid var(--border);
+				border-radius: 2px;
+				padding: 18px 24px;
+				margin: 22px 0;
+				font-family: "JetBrains Mono", monospace;
+				font-size: 14.5px;
+				color: var(--accent2);
+				overflow-x: auto;
+				white-space: pre;
+			}
+
+			.divider { border: none; border-top: 1px solid var(--border); margin: 60px 0; }
+
+			@media (max-width: 768px) {
+				.page { padding: 0 16px 80px; }
+			}
+		</style>
+	</head>
+	<body>
+		<div id="progress"></div>
+
+		<header class="hero">
+			<div class="hero-badge">Manufacturing · Chapter 07</div>
+			<h1>Milling: <em>Machines</em>, Cutters, and Process Mechanics</h1>
+			<p class="hero-sub">A structured academic overview of milling fundamentals, machine types, cutters, indexing, and process calculations.</p>
+			<div class="hero-meta">
+				<span>🔬 Manufacturing</span>
+				<span>⚙️ Process Mechanics</span>
+				<span>📖 Long-form Notes</span>
+			</div>
+		</header>
+
+		<main class="page">
+			<nav class="toc">
+				<h2>📋 Table of Contents</h2>
+				<ol>
+					<li><a href="#part-1">Part 1 · Fundamentals</a></li>
+					<li><a href="#part-2">Part 2 · Machine Types</a></li>
+					<li><a href="#part-3">Part 3 · Cutters and Methods</a></li>
+					<li><a href="#part-4">Part 4 · Set-ups and Indexing</a></li>
+					<li><a href="#part-5">Part 5 · Mechanics and Power</a></li>
+					<li><a href="#part-6">Part 6 · Special Operations</a></li>
+				</ol>
+			</nav>
+
+			<section class="section" id="part-1">
+				<div class="section-label">Part 1</div>
+				<h2 class="section-title"><span class="num">01.</span> Fundamentals of Milling</h2>
+
+				<h3>Objectives of the Chapter</h3>
+				<p>After studying this chapter, the reader should be able to:</p>
+				<ul>
+					<li>Understand the <strong>characteristic features</strong> of the milling process.</li>
+					<li>Know the <strong>various types of milling machines</strong> and their applications.</li>
+					<li>Select appropriate <strong>milling cutters</strong> based on the job.</li>
+					<li>Understand different <strong>types of milling operations</strong>.</li>
+					<li>Select suitable <strong>work-holding devices</strong> for a given part.</li>
+					<li>Understand <strong>indexing</strong> methods for parts.</li>
+					<li>Grasp the <strong>mechanics</strong> of milling and how process variables affect performance.</li>
+					<li>Calculate <strong>machining time</strong> and <strong>power</strong> requirements.</li>
+					<li>Set up <strong>special operations</strong> on a milling machine for specific surfaces.</li>
+				</ul>
+
+				<h3>Introduction to Milling</h3>
+				<p>Milling is one of the most widely used manufacturing processes after turning (lathe operations).</p>
+				<p><strong>Key difference from turning</strong>:</p>
+				<ul>
+					<li>In <strong>turning (lathe)</strong>: Single-point cutting tool + rotating workpiece.</li>
+					<li>In <strong>milling</strong>: <strong>Multipoint rotating milling cutter</strong> + reciprocating or linear feed of the workpiece.</li>
+				</ul>
+				<p>The tool is called a <strong>milling cutter</strong>, and the axis of rotation is usually perpendicular or parallel to the feed direction.</p>
+				<p><strong>Fig. 7.1</strong> typically shows a schematic of peripheral milling with the cutter removing material (chip) from the workpiece as it feeds.</p>
+
+				<h3>Characteristics of the Milling Process</h3>
+				<p>Milling has several distinctive features that make it highly productive:</p>
+
+				<div class="table-wrap">
+					<table>
+						<thead>
+							<tr>
+								<th>Feature</th>
+								<th>Description</th>
+								<th>Advantage / Implication</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td><strong>Interrupted Cutting</strong></td>
+								<td>Each cutting edge removes material only during part of its rotation.</td>
+								<td>Cutting edge cools between cuts -> Cooler operation than continuous turning -> Allows <strong>higher material removal rates</strong>.</td>
+							</tr>
+							<tr>
+								<td><strong>Small Size of Chips</strong></td>
+								<td>Chips are small, but multiple teeth cut simultaneously.</td>
+								<td>Large volume of material removed quickly -> Often finished in <strong>single pass</strong>.</td>
+							</tr>
+							<tr>
+								<td><strong>Variation in Chip Thickness</strong></td>
+								<td>Chip thickness varies from zero to maximum (or vice versa) during each tooth engagement.</td>
+								<td>Causes cyclic variation in cutting forces -> Can excite machine vibrations -> Affects tool life and surface finish.</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+
+				<div class="callout orange">
+					<div class="callout-title">⚡ Key Insight</div>
+					<p>Milling is an <strong>interrupted cutting</strong> process, which allows higher material removal rates while demanding attention to force variation and chatter.</p>
+				</div>
+
+				<p><strong>Other highlights</strong>:</p>
+				<ul>
+					<li>Extremely <strong>versatile</strong> machine tool.</li>
+					<li>Suitable for both <strong>job shops/toolrooms</strong> and <strong>quantity production</strong>.</li>
+					<li>Wide variety of <strong>accessories and tools</strong> available.</li>
+					<li>Typical tolerance: <strong>&plusmn; 0.050 mm</strong>.</li>
+				</ul>
+
+				<h3>Types of Milling Machines</h3>
+				<p>Milling machines are classified based on size, application, and degree of automation or flexibility:</p>
+				<h3>4.1 Knee and Column Type (General Purpose)</h3>
+				<p>Most common and flexible type.</p>
+				<ul>
+					<li><strong>Horizontal</strong> - Spindle is horizontal.</li>
+					<li><strong>Vertical</strong> - Spindle is vertical.</li>
+					<li><strong>Universal</strong> - Can be tilted or swiveled for complex angles.</li>
+					<li><strong>Turret type</strong> - Highly flexible head movement.</li>
+				</ul>
+				<p><strong>Applications</strong>: All types of work, including batch manufacturing. Many attachments available.</p>
+
+				<h3>4.2 Production (Bed) Type</h3>
+				<ul>
+					<li><strong>Simplex</strong> (one spindle)</li>
+					<li><strong>Duplex</strong> (two spindles)</li>
+					<li><strong>Triplex</strong> (three spindles)</li>
+				</ul>
+				<p>Designed for <strong>high-volume production</strong> with large batch sizes. Less flexible but higher productivity.</p>
+
+				<h3>4.3 Plano Millers</h3>
+				<ul>
+					<li>Used for <strong>very large workpieces</strong> (table travel in meters).</li>
+					<li>Heavy-duty machines.</li>
+				</ul>
+
+				<h3>4.4 Special Type Machines</h3>
+				<ul>
+					<li>Rotary table</li>
+					<li>Drum type</li>
+					<li>Copy milling (die-sinking)</li>
+					<li>Keyway milling</li>
+					<li>Spline-shaft milling</li>
+				</ul>
+				<p>These are dedicated machines for specific, repetitive, or complex operations not easily done on general-purpose machines.</p>
+			</section>
+
+			<hr class="divider" />
+
+			<section class="section" id="part-2">
+				<div class="section-label">Part 2</div>
+				<h2 class="section-title"><span class="num">02.</span> Machine Types and Construction</h2>
+
+				<h3>Knee and Column Milling Machine</h3>
+				<p>This is the <strong>most commonly used</strong> milling machine due to its high flexibility and easy setup.</p>
+
+				<h3>Key Construction Features (Horizontal Knee and Column Type)</h3>
+				<ul>
+					<li><strong>Knee</strong>: Houses the feed mechanism. Supports the saddle and table. Can move <strong>up and down (Z-axis)</strong> on dovetail guides on the column.</li>
+					<li><strong>Table</strong>: Has T-slots for work holding. Moves longitudinally (<strong>X-axis</strong>) on the saddle.</li>
+					<li><strong>Saddle</strong>: Moves transversely (<strong>Y-axis</strong>) on the knee.</li>
+					<li><strong>Column</strong>: Massive structure at the back. Houses the motor, spindle gearbox, and power train.</li>
+					<li><strong>Spindle and Arbor</strong>:
+						<ul>
+							<li>Spindle located at the top of the column.</li>
+							<li>Arbor (shaft) holds the milling cutters.</li>
+							<li>Supported by an <strong>over-arm</strong> with bearing to handle heavy cutting forces.</li>
+							<li>Cutters are positioned using hardened collars and clamped with a draw bar and nuts.</li>
+						</ul>
+					</li>
+					<li><strong>Feeds</strong>:
+						<ul>
+							<li>Longitudinal and cross feeds can be automatic (via lead screw).</li>
+							<li>Vertical (knee) movement is usually manual.</li>
+						</ul>
+					</li>
+				</ul>
+
+				<p><strong>Machine specification parameters</strong>:</p>
+				<ul>
+					<li>Size of the table (working area).</li>
+					<li>Amount of table travel (X, Y, Z movements).</li>
+					<li>Horsepower of the spindle (1-3 hp for small machines, up to 10-50 hp for production machines).</li>
+				</ul>
+
+				<h3>Vertical Knee and Column Type</h3>
+				<ul>
+					<li>Spindle is mounted <strong>vertically</strong>.</li>
+					<li>Ideal for <strong>shank-mounted cutters</strong> such as <strong>end mills</strong>.</li>
+					<li>Easier workpiece setup and better visibility of the cutting operation.</li>
+					<li><strong>More flexible</strong> than horizontal type.</li>
+					<li>Vertical head can often <strong>swivel</strong>, allowing angled cutting.</li>
+					<li>Excellent for <strong>toolroom work</strong> like machining complex die cavities.</li>
+				</ul>
+
+				<h3>Universal Knee and Column Machine</h3>
+				<ul>
+					<li>Table can be <strong>swiveled</strong> plus or minus 45 degrees in the horizontal plane.</li>
+					<li>Suitable for milling <strong>spur gears, helical gears, worm gears, and cams</strong>.</li>
+				</ul>
+
+				<h3>Bed-Type (Production) Milling Machines</h3>
+				<p>These machines are designed for <strong>high metal removal rates</strong> and large-batch production.</p>
+				<p><strong>Why bed-type?</strong></p>
+				<ul>
+					<li>Conventional knee-type machines may develop chatter if depth of cut is increased too much.</li>
+					<li>Bed-type machines are <strong>more rigid</strong> (less versatile) to allow heavier cuts.</li>
+				</ul>
+				<p><strong>Key features</strong>:</p>
+				<ul>
+					<li>Table is fixed directly on the <strong>bed</strong> and has only <strong>longitudinal movement</strong>.</li>
+					<li>Spindle head moves along the column to provide cutting action.</li>
+					<li><strong>Simplex</strong>: One spindle head.</li>
+					<li><strong>Duplex</strong>: Two spindle heads (can machine both sides of a workpiece simultaneously).</li>
+				</ul>
+
+				<div class="table-wrap">
+					<table>
+						<thead>
+							<tr>
+								<th>Machine Type</th>
+								<th>Main Use</th>
+								<th>Flexibility</th>
+								<th>Rigidity / Metal Removal</th>
+								<th>Key Features</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td><strong>Knee and Column (Horizontal)</strong></td>
+								<td>General purpose</td>
+								<td>High</td>
+								<td>Medium</td>
+								<td>Arbor + over-arm support</td>
+							</tr>
+							<tr>
+								<td><strong>Knee and Column (Vertical)</strong></td>
+								<td>Toolroom, dies, complex parts</td>
+								<td>Very High</td>
+								<td>Medium</td>
+								<td>Swivel head, end mills</td>
+							</tr>
+							<tr>
+								<td><strong>Universal Knee and Column</strong></td>
+								<td>Gears, cams, angular work</td>
+								<td>High</td>
+								<td>Medium</td>
+								<td>Swivel table</td>
+							</tr>
+							<tr>
+								<td><strong>Bed-Type (Simplex/Duplex)</strong></td>
+								<td>Production, high volume</td>
+								<td>Low</td>
+								<td>Very High</td>
+								<td>Fixed table, heavy cuts</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</section>
+
+			<hr class="divider" />
+
+			<section class="section" id="part-3">
+				<div class="section-label">Part 3</div>
+				<h2 class="section-title"><span class="num">03.</span> Cutters and Milling Methods</h2>
+
+				<h3>Milling Cutters</h3>
+				<p>Milling cutters are multi-point rotary tools. Their wide variety gives milling machines great versatility.</p>
+
+				<h3>Classification of Milling Cutters</h3>
+				<ol>
+					<li><strong>Based on Construction</strong>
+						<ul>
+							<li>Solid cutters</li>
+							<li>Inserted tooth type (replaceable teeth)</li>
+						</ul>
+					</li>
+					<li><strong>Based on Mounting</strong>
+						<ul>
+							<li>Arbor mounted (for horizontal machines)</li>
+							<li>Shank mounted (mainly for vertical machines)</li>
+							<li>Nose mounted</li>
+						</ul>
+					</li>
+					<li><strong>Based on Rotation</strong>
+						<ul>
+							<li>Right-hand (counter-clockwise)</li>
+							<li>Left-hand (clockwise)</li>
+						</ul>
+					</li>
+					<li><strong>Based on Helix</strong>
+						<ul>
+							<li>Right-hand helix</li>
+							<li>Left-hand helix</li>
+						</ul>
+					</li>
+				</ol>
+
+				<p><strong>Materials</strong>: High-Speed Steel (HSS) or Cemented Carbides (brazed tip or indexable inserts).</p>
+
+				<div class="table-wrap">
+					<table>
+						<thead>
+							<tr>
+								<th>Type</th>
+								<th>Mounting</th>
+								<th>Main Use</th>
+								<th>Key Features</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td><strong>Plain / Slab Milling</strong></td>
+								<td>Arbor</td>
+								<td>Flat surfaces</td>
+								<td>Cylindrical, teeth on periphery. Light-duty (many teeth), Heavy-duty (fewer teeth, more chip space). Helical versions for better finish.</td>
+							</tr>
+							<tr>
+								<td><strong>Side and Face</strong></td>
+								<td>Arbor</td>
+								<td>Side milling + slotting</td>
+								<td>Teeth on sides + periphery. Versatile.</td>
+							</tr>
+							<tr>
+								<td><strong>Staggered Tooth</strong></td>
+								<td>Arbor</td>
+								<td>Deep slots</td>
+								<td>Alternate helix teeth -> more chip space.</td>
+							</tr>
+							<tr>
+								<td><strong>Half-Side</strong></td>
+								<td>Arbor</td>
+								<td>One-sided machining</td>
+								<td>Positive rake, smoother cut, less power.</td>
+							</tr>
+							<tr>
+								<td><strong>Slitting Saw</strong></td>
+								<td>Arbor</td>
+								<td>Cutting off, thin/deep slots</td>
+								<td>Very thin, saw-like.</td>
+							</tr>
+							<tr>
+								<td><strong>Special Form Cutters</strong></td>
+								<td>Arbor</td>
+								<td>Specific profiles</td>
+								<td>Angular, T-slot, Woodruff keyseat, Dovetail, Gear, etc.</td>
+							</tr>
+							<tr>
+								<td><strong>End Mills</strong></td>
+								<td>Shank</td>
+								<td>Slots, keyways, pockets, contours</td>
+								<td>Most versatile. Can plunge (slot drills). Various designs: 2/4 flute, ball nose, corner radius, shell end mills.</td>
+							</tr>
+							<tr>
+								<td><strong>Face Milling Cutters</strong></td>
+								<td>Nose</td>
+								<td>Large flat surfaces</td>
+								<td>Large diameter, carbide inserts preferred. Teeth on face + periphery.</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+
+				<p><strong>Important design variations in end mills</strong>:</p>
+				<ul>
+					<li>Straight or tapered shank.</li>
+					<li>Center-cutting (slot drills) vs non-center-cutting.</li>
+					<li>Ball nose (for 3D contours), corner radius.</li>
+					<li>Shell end mills (large size, no shank).</li>
+				</ul>
+
+				<p><strong>Selection guidelines</strong>:</p>
+				<ul>
+					<li>Prefer standard tools.</li>
+					<li>Use shortest overhang.</li>
+					<li>Cutter diameter is about 30% larger than width of cut (face milling).</li>
+					<li>Close pitch (many teeth) as first choice.</li>
+					<li>Coarse pitch for long overhangs or unstable conditions.</li>
+					<li>Extra close pitch for short-chipping materials.</li>
+				</ul>
+
+				<p><strong>Straight vs Helical Teeth</strong>:</p>
+				<ul>
+					<li><strong>Straight teeth</strong>: One tooth at a time, high force variation -> more vibration.</li>
+					<li><strong>Helical teeth</strong>: Multiple teeth in cut, smoother force variation -> better finish and stability.</li>
+				</ul>
+
+				<div class="callout blue">
+					<div class="callout-title">🔬 Process Choice</div>
+					<p>Helical cutters and climb milling generally deliver smoother operation and better surface finish, provided machine rigidity is adequate.</p>
+				</div>
+
+				<h3>Up Milling vs Down Milling</h3>
+				<div class="table-wrap">
+					<table>
+						<thead>
+							<tr>
+								<th>Feature</th>
+								<th>Up Milling (Conventional)</th>
+								<th>Down Milling (Climb)</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td><strong>Cutter vs Feed Direction</strong></td>
+								<td>Opposite directions</td>
+								<td>Same direction</td>
+							</tr>
+							<tr>
+								<td><strong>Chip Thickness</strong></td>
+								<td>Starts at zero -> increases to maximum</td>
+								<td>Starts at maximum -> decreases to zero</td>
+							</tr>
+							<tr>
+								<td><strong>Force on Workpiece</strong></td>
+								<td>Tends to lift workpiece</td>
+								<td>Pushes workpiece down (better holding)</td>
+							</tr>
+							<tr>
+								<td><strong>Surface Finish</strong></td>
+								<td>Poorer (feed marks, rubbing at start)</td>
+								<td>Better finish</td>
+							</tr>
+							<tr>
+								<td><strong>Power Requirement</strong></td>
+								<td>Higher</td>
+								<td>Up to 20% lower</td>
+							</tr>
+							<tr>
+								<td><strong>Safety</strong></td>
+								<td>Safer, inherently stable</td>
+								<td>Risk of workpiece being pulled in (needs backlash eliminator)</td>
+							</tr>
+							<tr>
+								<td><strong>Best For</strong></td>
+								<td>Roughing, castings, hard scale materials</td>
+								<td>Finishing, thin or frail parts, deep slots</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+
+				<p><strong>Advantages of down (climb) milling</strong>:</p>
+				<ul>
+					<li>Better surface finish</li>
+					<li>Longer tool life</li>
+					<li>Higher feeds possible</li>
+					<li>Good for thin parts</li>
+				</ul>
+
+				<p><strong>Disadvantages of down milling</strong>:</p>
+				<ul>
+					<li>Requires rigid machine with backlash eliminator</li>
+					<li>Not suitable for materials with hard outer scale</li>
+				</ul>
+
+				<h3>Work Holding</h3>
+				<p>Milling machine tables have precision <strong>T-slots</strong> for clamping.</p>
+				<p><strong>Common work-holding devices</strong>:</p>
+				<ul>
+					<li><strong>Vice</strong> - Most common for small or regular workpieces (many jaw types available).</li>
+					<li><strong>Universal Chuck</strong> - For round workpieces (end slots, splines).</li>
+					<li>Direct clamping on table using T-slots, straps, clamps, and bolts.</li>
+					<li>Angle plates, V-blocks, sine bars, fixtures (for complex or production work).</li>
+				</ul>
+			</section>
+
+			<hr class="divider" />
+
+			<section class="section" id="part-4">
+				<div class="section-label">Part 4</div>
+				<h2 class="section-title"><span class="num">04.</span> Set-ups, Indexing, and Mechanics</h2>
+
+				<h3>Work Holding (Continued)</h3>
+				<ul>
+					<li><strong>Fixtures</strong>: Most common in <strong>production milling</strong>. They reduce setup time and provide high locational accuracy and repeatability.</li>
+					<li><strong>Clamps</strong>: Used for large or irregular workpieces. Types include plain slotted clamps, U-clamps, gooseneck clamps, finger clamps, and step blocks with T-bolts.</li>
+				</ul>
+
+				<p><strong>Important rules for clamping</strong>:</p>
+				<ul>
+					<li>Workpiece must not shift under cutting forces.</li>
+					<li>Clamping force should not distort the workpiece.</li>
+					<li>Proper support and correct placement are essential.</li>
+				</ul>
+
+				<h3>Milling Set-ups / Methods</h3>
+				<div class="table-wrap">
+					<table>
+						<thead>
+							<tr>
+								<th>Method</th>
+								<th>Description</th>
+								<th>Main Advantage</th>
+								<th>Typical Application</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td><strong>String / Line Milling</strong></td>
+								<td>Multiple small workpieces placed in a line on the table.</td>
+								<td>Reduces approach distance and idle time</td>
+								<td>Small identical parts</td>
+							</tr>
+							<tr>
+								<td><strong>Abreast / Reciprocal Milling</strong></td>
+								<td>Special fixture indexes 180 degrees. One part machined while other is loaded.</td>
+								<td>Machine keeps cutting (no idle time)</td>
+								<td>Batch production</td>
+							</tr>
+							<tr>
+								<td><strong>Rotary / Circular Milling</strong></td>
+								<td>Multiple fixtures on a rotary table.</td>
+								<td>Continuous cutting, high productivity</td>
+								<td>High volume</td>
+							</tr>
+							<tr>
+								<td><strong>Gang Milling</strong></td>
+								<td>Multiple cutters mounted together on one arbor (e.g., slab + two side cutters).</td>
+								<td>Several surfaces machined simultaneously</td>
+								<td>Production (inverted U, complex profiles)</td>
+							</tr>
+							<tr>
+								<td><strong>Straddle Milling</strong></td>
+								<td>Special case of gang milling using only <strong>side and face cutters</strong>.</td>
+								<td>Machining two parallel surfaces at once</td>
+								<td>Slots, steps</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+
+				<div class="callout orange">
+					<div class="callout-title">⚠ Note</div>
+					<p>In gang milling, cutting speed is limited by the <strong>largest diameter</strong> cutter. Prefer cutters of similar size.</p>
+				</div>
+
+				<h3>Dividing Head (Indexing Head)</h3>
+				<p>One of the most important attachments for milling. Used for accurate angular positioning and dividing the workpiece into equal or unequal parts (e.g., gears, splines, keyways).</p>
+				<p><strong>Basic principle</strong>:</p>
+				<ul>
+					<li>Worm gear ratio is usually <strong>40:1</strong> -> 40 turns of index crank = 1 full revolution of workpiece.</li>
+					<li>Index plates with circles of holes allow fractional rotations.</li>
+				</ul>
+
+				<p><strong>Standard index plates</strong>:</p>
+				<ul>
+					<li><strong>Brown and Sharpe</strong>: Plate 1 (15, 16, 17, 18, 19, 20), Plate 2 (21, 23, 27, 29, 31, 33), Plate 3 (37, 39, 41, 43, 47, 49)</li>
+					<li><strong>Cincinnati / Parkinson</strong>: More hole circles available.</li>
+				</ul>
+
+				<h3>Simple / Plain Indexing</h3>
+				<p>Direct method using index crank + plate.</p>
+				<p><strong>Formula</strong>:</p>
+				<div class="formula">Index crank turns = 40 / (Number of divisions)</div>
+				<p><strong>Examples</strong>:</p>
+				<ul>
+					<li>20 divisions (gear): 40/20 = <strong>2 full turns</strong></li>
+					<li>6 divisions: 40/6 = <strong>6 + 2/3 turns</strong> -> Use appropriate hole circle (e.g., 10 holes in 15-hole circle)</li>
+					<li>28 divisions: 1 full + 9 holes in 21-hole circle</li>
+				</ul>
+
+				<h3>Compound Indexing</h3>
+				<p>Used when simple indexing cannot achieve the required divisions.</p>
+				<ul>
+					<li>Combine two movements: one with crank, second by rotating the index plate itself.</li>
+					<li>Involves addition or subtraction of fractions.</li>
+				</ul>
+				<p><strong>Example 7.3 (77 divisions)</strong>: 9 holes in 21-circle + 3 holes in 33-circle.</p>
+				<p><strong>Example 7.4 (141 divisions)</strong>: 26 holes in 39-circle - 18 holes in 47-circle.</p>
+
+				<h3>Angular Indexing</h3>
+				<p>Indexing based on <strong>angle</strong> instead of number of divisions.</p>
+				<p>Since 1 crank turn = <strong>9 degrees</strong> (360 degrees / 40):</p>
+				<p><strong>Formula</strong>:</p>
+				<div class="formula">Crank turns = Required angle / 9 deg</div>
+				<p><strong>Examples</strong>:</p>
+				<ul>
+					<li>41 degrees -> 4 full turns + 10 holes in 18-hole circle</li>
+					<li>15 degrees 30 minutes -> 1 full + 13 holes in 18-hole circle</li>
+				</ul>
+
+				<h3>Differential Indexing</h3>
+				<p>Advanced, semi-automatic method for numbers not possible with simple or compound indexing.</p>
+				<ul>
+					<li>Index plate is unlocked and connected via <strong>change gears</strong> to the spindle.</li>
+					<li>Plate rotates automatically to compensate for the approximate indexing used.</li>
+					<li>Requires calculation of gear ratio and idler gear selection.</li>
+				</ul>
+				<p><strong>Useful when</strong> required divisions do not factor nicely with available hole circles.</p>
+
+				<h3>Milling Mechanics (Slab Milling)</h3>
+				<ul>
+					<li>The path of the cutting tooth is a <strong>trochoid</strong>.</li>
+					<li>Chip thickness varies continuously.</li>
+					<li><strong>Up milling</strong>: Chip length slightly longer due to sliding at entry.</li>
+					<li><strong>Down milling</strong>: Slightly shorter chip length.</li>
+				</ul>
+				<p><strong>Key insight</strong>: Helical cutters and down milling produce smoother operation and better surface finish due to more continuous cutting action.</p>
+			</section>
+
+			<hr class="divider" />
+
+			<section class="section" id="part-5">
+				<div class="section-label">Part 5</div>
+				<h2 class="section-title"><span class="num">05.</span> Mechanics, Time, and Power</h2>
+
+				<h3>Slab Milling (Peripheral Milling)</h3>
+				<ul>
+					<li>The path traced by a cutting tooth is a <strong>trochoid</strong>.</li>
+					<li>Chip thickness varies from zero to a maximum value.</li>
+				</ul>
+
+				<p><strong>Key formulas</strong>:</p>
+				<p>Maximum chip thickness:</p>
+				<div class="formula">t_max = (2 f sqrt(d (D - d))) / (N Z D)</div>
+				<p>Mean chip cross-sectional area (straight teeth):</p>
+				<div class="formula">A_mean = (W f sqrt(d (D - d))) / (N Z D)</div>
+				<p><strong>Example 7.11</strong>: A 100 mm dia., 8-tooth cutter at 30 m/min, 4 mm depth, 150 mm/min feed, 120 mm width -> Mean chip area = <strong>4.617 mm^2</strong>.</p>
+
+				<h3>Face Milling</h3>
+				<p>Chip thickness analysis depends on symmetrical or unsymmetrical cutting.</p>
+
+				<p><strong>Symmetrical cut</strong>:</p>
+				<p>Mean chip thickness:</p>
+				<div class="formula">t_mean = (2 f_t sin(phi_c / 2)) / phi_c</div>
+				<p>Mean area:</p>
+				<div class="formula">A_mean = (2 W f_t sin(phi_c / 2)) / phi_c</div>
+
+				<p><strong>Unsymmetrical cut</strong>:</p>
+				<p>Mean area:</p>
+				<div class="formula">A_mean = (2 W f_t (cos phi_2 - cos phi_1)) / phi_c</div>
+
+				<h3>Milling Time Estimation</h3>
+				<p><strong>Cutting speed</strong>:</p>
+				<div class="formula">V = (pi D N) / 1000  (m/min)</div>
+
+				<p><strong>Approach allowance (A)</strong>:</p>
+				<ul>
+					<li><strong>Slab milling</strong>: <span class="formula">A = sqrt(d (D - d))</span></li>
+					<li><strong>Face milling</strong>:
+						<ul>
+							<li>If W >= D/2: A = D/2</li>
+							<li>If W < D/2: A = sqrt(W (D - W))</li>
+						</ul>
+					</li>
+				</ul>
+
+				<p><strong>Time for one pass</strong>:</p>
+				<div class="formula">Time = (L + 2A) / (f Z N)  (minutes)</div>
+				<p>where L = length of workpiece, f = feed per tooth (mm/tooth).</p>
+
+				<p><strong>Example 7.12 (Slab Milling)</strong>: C50 steel, 100x250 mm, 2 mm depth, 100 mm HSS slab cutter -> Time about <strong>2.633 minutes</strong>.</p>
+				<p><strong>Example 7.13 (Face Milling)</strong>: Alloy steel, 115x250 mm, 6 mm depth, 150 mm carbide face mill -> Time about <strong>1.06 minutes</strong>.</p>
+				<p><strong>Reference data</strong>: Table 7.1 provides recommended speeds and feeds for HSS and Carbide cutters for various materials.</p>
+
+				<h3>Milling Power Estimation</h3>
+				<p><strong>Material removal rate (MRR)</strong>:</p>
+				<div class="formula">Q = (f_m w d) / 60000  (cm^3/s)</div>
+				<p>where f_m = f x Z x N (mm/min).</p>
+
+				<p><strong>Power</strong>:</p>
+				<div class="formula">P_m = K_p Q C W  (hp)</div>
+				<ul>
+					<li>K_p = Power constant (Table 7.2) - depends on material and hardness.</li>
+					<li>C = Feed factor (Table 7.3) - depends on feed per tooth.</li>
+					<li>W = Tool wear factor (Table 7.4) - 1.10 for slab/end milling, higher for heavy face milling.</li>
+				</ul>
+				<p><strong>Example 7.14</strong>: Same face milling job as above -> Power required about <strong>5.84 hp</strong>.</p>
+
+				<h3>Milling Troubleshooting</h3>
+				<div class="table-wrap">
+					<table>
+						<thead>
+							<tr>
+								<th>Problem</th>
+								<th>Possible Causes and Remedies</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td><strong>Chatter</strong> (vibration)</td>
+								<td>Low rigidity, high depth, dull cutter, no coolant, straight teeth -> Reduce depth, use helical cutter, sharpen tool.</td>
+							</tr>
+							<tr>
+								<td><strong>Poor Dimensional Accuracy</strong></td>
+								<td>High forces causing deflection, chips in locating surfaces -> Reduce depth, improve chip flushing.</td>
+							</tr>
+							<tr>
+								<td><strong>Low Tool Life</strong></td>
+								<td>High forces, insufficient coolant -> Reduce depth, apply cutting fluid.</td>
+							</tr>
+							<tr>
+								<td><strong>Poor Surface Finish</strong></td>
+								<td>High feed, dull cutter, low speed, few teeth -> Lower feed, sharpen cutter, increase teeth/speed.</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</section>
+
+			<hr class="divider" />
+
+			<section class="section" id="part-6">
+				<div class="section-label">Part 6</div>
+				<h2 class="section-title"><span class="num">06.</span> Special Operations and Consolidated Summary</h2>
+
+				<h3>Spiral (Helical) Milling</h3>
+				<p>Used to cut <strong>helical grooves</strong> (e.g., helical gears, flutes, worms) using the dividing head.</p>
+				<p><strong>Principle</strong>:</p>
+				<ul>
+					<li>Link dividing head worm to table lead screw via change gears.</li>
+					<li>Lead of machine = <strong>40 x Lead of table feed screw</strong>.</li>
+				</ul>
+				<p><strong>Gear ratio</strong>:</p>
+				<div class="formula">Gear on index shaft / Gear on table lead screw = Lead of machine / Lead of helix</div>
+				<ul>
+					<li>Idler gear controls <strong>hand of helix</strong> (right or left).</li>
+				</ul>
+				<p><strong>Example 7.15</strong>: Table lead screw = 5 mm, helix lead = 480 mm -> Calculate suitable gear train.</p>
+
+				<h3>Cam Milling</h3>
+				<p>Used for machining <strong>plate cams</strong> with uniform rise or fall.</p>
+				<p><strong>Set-up</strong>:</p>
+				<ul>
+					<li>Performed on a <strong>universal milling machine</strong> with a vertical milling attachment.</li>
+					<li>Uses a long <strong>end mill</strong> whose diameter equals the follower diameter of the cam.</li>
+					<li>Dividing head holds the cam blank and is tilted at an angle <strong>alpha</strong>.</li>
+					<li>The end mill is also inclined at the same angle <strong>alpha</strong> so that cutter axis remains parallel to cam axis.</li>
+					<li>Table movement + dividing head rotation generates the cam profile.</li>
+				</ul>
+				<p><strong>Formula for setting angle</strong>:</p>
+				<div class="formula">sin(alpha) = (Lead of the cam x Gear ratio) / (Machine lead)</div>
+				<ul>
+					<li>When <strong>alpha = 0 degrees</strong>, the cam has <strong>zero lead</strong> (circular profile).</li>
+					<li>Gear ratio between dividing head and table lead screw controls the rise/fall rate.</li>
+				</ul>
+				<p><strong>Example 7.17</strong>: 10 mm rise in 60 degrees rotation, machine lead screw = 5 mm -> Machine lead = 200 mm, Cam lead = 60 mm, Gear ratio = 2 -> <strong>alpha = 36 degrees 52 minutes</strong></p>
+
+				<div class="callout green">
+					<div class="callout-title">✅ Summary</div>
+					<p>Milling is a versatile, high-productivity multipoint machining process characterized by interrupted cutting. Its strength lies in the variety of machines, cutters, and indexing methods available for precision work.</p>
+				</div>
+
+				<h3>Consolidated Chapter Highlights</h3>
+				<ul>
+					<li><strong>Advantages</strong>: High productivity, versatility, good accuracy (about &plusmn;0.05 mm), cooler operation than turning.</li>
+					<li><strong>Challenges</strong>: Variable chip thickness, cyclic forces, possibility of chatter.</li>
+					<li><strong>Machines</strong>: Knee and Column, Bed Type, Plano Millers, and Special Machines.</li>
+					<li><strong>Cutters</strong>: Slab, Side and Face, End Mills, Face Mills, Form Cutters.</li>
+					<li><strong>Methods</strong>: Up vs Down milling, indexing (simple, compound, angular, differential).</li>
+					<li><strong>Calculations</strong>: Chip thickness, machining time, and power estimation.</li>
+				</ul>
+			</section>
+		</main>
+
+		<script>
+			window.addEventListener("scroll", () => {
+				const total = document.body.scrollHeight - window.innerHeight;
+				document.getElementById("progress").style.width = (window.scrollY / total) * 100 + "%";
+			});
+
+			const observer = new IntersectionObserver(
+				(entries) => { entries.forEach((entry) => { if (entry.isIntersecting) entry.target.classList.add("visible"); }); },
+				{ threshold: 0.08 }
+			);
+			document.querySelectorAll(".section").forEach((section) => observer.observe(section));
+		</script>
+	</body>
+</html>
