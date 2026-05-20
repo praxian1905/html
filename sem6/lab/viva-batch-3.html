@@ -1,0 +1,296 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CAD/CAM Viva Questions - Batch 03</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=Source+Serif+4:ital,opsz,wght@0,8..60,300;0,8..60,400;0,8..60,600;1,8..60,300&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg:      #0e0f14;
+      --surface: #15171f;
+      --card:    #1c1f2b;
+      --border:  #2a2e40;
+      --accent:  #f5a623;
+      --accent2: #4fc3f7;
+      --accent3: #81c784;
+      --accent4: #ef5350;
+      --text:    #e8e9f0;
+      --muted:   #8890aa;
+      --heading: #ffffff;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: "Source Serif 4", Georgia, serif;
+      font-size: 17px;
+      line-height: 1.8;
+      min-height: 100vh;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+      pointer-events: none;
+      z-index: 999;
+      opacity: 0.45;
+    }
+
+    strong { color: var(--heading); font-weight: 600; }
+    em     { color: var(--accent); font-style: italic; }
+    p      { margin-bottom: 18px; color: var(--text); }
+
+    h3 {
+      font-family: "Playfair Display", serif;
+      font-size: 20px;
+      color: var(--heading);
+      margin: 36px 0 14px;
+      font-weight: 700;
+    }
+
+    .page {
+      max-width: 1020px;
+      margin: 0 auto;
+      padding: 0 28px 100px;
+    }
+
+    #progress {
+      position: fixed; top: 0; left: 0;
+      height: 3px;
+      background: linear-gradient(90deg, var(--accent), var(--accent2));
+      z-index: 1000;
+      width: 0;
+      transition: width 0.1s linear;
+    }
+
+    @media (max-width: 768px) {
+      .page { padding: 0 16px 80px; }
+    }
+
+    .hero {
+      position: relative;
+      overflow: hidden;
+      padding: 90px 40px 80px;
+      text-align: center;
+      border-bottom: 1px solid var(--border);
+      background: radial-gradient(ellipse 80% 60% at 50% 0%, #1a2340 0%, var(--bg) 70%);
+    }
+
+    .hero-badge {
+      display: inline-block;
+      font-family: "JetBrains Mono", monospace;
+      font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase;
+      color: var(--accent); border: 1px solid var(--accent);
+      padding: 4px 14px; border-radius: 2px; margin-bottom: 24px;
+      opacity: 0; animation: fadeUp 0.6s 0.1s forwards;
+    }
+
+    .hero h1 {
+      font-family: "Playfair Display", serif;
+      font-size: clamp(28px, 5vw, 54px); font-weight: 900;
+      color: var(--heading); line-height: 1.15;
+      max-width: 860px; margin: 0 auto 20px;
+      opacity: 0; animation: fadeUp 0.7s 0.25s forwards;
+    }
+    .hero h1 em { color: var(--accent); font-style: normal; }
+
+    .hero-sub {
+      font-size: 16px; color: var(--muted);
+      max-width: 620px; margin: 0 auto 36px;
+      opacity: 0; animation: fadeUp 0.7s 0.4s forwards;
+    }
+
+    .hero-meta {
+      display: flex; flex-wrap: wrap; gap: 20px; justify-content: center;
+      opacity: 0; animation: fadeUp 0.7s 0.55s forwards;
+    }
+    .hero-meta span {
+      font-family: "JetBrains Mono", monospace; font-size: 12px;
+      color: var(--muted); background: var(--card);
+      border: 1px solid var(--border); padding: 6px 14px; border-radius: 2px;
+    }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(18px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .section {
+      margin-bottom: 72px;
+      opacity: 0; transform: translateY(24px);
+      transition: opacity 0.55s, transform 0.55s;
+    }
+    .section.visible { opacity: 1; transform: translateY(0); }
+
+    .callout {
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: 2px; padding: 22px 26px; margin: 40px 0 15px;
+    }
+    .callout.blue   { border-left: 3px solid var(--accent2); }
+
+    .callout-title {
+      font-family: "JetBrains Mono", monospace;
+      font-size: 11px; text-transform: uppercase; letter-spacing: 0.12em;
+      margin-bottom: 10px; color: var(--accent2);
+    }
+    
+    .qa-answer {
+      padding-left: 26px;
+      border-left: 2px solid var(--border);
+      margin-left: 2px;
+      color: var(--text);
+    }
+
+    .qa-answer strong {
+      color: var(--accent3);
+    }
+
+  </style>
+</head>
+<body>
+  <div id="progress"></div>
+
+  <header class="hero">
+    <div class="hero-badge">Examination Prep &middot; Q21-Q30</div>
+    <h1>CAD/CAM <em>Viva Voce</em></h1>
+    <p class="hero-sub">Batch 03: Continuing with a structurally randomized selection of rigorous viva-style questions spanning all core units.</p>
+    <div class="hero-meta">
+      <span>📝 Questions 21 - 30</span>
+      <span>🔄 Random Distribution</span>
+    </div>
+  </header>
+
+  <main class="page">
+    
+    <section class="section visible">
+      
+      <!-- Q21 -->
+      <div class="callout blue">
+        <div class="callout-title">Question 21 &bull; Unit 1 (Basics of CAD)</div>
+        <p><strong>Briefly explain the main application areas of CAD in modern engineering beyond simple drafting.</strong></p>
+      </div>
+      <div class="qa-answer">
+        <p><strong>Answer:</strong> Beyond drafting, CAD is fundamentally used for geometric solid modelling, kinematic and dynamic simulation of assemblies, interference/collision detection, engineering analysis (serving as the direct input for FEA and CFD), and generating the foundational geometry required for CAM toolpath programming.</p>
+      </div>
+
+      <!-- Q22 -->
+      <div class="callout blue">
+        <div class="callout-title">Question 22 &bull; Unit 2 (Curves and Surfaces)</div>
+        <p><strong>What does NURBS stand for, and why is it considered the industry standard for surface modelling?</strong></p>
+      </div>
+      <div class="qa-answer">
+        <p><strong>Answer:</strong> NURBS stands for Non-Uniform Rational B-Splines. It is the industry standard because it provides a unified mathematical model that can accurately represent both standard analytical shapes (like perfect circles, ellipses, and cylinders) and highly complex, free-form organic surfaces (like car bodies) with exceptional precision and local control.</p>
+      </div>
+
+      <!-- Q23 -->
+      <div class="callout blue">
+        <div class="callout-title">Question 23 &bull; Unit 3 (Solid Modelling)</div>
+        <p><strong>Describe the 'Sweep' representation scheme in solid modelling.</strong></p>
+      </div>
+      <div class="qa-answer">
+        <p><strong>Answer:</strong> Sweep representation generates a 3D solid by taking a closed 2D planar profile and moving it along a specified trajectory in space. If the profile is moved along a straight linear path, it creates an <em>extrusion</em>. If it is moved around a central axis, it creates a <em>surface of revolution</em> (ideal for shafts and pulleys).</p>
+      </div>
+
+      <!-- Q24 -->
+      <div class="callout blue">
+        <div class="callout-title">Question 24 &bull; Unit 4 (CAE)</div>
+        <p><strong>What key activities are performed during the 'Post-processing' phase of Finite Element Analysis?</strong></p>
+      </div>
+      <div class="qa-answer">
+        <p><strong>Answer:</strong> Post-processing is the visualization and interpretation phase. After the computer solves the complex matrix equations, the post-processor converts raw numerical data into visual contour plots of stresses, strains, and temperature gradients. It also calculates the Factor of Safety, displays deformed shapes, and allows for animation of the structural behavior under load.</p>
+      </div>
+
+      <!-- Q25 -->
+      <div class="callout blue">
+        <div class="callout-title">Question 25 &bull; Unit 5 (CAM)</div>
+        <p><strong>Define DNC and state its primary advantage over traditional isolated CNC systems.</strong></p>
+      </div>
+      <div class="qa-answer">
+        <p><strong>Answer:</strong> DNC stands for Direct (or Distributed) Numerical Control. It involves networking multiple CNC machines to a central main computer/server. Its primary advantage is eliminating the need for local part-program storage on individual machines, allowing instant transfer of large toolpaths to any machine and enabling real-time shop-floor monitoring and data collection.</p>
+      </div>
+
+      <!-- Q26 -->
+      <div class="callout blue">
+        <div class="callout-title">Question 26 &bull; Unit 6 (Latest Technologies)</div>
+        <p><strong>What are the basic steps involved in Reverse Engineering a physical part?</strong></p>
+      </div>
+      <div class="qa-answer">
+        <p><strong>Answer:</strong> The process typically follows four steps: (1) <em>Digitization</em>—scanning the physical part using a CMM or 3D laser scanner to capture a massive "point cloud"; (2) Processing the point cloud to filter noise and triangulate a polygon mesh; (3) <em>Surface fitting</em>—draping NURBS surfaces over the mesh; and (4) Exporting the final solid parametric CAD model.</p>
+      </div>
+
+      <!-- Q27 -->
+      <div class="callout blue">
+        <div class="callout-title">Question 27 &bull; Unit 1 (Basics of CAD)</div>
+        <p><strong>What is the purpose of the 'Reflection' matrix in 2D transformations?</strong></p>
+      </div>
+      <div class="qa-answer">
+        <p><strong>Answer:</strong> Reflection (or mirroring) generates a mirror image of an object across a specified axis (like the X-axis, Y-axis, or an arbitrary line). It is an essential tool in CAD for rapidly designing symmetrical parts, saving time by allowing the designer to model only half (or a quarter) of the component and mirroring the rest.</p>
+      </div>
+
+      <!-- Q28 -->
+      <div class="callout blue">
+        <div class="callout-title">Question 28 &bull; Unit 4 (CAE)</div>
+        <p><strong>Why is an extremely 'fine mesh' not applied uniformly across an entire CAD model during FEA?</strong></p>
+      </div>
+      <div class="qa-answer">
+        <p><strong>Answer:</strong> Applying a fine mesh uniformly creates millions of microscopic elements, which exponentially increases computational solving time and memory requirements. Instead, engineers use an <em>optimized mesh</em>: fine only around critical areas with high stress gradients (like holes, fillets, and corners) and coarse in large, uniform geometric regions where stress is evenly distributed.</p>
+      </div>
+
+      <!-- Q29 -->
+      <div class="callout blue">
+        <div class="callout-title">Question 29 &bull; Unit 3 (Solid Modelling)</div>
+        <p><strong>What is the "ambiguity problem" in wireframe modelling?</strong></p>
+      </div>
+      <div class="qa-answer">
+        <p><strong>Answer:</strong> Wireframe models only store mathematical data for vertices and connecting edges, lacking any information about faces or internal solid volume. This causes the "ambiguity problem," where a 2D projection of the 3D wireframe can be visually interpreted in multiple different orientations (like an optical illusion), making it impossible to definitively know the front from the back.</p>
+      </div>
+
+      <!-- Q30 -->
+      <div class="callout blue">
+        <div class="callout-title">Question 30 &bull; Unit 6 (Latest Technologies)</div>
+        <p><strong>How does Machine Learning (ML) contribute to Quality Inspection in an Industry 4.0 factory?</strong></p>
+      </div>
+      <div class="qa-answer">
+        <p><strong>Answer:</strong> In smart factories, ML algorithms analyze real-time video feeds and images from high-speed factory cameras. By training on thousands of images of perfect and defective parts, the AI can automatically detect microscopic surface defects, dimensional deviations, or assembly errors much faster and more reliably than a human inspector.</p>
+      </div>
+
+    </section>
+
+    <nav class="toc">
+      <h2>📋 Table of Contents</h2>
+      <ol>
+        <li><a href="https://praxian1905.github.io/html/sem6/lab/viva-batch-1.html">Batch 1</a></li>
+        <li><a href="https://praxian1905.github.io/html/sem6/lab/viva-batch-2.html">Batch 2</a></li>
+        <li><a href="https://praxian1905.github.io/html/sem6/lab/viva-batch-3.html">Batch 3</a></li>
+        <li><a href="https://praxian1905.github.io/html/sem6/lab/viva-batch-4.html">Batch 4</a></li>
+        <li><a href="https://praxian1905.github.io/html/sem6/lab/viva-batch-5.html">Batch 5</a></li>
+        <li><a href="https://praxian1905.github.io/html/sem6/lab/viva-batch-6.html">Batch 6</a></li>
+        <li><a href="https://praxian1905.github.io/html/sem6/lab/viva-batch-7.html">Batch 7</a></li>
+        <li><a href="https://praxian1905.github.io/html/sem6/lab/viva-batch-8.html">Batch 8</a></li>
+        <li><a href="https://praxian1905.github.io/html/sem6/lab/viva-batch-9.html">Batch 9</a></li>
+        <li><a href="https://praxian1905.github.io/html/sem6/lab/viva-batch-10.html">Batch 10</a></li>
+      </ol>
+    </nav>
+
+  </main>
+
+  <script>
+    window.addEventListener("scroll", () => {
+      const total = document.body.scrollHeight - window.innerHeight;
+      document.getElementById("progress").style.width = (window.scrollY / total) * 100 + "%";
+    });
+
+    const obs = new IntersectionObserver(
+      entries => entries.forEach(e => { if (e.isIntersecting) e.target.classList.add("visible"); }),
+      { threshold: 0.08 }
+    );
+    document.querySelectorAll(".section").forEach(s => obs.observe(s));
+  </script>
+</body>
+</html>

@@ -1,0 +1,295 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CAD/CAM Viva Questions - Batch 06</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=Source+Serif+4:ital,opsz,wght@0,8..60,300;0,8..60,400;0,8..60,600;1,8..60,300&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg:      #0e0f14;
+      --surface: #15171f;
+      --card:    #1c1f2b;
+      --border:  #2a2e40;
+      --accent:  #f5a623;
+      --accent2: #4fc3f7;
+      --accent3: #81c784;
+      --accent4: #ef5350;
+      --text:    #e8e9f0;
+      --muted:   #8890aa;
+      --heading: #ffffff;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: "Source Serif 4", Georgia, serif;
+      font-size: 17px;
+      line-height: 1.8;
+      min-height: 100vh;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+      pointer-events: none;
+      z-index: 999;
+      opacity: 0.45;
+    }
+
+    strong { color: var(--heading); font-weight: 600; }
+    em     { color: var(--accent); font-style: italic; }
+    p      { margin-bottom: 18px; color: var(--text); }
+
+    h3 {
+      font-family: "Playfair Display", serif;
+      font-size: 20px;
+      color: var(--heading);
+      margin: 36px 0 14px;
+      font-weight: 700;
+    }
+
+    .page {
+      max-width: 1020px;
+      margin: 0 auto;
+      padding: 0 28px 100px;
+    }
+
+    #progress {
+      position: fixed; top: 0; left: 0;
+      height: 3px;
+      background: linear-gradient(90deg, var(--accent), var(--accent2));
+      z-index: 1000;
+      width: 0;
+      transition: width 0.1s linear;
+    }
+
+    @media (max-width: 768px) {
+      .page { padding: 0 16px 80px; }
+    }
+
+    .hero {
+      position: relative;
+      overflow: hidden;
+      padding: 90px 40px 80px;
+      text-align: center;
+      border-bottom: 1px solid var(--border);
+      background: radial-gradient(ellipse 80% 60% at 50% 0%, #1a2340 0%, var(--bg) 70%);
+    }
+
+    .hero-badge {
+      display: inline-block;
+      font-family: "JetBrains Mono", monospace;
+      font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase;
+      color: var(--accent); border: 1px solid var(--accent);
+      padding: 4px 14px; border-radius: 2px; margin-bottom: 24px;
+      opacity: 0; animation: fadeUp 0.6s 0.1s forwards;
+    }
+
+    .hero h1 {
+      font-family: "Playfair Display", serif;
+      font-size: clamp(28px, 5vw, 54px); font-weight: 900;
+      color: var(--heading); line-height: 1.15;
+      max-width: 860px; margin: 0 auto 20px;
+      opacity: 0; animation: fadeUp 0.7s 0.25s forwards;
+    }
+    .hero h1 em { color: var(--accent); font-style: normal; }
+
+    .hero-sub {
+      font-size: 16px; color: var(--muted);
+      max-width: 620px; margin: 0 auto 36px;
+      opacity: 0; animation: fadeUp 0.7s 0.4s forwards;
+    }
+
+    .hero-meta {
+      display: flex; flex-wrap: wrap; gap: 20px; justify-content: center;
+      opacity: 0; animation: fadeUp 0.7s 0.55s forwards;
+    }
+    .hero-meta span {
+      font-family: "JetBrains Mono", monospace; font-size: 12px;
+      color: var(--muted); background: var(--card);
+      border: 1px solid var(--border); padding: 6px 14px; border-radius: 2px;
+    }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(18px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .section {
+      margin-bottom: 72px;
+      opacity: 0; transform: translateY(24px);
+      transition: opacity 0.55s, transform 0.55s;
+    }
+    .section.visible { opacity: 1; transform: translateY(0); }
+
+    .callout {
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: 2px; padding: 22px 26px; margin: 40px 0 15px;
+    }
+    .callout.blue   { border-left: 3px solid var(--accent2); }
+
+    .callout-title {
+      font-family: "JetBrains Mono", monospace;
+      font-size: 11px; text-transform: uppercase; letter-spacing: 0.12em;
+      margin-bottom: 10px; color: var(--accent2);
+    }
+    
+    .qa-answer {
+      padding-left: 26px;
+      border-left: 2px solid var(--border);
+      margin-left: 2px;
+      color: var(--text);
+    }
+
+    .qa-answer strong {
+      color: var(--accent3);
+    }
+
+  </style>
+</head>
+<body>
+  <div id="progress"></div>
+
+  <header class="hero">
+    <div class="hero-badge">Examination Prep &middot; Q51-Q60</div>
+    <h1>CAD/CAM <em>Viva Voce</em></h1>
+    <p class="hero-sub">Batch 06: Continuing with a structurally randomized selection of rigorous viva-style questions spanning all core units.</p>
+    <div class="hero-meta">
+      <span>📝 Questions 51 - 60</span>
+      <span>🔄 Random Distribution</span>
+    </div>
+  </header>
+
+  <main class="page">
+    
+    <section class="section visible">
+      
+      <!-- Q51 -->
+      <div class="callout blue">
+        <div class="callout-title">Question 51 &bull; Unit 1 (Basics of CAD)</div>
+        <p><strong>What is the primary function of standard file formats like STEP or IGES in CAD?</strong></p>
+      </div>
+      <div class="qa-answer">
+        <p><strong>Answer:</strong> Standard file formats act as neutral translators. Because different CAD software packages (like SolidWorks, CATIA, and NX) use proprietary mathematical kernels, STEP and IGES allow for universal data exchange of 3D geometry without locking the engineer or manufacturer into a single vendor's ecosystem.</p>
+      </div>
+
+      <!-- Q52 -->
+      <div class="callout blue">
+        <div class="callout-title">Question 52 &bull; Unit 2 (Curves and Surfaces)</div>
+        <p><strong>Explain the concept of 'Blending Functions' in synthetic curve generation.</strong></p>
+      </div>
+      <div class="qa-answer">
+        <p><strong>Answer:</strong> Blending functions act as mathematical weights that dictate how much influence a specific control point has on the overall shape of the curve at any given parameter (t). For instance, in a Bezier curve, Bernstein polynomials serve as these blending functions, pulling the curve smoothly toward the control polygon.</p>
+      </div>
+
+      <!-- Q53 -->
+      <div class="callout blue">
+        <div class="callout-title">Question 53 &bull; Unit 4 (CAE)</div>
+        <p><strong>What is the fundamental difference between a 'Node' and an 'Element' in Finite Element Analysis?</strong></p>
+      </div>
+      <div class="qa-answer">
+        <p><strong>Answer:</strong> A node is a specific coordinate point in 3D space where mathematical equations (like displacement or temperature) are explicitly solved. An element is the enclosed geometric shape (such as a 2D triangle or a 3D tetrahedron) formed by connecting multiple adjacent nodes, representing a discrete, tangible chunk of the physical material being analyzed.</p>
+      </div>
+
+      <!-- Q54 -->
+      <div class="callout blue">
+        <div class="callout-title">Question 54 &bull; Unit 5 (CAM)</div>
+        <p><strong>What is the role of a 'Post-Processor' in the CAM workflow?</strong></p>
+      </div>
+      <div class="qa-answer">
+        <p><strong>Answer:</strong> While CAM software generates a generalized, neutral toolpath (known as CL-Data), every CNC machine utilizes a unique controller (e.g., Fanuc, Siemens, Haas) that requires highly specific G-code syntax. The post-processor is the crucial software driver that translates this neutral toolpath into the exact machine-specific language required to physically run the CNC machine.</p>
+      </div>
+
+      <!-- Q55 -->
+      <div class="callout blue">
+        <div class="callout-title">Question 55 &bull; Unit 3 (Solid Modelling)</div>
+        <p><strong>How does Boundary Representation (B-rep) maintain structural integrity using Euler's formula?</strong></p>
+      </div>
+      <div class="qa-answer">
+        <p><strong>Answer:</strong> B-rep relies on strict topological rules to ensure a solid model is mathematically "watertight." Euler's formula (V - E + F = 2, where V=Vertices, E=Edges, F=Faces) is continuously checked by the software's kernel to guarantee that the connected surfaces enclose a finite, valid volume without any impossible geometries, gaps, or self-intersections.</p>
+      </div>
+
+      <!-- Q56 -->
+      <div class="callout blue">
+        <div class="callout-title">Question 56 &bull; Unit 6 (Latest Technologies)</div>
+        <p><strong>In the context of Smart Manufacturing, what is meant by 'Cloud Manufacturing'?</strong></p>
+      </div>
+      <div class="qa-answer">
+        <p><strong>Answer:</strong> Cloud Manufacturing is an internet-based, distributed service model (Manufacturing-as-a-Service). Physical machining resources, 3D printers, and computationally heavy CAD/CAM software are networked over the cloud, allowing remote designers to seamlessly simulate, optimize, and manufacture parts on demand without having to own the expensive physical equipment locally.</p>
+      </div>
+
+      <!-- Q57 -->
+      <div class="callout blue">
+        <div class="callout-title">Question 57 &bull; Unit 4 (CAE)</div>
+        <p><strong>Why is 'Material Defining' a critical step in the CAE preprocessing phase?</strong></p>
+      </div>
+      <div class="qa-answer">
+        <p><strong>Answer:</strong> Because geometry alone does not dictate how a part reacts to external forces. Material defining assigns essential physical properties—such as Young's Modulus, Poisson's ratio, density, and yield strength—to the digital mesh. Without these parameters, the solver matrix cannot compute the stress-strain relationship or predict mechanical failure.</p>
+      </div>
+
+      <!-- Q58 -->
+      <div class="callout blue">
+        <div class="callout-title">Question 58 &bull; Unit 1 (Basics of CAD)</div>
+        <p><strong>What is the mathematical purpose of using 'Homogeneous Coordinates' in 3D transformations?</strong></p>
+      </div>
+      <div class="qa-answer">
+        <p><strong>Answer:</strong> In standard 3D cartesian coordinates (x,y,z), translation requires matrix addition, while scaling and rotation require matrix multiplication. Homogeneous coordinates add a 4th dimension (w), allowing <em>all</em> operations—including translation—to be uniformly expressed as 4x4 matrix multiplications, enabling rapid composite transformations by computers.</p>
+      </div>
+
+      <!-- Q59 -->
+      <div class="callout blue">
+        <div class="callout-title">Question 59 &bull; Unit 5 (CAM)</div>
+        <p><strong>State the main difference between a closed-loop and an open-loop CNC control system.</strong></p>
+      </div>
+      <div class="qa-answer">
+        <p><strong>Answer:</strong> An open-loop system sends movement commands to stepper motors but has no sensory way to verify if the cutting tool actually reached the target position. A closed-loop system uses optical encoders or linear scales to continuously feed real-time positional data back to the controller, allowing it to dynamically detect and correct any positioning errors during the cut.</p>
+      </div>
+
+      <!-- Q60 -->
+      <div class="callout blue">
+        <div class="callout-title">Question 60 &bull; Unit 2 (Curves and Surfaces)</div>
+        <p><strong>Differentiate between C0, C1, and C2 geometric continuity in synthetic curves.</strong></p>
+      </div>
+      <div class="qa-answer">
+        <p><strong>Answer:</strong> <strong>C0 continuity</strong> means two curve segments simply touch at a joint (no gaps, but there may be a sharp corner). <strong>C1 continuity</strong> means they touch and share the exact same tangent direction (providing a smooth visual transition). <strong>C2 continuity</strong> means they touch, share the same tangent, and possess the exact same radius of curvature at the joint—critical for high-speed aerodynamics and aesthetic automotive Class-A surfaces.</p>
+      </div>
+
+    </section>
+
+    <nav class="toc">
+      <h2>📋 Table of Contents</h2>
+      <ol>
+        <li><a href="https://praxian1905.github.io/html/sem6/lab/viva-batch-1.html">Batch 1</a></li>
+        <li><a href="https://praxian1905.github.io/html/sem6/lab/viva-batch-2.html">Batch 2</a></li>
+        <li><a href="https://praxian1905.github.io/html/sem6/lab/viva-batch-3.html">Batch 3</a></li>
+        <li><a href="https://praxian1905.github.io/html/sem6/lab/viva-batch-4.html">Batch 4</a></li>
+        <li><a href="https://praxian1905.github.io/html/sem6/lab/viva-batch-5.html">Batch 5</a></li>
+        <li><a href="https://praxian1905.github.io/html/sem6/lab/viva-batch-7.html">Batch 7</a></li>
+        <li><a href="https://praxian1905.github.io/html/sem6/lab/viva-batch-8.html">Batch 8</a></li>
+        <li><a href="https://praxian1905.github.io/html/sem6/lab/viva-batch-9.html">Batch 9</a></li>
+        <li><a href="https://praxian1905.github.io/html/sem6/lab/viva-batch-10.html">Batch 10</a></li>
+      </ol>
+    </nav>
+
+  </main>
+
+  <script>
+    window.addEventListener("scroll", () => {
+      const total = document.body.scrollHeight - window.innerHeight;
+      document.getElementById("progress").style.width = (window.scrollY / total) * 100 + "%";
+    });
+
+    const obs = new IntersectionObserver(
+      entries => entries.forEach(e => { if (e.isIntersecting) e.target.classList.add("visible"); }),
+      { threshold: 0.08 }
+    );
+    document.querySelectorAll(".section").forEach(s => obs.observe(s));
+  </script>
+</body>
+</html>

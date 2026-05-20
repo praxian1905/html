@@ -1,0 +1,295 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CAD/CAM Viva Questions - Batch 02</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=Source+Serif+4:ital,opsz,wght@0,8..60,300;0,8..60,400;0,8..60,600;1,8..60,300&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg:      #0e0f14;
+      --surface: #15171f;
+      --card:    #1c1f2b;
+      --border:  #2a2e40;
+      --accent:  #f5a623;
+      --accent2: #4fc3f7;
+      --accent3: #81c784;
+      --accent4: #ef5350;
+      --text:    #e8e9f0;
+      --muted:   #8890aa;
+      --heading: #ffffff;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: "Source Serif 4", Georgia, serif;
+      font-size: 17px;
+      line-height: 1.8;
+      min-height: 100vh;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+      pointer-events: none;
+      z-index: 999;
+      opacity: 0.45;
+    }
+
+    strong { color: var(--heading); font-weight: 600; }
+    em     { color: var(--accent); font-style: italic; }
+    p      { margin-bottom: 18px; color: var(--text); }
+
+    h3 {
+      font-family: "Playfair Display", serif;
+      font-size: 20px;
+      color: var(--heading);
+      margin: 36px 0 14px;
+      font-weight: 700;
+    }
+
+    .page {
+      max-width: 1020px;
+      margin: 0 auto;
+      padding: 0 28px 100px;
+    }
+
+    #progress {
+      position: fixed; top: 0; left: 0;
+      height: 3px;
+      background: linear-gradient(90deg, var(--accent), var(--accent2));
+      z-index: 1000;
+      width: 0;
+      transition: width 0.1s linear;
+    }
+
+    @media (max-width: 768px) {
+      .page { padding: 0 16px 80px; }
+    }
+
+    .hero {
+      position: relative;
+      overflow: hidden;
+      padding: 90px 40px 80px;
+      text-align: center;
+      border-bottom: 1px solid var(--border);
+      background: radial-gradient(ellipse 80% 60% at 50% 0%, #1a2340 0%, var(--bg) 70%);
+    }
+
+    .hero-badge {
+      display: inline-block;
+      font-family: "JetBrains Mono", monospace;
+      font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase;
+      color: var(--accent); border: 1px solid var(--accent);
+      padding: 4px 14px; border-radius: 2px; margin-bottom: 24px;
+      opacity: 0; animation: fadeUp 0.6s 0.1s forwards;
+    }
+
+    .hero h1 {
+      font-family: "Playfair Display", serif;
+      font-size: clamp(28px, 5vw, 54px); font-weight: 900;
+      color: var(--heading); line-height: 1.15;
+      max-width: 860px; margin: 0 auto 20px;
+      opacity: 0; animation: fadeUp 0.7s 0.25s forwards;
+    }
+    .hero h1 em { color: var(--accent); font-style: normal; }
+
+    .hero-sub {
+      font-size: 16px; color: var(--muted);
+      max-width: 620px; margin: 0 auto 36px;
+      opacity: 0; animation: fadeUp 0.7s 0.4s forwards;
+    }
+
+    .hero-meta {
+      display: flex; flex-wrap: wrap; gap: 20px; justify-content: center;
+      opacity: 0; animation: fadeUp 0.7s 0.55s forwards;
+    }
+    .hero-meta span {
+      font-family: "JetBrains Mono", monospace; font-size: 12px;
+      color: var(--muted); background: var(--card);
+      border: 1px solid var(--border); padding: 6px 14px; border-radius: 2px;
+    }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(18px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .section {
+      margin-bottom: 72px;
+      opacity: 0; transform: translateY(24px);
+      transition: opacity 0.55s, transform 0.55s;
+    }
+    .section.visible { opacity: 1; transform: translateY(0); }
+
+    .callout {
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: 2px; padding: 22px 26px; margin: 40px 0 15px;
+    }
+    .callout.blue   { border-left: 3px solid var(--accent2); }
+
+    .callout-title {
+      font-family: "JetBrains Mono", monospace;
+      font-size: 11px; text-transform: uppercase; letter-spacing: 0.12em;
+      margin-bottom: 10px; color: var(--accent2);
+    }
+    
+    .qa-answer {
+      padding-left: 26px;
+      border-left: 2px solid var(--border);
+      margin-left: 2px;
+      color: var(--text);
+    }
+
+    .qa-answer strong {
+      color: var(--accent3);
+    }
+
+  </style>
+</head>
+<body>
+  <div id="progress"></div>
+
+  <header class="hero">
+    <div class="hero-badge">Examination Prep &middot; Q11-Q20</div>
+    <h1>CAD/CAM <em>Viva Voce</em></h1>
+    <p class="hero-sub">Batch 02: Continuing with a structurally randomized selection of rigorous viva-style questions spanning all core units.</p>
+    <div class="hero-meta">
+      <span>📝 Questions 11 - 20</span>
+      <span>🔄 Random Distribution</span>
+    </div>
+  </header>
+
+  <main class="page">
+    
+    <section class="section visible">
+      
+      <!-- Q11 -->
+      <div class="callout blue">
+        <div class="callout-title">Question 11 &bull; Unit 5 (CAM)</div>
+        <p><strong>What is the fundamental difference between NC and CNC machines?</strong></p>
+      </div>
+      <div class="qa-answer">
+        <p><strong>Answer:</strong> NC (Numerical Control) relies on hardwired hardware logic and punched tapes for its instructions, making the program rigid and very difficult to edit on the floor. CNC (Computer Numerical Control) uses a dedicated onboard microcomputer, allowing programs to be stored in internal memory, easily edited, simulated, and seamlessly integrated with CAD/CAM software.</p>
+      </div>
+
+      <!-- Q12 -->
+      <div class="callout blue">
+        <div class="callout-title">Question 12 &bull; Unit 1 (Basics of CAD)</div>
+        <p><strong>Mention the key advantages of using a 3D CAD system over traditional 2D drafting.</strong></p>
+      </div>
+      <div class="qa-answer">
+        <p><strong>Answer:</strong> 3D CAD provides mathematically exact volumetric representations, which enables automatic calculation of mass and center of gravity. It allows for automated generation of 2D orthogonal views, immediate interference/collision checking in assemblies, and direct data export to FEA for stress analysis or to CAM for CNC toolpath generation.</p>
+      </div>
+
+      <!-- Q13 -->
+      <div class="callout blue">
+        <div class="callout-title">Question 13 &bull; Unit 4 (CAE)</div>
+        <p><strong>What are 'boundary conditions' in Finite Element Analysis (FEA)? Give examples.</strong></p>
+      </div>
+      <div class="qa-answer">
+        <p><strong>Answer:</strong> Boundary conditions are the constraints and loads applied to a digital model to simulate its physical operating environment. Examples include fixing a face so it cannot translate or rotate (zero displacement), applying a concentrated point force (in Newtons), or defining a pressure distribution across a surface (in Pascals).</p>
+      </div>
+
+      <!-- Q14 -->
+      <div class="callout blue">
+        <div class="callout-title">Question 14 &bull; Unit 2 (Curves and Surfaces)</div>
+        <p><strong>Define a 'Ruled Surface' and mention a common industrial application.</strong></p>
+      </div>
+      <div class="qa-answer">
+        <p><strong>Answer:</strong> A ruled surface is generated by linearly interpolating straight lines between two defined boundary curves in 3D space. It is widely used in designing transition geometries such as HVAC ducting, aircraft wing skins, and turbine blades where fluid or airflow transitions are required.</p>
+      </div>
+
+      <!-- Q15 -->
+      <div class="callout blue">
+        <div class="callout-title">Question 15 &bull; Unit 6 (Latest Technologies)</div>
+        <p><strong>What role does Cloud Manufacturing play in modern production ecosystems?</strong></p>
+      </div>
+      <div class="qa-answer">
+        <p><strong>Answer:</strong> Cloud Manufacturing decentralizes production by sharing manufacturing resources (like high-end CAD/CAM software, 3D printers, and CNCs) over the internet. Operating on a "Manufacturing-as-a-Service" (MaaS) model, it allows smaller firms or remote designers to access expensive fabrication tools on-demand without heavy upfront capital investments.</p>
+      </div>
+
+      <!-- Q16 -->
+      <div class="callout blue">
+        <div class="callout-title">Question 16 &bull; Unit 3 (Solid Modelling)</div>
+        <p><strong>Explain 'Boolean operations' in the context of Constructive Solid Geometry (CSG).</strong></p>
+      </div>
+      <div class="qa-answer">
+        <p><strong>Answer:</strong> Boolean operations are mathematical logic rules used to combine simple 3D primitives (like boxes and spheres) to form complex parts. The three primary operations are 'Union' (merging two solids into one), 'Difference' (removing the intersecting volume of one solid from another, like drilling a hole), and 'Intersection' (keeping only the overlapping volume).</p>
+      </div>
+
+      <!-- Q17 -->
+      <div class="callout blue">
+        <div class="callout-title">Question 17 &bull; Unit 5 (CAM)</div>
+        <p><strong>What is Computer Aided Process Planning (CAPP), and why is it important?</strong></p>
+      </div>
+      <div class="qa-answer">
+        <p><strong>Answer:</strong> CAPP acts as the vital bridge connecting CAD (design) to CAM (manufacturing). It involves using software to automatically determine the optimal sequence of machining operations, select the right tools, and calculate cycle times required to transform a raw piece of stock material into the finished CAD design.</p>
+      </div>
+
+      <!-- Q18 -->
+      <div class="callout blue">
+        <div class="callout-title">Question 18 &bull; Unit 1 (Basics of CAD)</div>
+        <p><strong>What is a 'composite transformation matrix'?</strong></p>
+      </div>
+      <div class="qa-answer">
+        <p><strong>Answer:</strong> Complex movements in CAD usually require multiple sequential transformations (for instance, translating an object, then rotating it, then scaling it). A composite transformation matrix is a single consolidated matrix obtained by multiplying all the individual transformation matrices together. This allows the computer to calculate the final position in one step, saving immense computational power.</p>
+      </div>
+
+      <!-- Q19 -->
+      <div class="callout blue">
+        <div class="callout-title">Question 19 &bull; Unit 4 (CAE)</div>
+        <p><strong>In CAE, what is the purpose of 'interference detection' during assembly modelling?</strong></p>
+      </div>
+      <div class="qa-answer">
+        <p><strong>Answer:</strong> Interference detection is a computational check to verify if any two or more parts in a 3D digital assembly are occupying the exact same physical space (overlapping or colliding). Finding these errors digitally prevents parts from failing to fit together on the actual shop floor, thereby avoiding costly manufacturing rework and scrapped materials.</p>
+      </div>
+
+      <!-- Q20 -->
+      <div class="callout blue">
+        <div class="callout-title">Question 20 &bull; Unit 6 (Latest Technologies)</div>
+        <p><strong>How is Artificial Intelligence (AI) currently being utilized on the CNC machining floor?</strong></p>
+      </div>
+      <div class="qa-answer">
+        <p><strong>Answer:</strong> AI and Machine Learning algorithms process real-time sensor data—such as spindle vibration, acoustic emissions, and temperature—from CNC machines to execute <em>predictive maintenance</em>. The AI can accurately predict when a cutting tool will wear out or a bearing will fail, preventing unplanned downtime and automatically optimizing cutting feeds and speeds on the fly to maximize efficiency.</p>
+      </div>
+
+    </section>
+
+    <nav class="toc">
+      <h2>📋 Table of Contents</h2>
+      <ol>
+        <li><a href="https://praxian1905.github.io/html/sem6/lab/viva-batch-2.html">Batch 1</a></li>
+        <li><a href="https://praxian1905.github.io/html/sem6/lab/viva-batch-3.html">Batch 3</a></li>
+        <li><a href="https://praxian1905.github.io/html/sem6/lab/viva-batch-4.html">Batch 4</a></li>
+        <li><a href="https://praxian1905.github.io/html/sem6/lab/viva-batch-5.html">Batch 5</a></li>
+        <li><a href="https://praxian1905.github.io/html/sem6/lab/viva-batch-6.html">Batch 6</a></li>
+        <li><a href="https://praxian1905.github.io/html/sem6/lab/viva-batch-7.html">Batch 7</a></li>
+        <li><a href="https://praxian1905.github.io/html/sem6/lab/viva-batch-8.html">Batch 8</a></li>
+        <li><a href="https://praxian1905.github.io/html/sem6/lab/viva-batch-9.html">Batch 9</a></li>
+        <li><a href="https://praxian1905.github.io/html/sem6/lab/viva-batch-10.html">Batch 10</a></li>
+      </ol>
+    </nav>
+
+  </main>
+
+  <script>
+    window.addEventListener("scroll", () => {
+      const total = document.body.scrollHeight - window.innerHeight;
+      document.getElementById("progress").style.width = (window.scrollY / total) * 100 + "%";
+    });
+
+    const obs = new IntersectionObserver(
+      entries => entries.forEach(e => { if (e.isIntersecting) e.target.classList.add("visible"); }),
+      { threshold: 0.08 }
+    );
+    document.querySelectorAll(".section").forEach(s => obs.observe(s));
+  </script>
+</body>
+</html>

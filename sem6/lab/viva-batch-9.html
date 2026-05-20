@@ -1,0 +1,295 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CAD/CAM Viva Questions - Batch 09</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=Source+Serif+4:ital,opsz,wght@0,8..60,300;0,8..60,400;0,8..60,600;1,8..60,300&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg:      #0e0f14;
+      --surface: #15171f;
+      --card:    #1c1f2b;
+      --border:  #2a2e40;
+      --accent:  #f5a623;
+      --accent2: #4fc3f7;
+      --accent3: #81c784;
+      --accent4: #ef5350;
+      --text:    #e8e9f0;
+      --muted:   #8890aa;
+      --heading: #ffffff;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: "Source Serif 4", Georgia, serif;
+      font-size: 17px;
+      line-height: 1.8;
+      min-height: 100vh;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+      pointer-events: none;
+      z-index: 999;
+      opacity: 0.45;
+    }
+
+    strong { color: var(--heading); font-weight: 600; }
+    em     { color: var(--accent); font-style: italic; }
+    p      { margin-bottom: 18px; color: var(--text); }
+
+    h3 {
+      font-family: "Playfair Display", serif;
+      font-size: 20px;
+      color: var(--heading);
+      margin: 36px 0 14px;
+      font-weight: 700;
+    }
+
+    .page {
+      max-width: 1020px;
+      margin: 0 auto;
+      padding: 0 28px 100px;
+    }
+
+    #progress {
+      position: fixed; top: 0; left: 0;
+      height: 3px;
+      background: linear-gradient(90deg, var(--accent), var(--accent2));
+      z-index: 1000;
+      width: 0;
+      transition: width 0.1s linear;
+    }
+
+    @media (max-width: 768px) {
+      .page { padding: 0 16px 80px; }
+    }
+
+    .hero {
+      position: relative;
+      overflow: hidden;
+      padding: 90px 40px 80px;
+      text-align: center;
+      border-bottom: 1px solid var(--border);
+      background: radial-gradient(ellipse 80% 60% at 50% 0%, #1a2340 0%, var(--bg) 70%);
+    }
+
+    .hero-badge {
+      display: inline-block;
+      font-family: "JetBrains Mono", monospace;
+      font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase;
+      color: var(--accent); border: 1px solid var(--accent);
+      padding: 4px 14px; border-radius: 2px; margin-bottom: 24px;
+      opacity: 0; animation: fadeUp 0.6s 0.1s forwards;
+    }
+
+    .hero h1 {
+      font-family: "Playfair Display", serif;
+      font-size: clamp(28px, 5vw, 54px); font-weight: 900;
+      color: var(--heading); line-height: 1.15;
+      max-width: 860px; margin: 0 auto 20px;
+      opacity: 0; animation: fadeUp 0.7s 0.25s forwards;
+    }
+    .hero h1 em { color: var(--accent); font-style: normal; }
+
+    .hero-sub {
+      font-size: 16px; color: var(--muted);
+      max-width: 620px; margin: 0 auto 36px;
+      opacity: 0; animation: fadeUp 0.7s 0.4s forwards;
+    }
+
+    .hero-meta {
+      display: flex; flex-wrap: wrap; gap: 20px; justify-content: center;
+      opacity: 0; animation: fadeUp 0.7s 0.55s forwards;
+    }
+    .hero-meta span {
+      font-family: "JetBrains Mono", monospace; font-size: 12px;
+      color: var(--muted); background: var(--card);
+      border: 1px solid var(--border); padding: 6px 14px; border-radius: 2px;
+    }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(18px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .section {
+      margin-bottom: 72px;
+      opacity: 0; transform: translateY(24px);
+      transition: opacity 0.55s, transform 0.55s;
+    }
+    .section.visible { opacity: 1; transform: translateY(0); }
+
+    .callout {
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: 2px; padding: 22px 26px; margin: 40px 0 15px;
+    }
+    .callout.blue   { border-left: 3px solid var(--accent2); }
+
+    .callout-title {
+      font-family: "JetBrains Mono", monospace;
+      font-size: 11px; text-transform: uppercase; letter-spacing: 0.12em;
+      margin-bottom: 10px; color: var(--accent2);
+    }
+    
+    .qa-answer {
+      padding-left: 26px;
+      border-left: 2px solid var(--border);
+      margin-left: 2px;
+      color: var(--text);
+    }
+
+    .qa-answer strong {
+      color: var(--accent3);
+    }
+
+  </style>
+</head>
+<body>
+  <div id="progress"></div>
+
+  <header class="hero">
+    <div class="hero-badge">Examination Prep &middot; Q81-Q90</div>
+    <h1>CAD/CAM <em>Viva Voce</em></h1>
+    <p class="hero-sub">Batch 09: Continuing with a structurally randomized selection of rigorous viva-style questions spanning all core units.</p>
+    <div class="hero-meta">
+      <span>📝 Questions 81 - 90</span>
+      <span>🔄 Random Distribution</span>
+    </div>
+  </header>
+
+  <main class="page">
+    
+    <section class="section visible">
+      
+      <!-- Q81 -->
+      <div class="callout blue">
+        <div class="callout-title">Question 81 &bull; Unit 1 (Basics of CAD)</div>
+        <p><strong>Explain the computational concepts of 'Windowing' and 'Clipping' in CAD graphics.</strong></p>
+      </div>
+      <div class="qa-answer">
+        <p><strong>Answer:</strong> Windowing is the process of selecting a specific rectangular mathematical boundary within the infinite global CAD coordinate system that the user wishes to view. Clipping is the mathematical algorithm that then identifies lines or geometric entities that fall partially or completely outside this viewing window and "cuts" them off, ensuring only the internal, relevant geometry is rendered to the screen.</p>
+      </div>
+
+      <!-- Q82 -->
+      <div class="callout blue">
+        <div class="callout-title">Question 82 &bull; Unit 5 (CAM)</div>
+        <p><strong>What is the fundamental difference between G-codes and M-codes in CNC programming?</strong></p>
+      </div>
+      <div class="qa-answer">
+        <p><strong>Answer:</strong> G-codes (Preparatory Functions) dictate the actual geometry and movement of the machine tool—such as moving in a straight line (G01), cutting an arc (G02), or moving at rapid speed (G00). M-codes (Miscellaneous Functions) act as digital switches that control the machine's physical hardware, such as turning the spindle on/off (M03/M05), activating coolant (M08), or initiating a tool change (M06).</p>
+      </div>
+
+      <!-- Q83 -->
+      <div class="callout blue">
+        <div class="callout-title">Question 83 &bull; Unit 4 (CAE)</div>
+        <p><strong>In Finite Element Analysis, what is the significance of the 'Von Mises Stress' criterion?</strong></p>
+      </div>
+      <div class="qa-answer">
+        <p><strong>Answer:</strong> Von Mises stress is a scalar equivalent stress calculated by mathematically combining the complex 3D principal stresses acting on a node. It is heavily utilized in FEA post-processing to predict the yielding or failure of ductile materials (like steel or aluminum). If the computed Von Mises stress exceeds the material's known yield strength, the part is predicted to permanently deform or fail.</p>
+      </div>
+
+      <!-- Q84 -->
+      <div class="callout blue">
+        <div class="callout-title">Question 84 &bull; Unit 2 (Curves and Surfaces)</div>
+        <p><strong>What is a 'Surface Patch' in 3D CAD modelling?</strong></p>
+      </div>
+      <div class="qa-answer">
+        <p><strong>Answer:</strong> A surface patch is the fundamental mathematical building block of free-form surface models. It is essentially a 2D boundary draped in 3D space, defined by a localized grid of control points (such as a Bezier or NURBS patch). Complex geometries like automotive bodies or airplane fuselages are created by seamlessly stitching hundreds of these individual patches together with C1 or C2 continuity.</p>
+      </div>
+
+      <!-- Q85 -->
+      <div class="callout blue">
+        <div class="callout-title">Question 85 &bull; Unit 6 (Latest Technologies)</div>
+        <p><strong>How does Augmented Reality (AR) differ from Virtual Reality (VR) in Industry 4.0 applications?</strong></p>
+      </div>
+      <div class="qa-answer">
+        <p><strong>Answer:</strong> VR completely immerses the user in a 100% digital, simulated environment, which is highly effective for off-site training or virtual factory layout planning. AR, conversely, overlays digital elements—such as 3D CAD models, live sensor data, or step-by-step maintenance instructions—directly onto the real-world physical environment via smart glasses or tablets, aiding technicians right on the shop floor.</p>
+      </div>
+
+      <!-- Q86 -->
+      <div class="callout blue">
+        <div class="callout-title">Question 86 &bull; Unit 3 (Solid Modelling)</div>
+        <p><strong>Define 'Manifold' versus 'Non-Manifold' geometry in solid modelling.</strong></p>
+      </div>
+      <div class="qa-answer">
+        <p><strong>Answer:</strong> A Manifold solid is a mathematically "watertight" model that could physically exist in the real world (where every edge is shared by exactly two faces). A Non-Manifold geometry contains mathematical impossibilities—such as three faces sharing a single edge, or two distinct solid blocks meeting at exactly one infinitely small vertex. Non-manifold errors will cause FEA meshers and 3D printers to crash or fail.</p>
+      </div>
+
+      <!-- Q87 -->
+      <div class="callout blue">
+        <div class="callout-title">Question 87 &bull; Unit 5 (CAM)</div>
+        <p><strong>What is a 'Canned Cycle' in CNC machining?</strong></p>
+      </div>
+      <div class="qa-answer">
+        <p><strong>Answer:</strong> A canned cycle (or fixed cycle) is a pre-programmed, repetitive sequence of complex machine movements built directly into the CNC controller. It is typically used for operations like deep-hole pecking, tapping, or boring. Instead of writing dozens of individual lines of G-code to drill a hole step-by-step, the programmer issues a single canned cycle command, drastically reducing program length and human error.</p>
+      </div>
+
+      <!-- Q88 -->
+      <div class="callout blue">
+        <div class="callout-title">Question 88 &bull; Unit 1 (Basics of CAD)</div>
+        <p><strong>Describe the 'Z-buffer' algorithm and its use in 3D CAD visualization.</strong></p>
+      </div>
+      <div class="qa-answer">
+        <p><strong>Answer:</strong> The Z-buffer (or depth-buffer) algorithm is a critical computer graphics technique used for hidden surface removal. For every pixel generated on the screen, it keeps track of its depth (Z-coordinate) relative to the viewer's camera. When rendering a 3D solid, it automatically compares overlapping surfaces and only draws the pixel closest to the viewer, successfully hiding the back-faces of the object.</p>
+      </div>
+
+      <!-- Q89 -->
+      <div class="callout blue">
+        <div class="callout-title">Question 89 &bull; Unit 4 (CAE)</div>
+        <p><strong>What does a 'Factor of Safety' (FoS) contour map indicate in CAE post-processing?</strong></p>
+      </div>
+      <div class="qa-answer">
+        <p><strong>Answer:</strong> While a standard stress contour map only visualizes raw force distribution, an FoS contour map evaluates structural integrity by dividing the material's maximum allowable yield strength by the actual applied stress. Any colored areas on the map displaying an FoS of 1.0 or lower instantly highlight the exact locations where the design is mathematically predicted to fail or fracture under operational loads.</p>
+      </div>
+
+      <!-- Q90 -->
+      <div class="callout blue">
+        <div class="callout-title">Question 90 &bull; Unit 6 (Latest Technologies)</div>
+        <p><strong>Briefly explain the concept of 'Generative Design' in modern CAD/CAM software.</strong></p>
+      </div>
+      <div class="qa-answer">
+        <p><strong>Answer:</strong> Generative design is an AI-driven, iterative design process. The engineer does not draw the part; instead, they define boundary conditions (such as physical constraints, applied loads, material types, and required manufacturing methods like casting or 3D printing). The AI algorithm then explores thousands of possible permutations, autonomously "growing" highly optimized, organic, and lightweight shapes that meet all criteria—shapes a human designer would likely never conceive manually.</p>
+      </div>
+
+    </section>
+
+    <nav class="toc">
+      <h2>📋 Table of Contents</h2>
+      <ol>
+        <li><a href="https://praxian1905.github.io/html/sem6/lab/viva-batch-1.html">Batch 1</a></li>
+        <li><a href="https://praxian1905.github.io/html/sem6/lab/viva-batch-2.html">Batch 2</a></li>
+        <li><a href="https://praxian1905.github.io/html/sem6/lab/viva-batch-3.html">Batch 3</a></li>
+        <li><a href="https://praxian1905.github.io/html/sem6/lab/viva-batch-4.html">Batch 4</a></li>
+        <li><a href="https://praxian1905.github.io/html/sem6/lab/viva-batch-5.html">Batch 5</a></li>
+        <li><a href="https://praxian1905.github.io/html/sem6/lab/viva-batch-6.html">Batch 6</a></li>
+        <li><a href="https://praxian1905.github.io/html/sem6/lab/viva-batch-7.html">Batch 7</a></li>
+        <li><a href="https://praxian1905.github.io/html/sem6/lab/viva-batch-8.html">Batch 8</a></li>
+        <li><a href="https://praxian1905.github.io/html/sem6/lab/viva-batch-10.html">Batch 10</a></li>
+      </ol>
+    </nav>
+
+  </main>
+
+  <script>
+    window.addEventListener("scroll", () => {
+      const total = document.body.scrollHeight - window.innerHeight;
+      document.getElementById("progress").style.width = (window.scrollY / total) * 100 + "%";
+    });
+
+    const obs = new IntersectionObserver(
+      entries => entries.forEach(e => { if (e.isIntersecting) e.target.classList.add("visible"); }),
+      { threshold: 0.08 }
+    );
+    document.querySelectorAll(".section").forEach(s => obs.observe(s));
+  </script>
+</body>
+</html>

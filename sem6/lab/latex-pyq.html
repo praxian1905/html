@@ -1,0 +1,700 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Comprehensive CAD/CAM & Advanced Manufacturing</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=Source+Serif+4:ital,opsz,wght@0,8..60,300;0,8..60,400;0,8..60,600;1,8..60,300&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg:      #0e0f14;
+      --surface: #15171f;
+      --card:    #1c1f2b;
+      --border:  #2a2e40;
+      --accent:  #f5a623;
+      --accent2: #4fc3f7;
+      --accent3: #81c784;
+      --accent4: #ef5350;
+      --text:    #e8e9f0;
+      --muted:   #8890aa;
+      --heading: #ffffff;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: "Source Serif 4", Georgia, serif;
+      font-size: 17px;
+      line-height: 1.8;
+      min-height: 100vh;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+      pointer-events: none;
+      z-index: 999;
+      opacity: 0.45;
+    }
+
+    strong { color: var(--heading); font-weight: 600; }
+    em     { color: var(--accent); font-style: italic; }
+    p      { margin-bottom: 18px; color: var(--text); }
+
+    h3 {
+      font-family: "Playfair Display", serif;
+      font-size: 20px;
+      color: var(--heading);
+      margin: 36px 0 14px;
+      font-weight: 700;
+    }
+
+    blockquote {
+      border-left: 3px solid var(--accent);
+      margin: 28px 0;
+      padding: 14px 24px;
+      background: var(--card);
+      font-style: italic;
+      color: var(--muted);
+      font-size: 16px;
+      border-radius: 0 2px 2px 0;
+    }
+
+    .page {
+      max-width: 1020px;
+      margin: 0 auto;
+      padding: 0 28px 100px;
+    }
+
+    #progress {
+      position: fixed; top: 0; left: 0;
+      height: 3px;
+      background: linear-gradient(90deg, var(--accent), var(--accent2));
+      z-index: 1000;
+      width: 0;
+      transition: width 0.1s linear;
+    }
+
+    @media (max-width: 768px) {
+      .page { padding: 0 16px 80px; }
+    }
+
+    .hero {
+      position: relative;
+      overflow: hidden;
+      padding: 90px 40px 80px;
+      text-align: center;
+      border-bottom: 1px solid var(--border);
+      background: radial-gradient(ellipse 80% 60% at 50% 0%, #1a2340 0%, var(--bg) 70%);
+    }
+    .hero::after {
+      content: "";
+      position: absolute;
+      left: 50%; top: -60px;
+      transform: translateX(-50%);
+      width: 600px; height: 600px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(245,166,35,0.07) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .hero-badge {
+      display: inline-block;
+      font-family: "JetBrains Mono", monospace;
+      font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase;
+      color: var(--accent); border: 1px solid var(--accent);
+      padding: 4px 14px; border-radius: 2px; margin-bottom: 24px;
+      opacity: 0; animation: fadeUp 0.6s 0.1s forwards;
+    }
+
+    .hero h1 {
+      font-family: "Playfair Display", serif;
+      font-size: clamp(28px, 5vw, 54px); font-weight: 900;
+      color: var(--heading); line-height: 1.15;
+      max-width: 860px; margin: 0 auto 20px;
+      opacity: 0; animation: fadeUp 0.7s 0.25s forwards;
+    }
+    .hero h1 em { color: var(--accent); font-style: normal; }
+
+    .hero-sub {
+      font-size: 16px; color: var(--muted);
+      max-width: 620px; margin: 0 auto 36px;
+      opacity: 0; animation: fadeUp 0.7s 0.4s forwards;
+    }
+
+    .hero-meta {
+      display: flex; flex-wrap: wrap; gap: 20px; justify-content: center;
+      opacity: 0; animation: fadeUp 0.7s 0.55s forwards;
+    }
+    .hero-meta span {
+      font-family: "JetBrains Mono", monospace; font-size: 12px;
+      color: var(--muted); background: var(--card);
+      border: 1px solid var(--border); padding: 6px 14px; border-radius: 2px;
+    }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(18px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .toc {
+      background: var(--card); border: 1px solid var(--border);
+      border-left: 3px solid var(--accent);
+      padding: 32px 36px; margin: 52px 0 60px; border-radius: 2px;
+    }
+    .toc h2 {
+      font-family: "Playfair Display", serif; font-size: 20px;
+      color: var(--heading); margin-bottom: 20px;
+    }
+    .toc ol { padding-left: 22px; }
+    .toc li { margin-bottom: 8px; }
+    .toc a {
+      color: var(--accent2); text-decoration: none;
+      font-family: "JetBrains Mono", monospace; font-size: 13px;
+      transition: color 0.2s;
+    }
+    .toc a:hover { color: var(--accent); }
+
+    .section {
+      margin-bottom: 72px;
+      opacity: 0; transform: translateY(24px);
+      transition: opacity 0.55s, transform 0.55s;
+    }
+    .section.visible { opacity: 1; transform: translateY(0); }
+
+    .section-label {
+      font-family: "JetBrains Mono", monospace;
+      font-size: 10.5px; letter-spacing: 0.18em; text-transform: uppercase;
+      color: var(--accent); margin-bottom: 10px;
+    }
+
+    h2.section-title {
+      font-family: "Playfair Display", serif;
+      font-size: clamp(22px, 3.5vw, 34px); font-weight: 700;
+      color: var(--heading); line-height: 1.2;
+      margin-bottom: 28px; padding-bottom: 14px;
+      border-bottom: 1px solid var(--border);
+    }
+    h2.section-title .num {
+      color: var(--accent); font-size: 0.7em; font-style: italic; margin-right: 10px;
+    }
+
+    .callout {
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: 2px; padding: 22px 26px; margin: 28px 0;
+    }
+    .callout.orange { border-left: 3px solid var(--accent); }
+    .callout.blue   { border-left: 3px solid var(--accent2); }
+    .callout.green  { border-left: 3px solid var(--accent3); }
+    .callout.red    { border-left: 3px solid var(--accent4); }
+
+    .callout-title {
+      font-family: "JetBrains Mono", monospace;
+      font-size: 11px; text-transform: uppercase; letter-spacing: 0.12em;
+      margin-bottom: 10px;
+    }
+    .callout.orange .callout-title { color: var(--accent); }
+    .callout.blue   .callout-title { color: var(--accent2); }
+    .callout.green  .callout-title { color: var(--accent3); }
+    .callout.red    .callout-title { color: var(--accent4); }
+
+    .table-wrap { overflow-x: auto; margin: 28px 0; }
+    table {
+      width: 100%; border-collapse: collapse;
+      font-size: 15px; background: var(--card); border: 1px solid var(--border);
+    }
+    thead th {
+      background: #20253a; color: var(--accent);
+      font-family: "JetBrains Mono", monospace;
+      font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase;
+      padding: 12px 16px; text-align: left; border-bottom: 1px solid var(--border);
+    }
+    tbody td {
+      padding: 11px 16px; border-bottom: 1px solid var(--border); vertical-align: top;
+    }
+    tbody tr:last-child td { border-bottom: none; }
+    tbody tr:hover td { background: rgba(255,255,255,0.025); }
+
+    .formula {
+      background: #0b0c12; border: 1px solid var(--border); border-radius: 2px;
+      padding: 18px 24px; margin: 22px 0;
+      font-family: "JetBrains Mono", monospace; font-size: 14.5px;
+      color: var(--accent2);
+      overflow-x: auto; white-space: pre;
+    }
+
+    .flow { display: flex; flex-wrap: wrap; gap: 16px; margin: 28px 0; }
+    .flow-step {
+      flex: 1; min-width: 160px;
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: 2px; padding: 18px 20px;
+    }
+    .flow-step .step-num {
+      font-family: "JetBrains Mono", monospace; font-size: 11px;
+      color: var(--accent); letter-spacing: 0.1em; margin-bottom: 8px;
+    }
+    .flow-step h4 {
+      font-family: "Playfair Display", serif; font-size: 16px;
+      color: var(--heading); margin-bottom: 6px;
+    }
+    .flow-step p { font-size: 14px; color: var(--muted); margin: 0; }
+
+    .sample-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(270px, 1fr));
+      gap: 18px; margin: 28px 0;
+    }
+    .sample-card {
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: 2px; padding: 22px 24px;
+      transition: border-color 0.2s, transform 0.2s;
+    }
+    .sample-card:hover { border-color: var(--accent2); transform: translateY(-3px); }
+    .sample-id {
+      font-family: "JetBrains Mono", monospace; font-size: 11px;
+      color: var(--accent); letter-spacing: 0.12em; margin-bottom: 8px;
+    }
+    .sample-card h4 {
+      font-family: "Playfair Display", serif; font-size: 17px;
+      color: var(--heading); margin-bottom: 10px;
+    }
+    .sample-card p { font-size: 14px; color: var(--muted); margin: 0; }
+    .sample-card.highlight { border-color: var(--accent); background: #1f1f0e; }
+    .sample-card.highlight h4 { color: var(--accent); }
+
+    .pills { display: flex; flex-wrap: wrap; gap: 10px; margin: 18px 0; }
+    .pill {
+      background: var(--card); border: 1px solid var(--border);
+      padding: 6px 14px; border-radius: 20px;
+      font-size: 13px; color: var(--text); font-family: "JetBrains Mono", monospace;
+    }
+    .pill.good { border-color: var(--accent3); color: var(--accent3); }
+    .pill.warn { border-color: var(--accent);  color: var(--accent); }
+    .pill.bad  { border-color: var(--accent4); color: var(--accent4); }
+
+    .verdict {
+      background: linear-gradient(135deg, #1a1a08, #1a1a0a);
+      border: 2px solid var(--accent); border-radius: 2px;
+      padding: 36px 40px; margin: 40px 0; text-align: center;
+    }
+    .verdict .trophy { font-size: 48px; margin-bottom: 16px; display: block; }
+    .verdict h3 {
+      font-family: "Playfair Display", serif; font-size: 26px;
+      color: var(--accent); margin-bottom: 12px;
+    }
+    .verdict p { color: var(--text); max-width: 600px; margin: 0 auto; }
+
+    .divider { border: none; border-top: 1px solid var(--border); margin: 60px 0; }
+
+    ul.custom-list { padding-left: 20px; margin-bottom: 18px; color: var(--text); }
+    ul.custom-list li { margin-bottom: 8px; }
+  </style>
+</head>
+<body>
+  <div id="progress"></div>
+
+  <header class="hero">
+    <div class="hero-badge">Engineering Reference &middot; Complete Guide</div>
+    <h1>Comprehensive <em>CAD/CAM</em> Mastery</h1>
+    <p class="hero-sub">An exhaustive synthesis of Computer-Aided Design, Manufacturing, Finite Element Analysis, and Smart Industry 4.0 techniques derived from multi-year academic solutions.</p>
+    <div class="hero-meta">
+      <span>📐 CAD Fundamentals</span>
+      <span>⚙️ CNC & Robotics</span>
+      <span>🧮 Finite Element Analysis</span>
+      <span>🌐 Industry 4.0</span>
+    </div>
+  </header>
+
+  <main class="page">
+    <nav class="toc">
+      <h2>📋 Table of Contents</h2>
+      <ol>
+        <li><a href="#s1">CAD/CAM Fundamentals & File Formats</a></li>
+        <li><a href="#s2">Geometric Transformations (2D & 3D)</a></li>
+        <li><a href="#s3">Curves and Surface Modelling</a></li>
+        <li><a href="#s4">Solid Modelling Techniques</a></li>
+        <li><a href="#s5">Finite Element Analysis (FEA/CAE)</a></li>
+        <li><a href="#s6">Computer Aided Process Planning (CAPP)</a></li>
+        <li><a href="#s7">CNC Machines & Distributed Control (DNC)</a></li>
+        <li><a href="#s8">Flexible Manufacturing (FMS) & Robotics</a></li>
+        <li><a href="#s9">Industry 4.0, Cloud Manufacturing & AI</a></li>
+      </ol>
+    </nav>
+
+    <!-- SECTION 1 -->
+    <section class="section" id="s1">
+      <div class="section-label">Chapter 01</div>
+      <h2 class="section-title"><span class="num">01.</span> CAD/CAM Fundamentals & File Formats</h2>
+      <p>Computer-Aided Design (CAD) and Computer-Aided Manufacturing (CAM) form the backbone of modern engineering. Moving from manual drafting to CAD has fundamentally optimized the design lifecycle.</p>
+      
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr><th>Feature</th><th>CAD Designing</th><th>Manual Designing</th></tr>
+          </thead>
+          <tbody>
+            <tr><td><strong>Drafting & Editing</strong></td><td>Faster drafting; easy modifications</td><td>Slow modification; more human error</td></tr>
+            <tr><td><strong>Accuracy</strong></td><td>High accuracy, mathematically defined</td><td>Dependent on physical instruments</td></tr>
+            <tr><td><strong>Modelling</strong></td><td>3D solid/surface/wireframe possible</td><td>Mostly restricted to 2D drawings</td></tr>
+            <tr><td><strong>Analysis & CAM</strong></td><td>Direct link to FEA simulation & CNC generation</td><td>Difficult; requires separate interpretation</td></tr>
+            <tr><td><strong>Storage & BOM</strong></td><td>Easy digital storage; automatic BOM generation</td><td>Physical storage; manual counting</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>Drawing Standards & Layers</h3>
+      <p>Standards are needed to maintain uniformity in symbols, line types, dimensions, and projection methods, helping manufacturers avoid ambiguity. In CAD, <em>layers</em> are used to overlay entities like transparent sheets.</p>
+      <div class="pills">
+        <span class="pill good">Visible Outlines</span>
+        <span class="pill warn">Hidden Edges</span>
+        <span class="pill bad">Centre Lines</span>
+        <span class="pill">Dimensions</span>
+        <span class="pill">Section Hatching</span>
+      </div>
+
+      <h3>Isometric to Orthographic Views</h3>
+      <p>An isometric view is a 3D pictorial representation where all three principal axes are equally inclined. For manufacturing, 2D <em>orthographic views</em> (Front, Top, Side) are mandatory to show true shape and sizes.</p>
+      <div class="flow">
+        <div class="flow-step">
+          <div class="step-num">STEP 01</div>
+          <h4>Identify Dimensions</h4>
+          <p>Study the isometric drawing to identify length, width, and height.</p>
+        </div>
+        <div class="flow-step">
+          <div class="step-num">STEP 02</div>
+          <h4>Project Views</h4>
+          <p>Select front direction for max detail. Project top view using vertical/horizontal projectors.</p>
+        </div>
+        <div class="flow-step">
+          <div class="step-num">STEP 03</div>
+          <h4>Generate Side View</h4>
+          <p>Use the 45-degree mitre line method to cross-reference dimensions automatically.</p>
+        </div>
+      </div>
+
+      <h3>Standard File Formats</h3>
+      <div class="sample-grid">
+        <div class="sample-card highlight">
+          <div class="sample-id">STP / STEP</div>
+          <h4>Standard Product Data</h4>
+          <p>Neutral 3D solid/assembly model format used between systems like CATIA, SolidWorks, and NX.</p>
+        </div>
+        <div class="sample-card">
+          <div class="sample-id">DXF</div>
+          <h4>Drawing Exchange</h4>
+          <p>Exchanges 2D/3D drawing data, often used for laser cutting profiles and CNC programming.</p>
+        </div>
+        <div class="sample-card">
+          <div class="sample-id">DXB</div>
+          <h4>Binary Exchange</h4>
+          <p>Compact binary version of drawing exchange data used for simplified geometry.</p>
+        </div>
+      </div>
+    </section>
+
+    <hr class="divider" />
+
+    <!-- SECTION 2 -->
+    <section class="section" id="s2">
+      <div class="section-label">Chapter 02</div>
+      <h2 class="section-title"><span class="num">02.</span> Geometric Transformations (2D & 3D)</h2>
+      <p>Geometrical transformation alters the position, size, or orientation of an object using mathematical matrix operations. Complex movements are achieved via <em>composite (concatenated) transformation</em> (e.g., P' = T R S P), which combines basic operations to reduce computational overhead.</p>
+
+      <h3>2D Transformation Matrices</h3>
+      <div class="formula">
+TRANSLATION (tx, ty)        SCALING (Sx, Sy)            ROTATION (θ)
+[ 1  0  tx ]                [ Sx 0  0 ]                 [ cosθ -sinθ  0 ]
+[ 0  1  ty ]                [ 0  Sy 0 ]                 [ sinθ  cosθ  0 ]
+[ 0  0  1  ]                [ 0  0  1 ]                 [  0     0    1 ]
+
+REFLECTION (X-Axis)         REFLECTION (Y-Axis)         SHEARING (X-Dir)
+[ 1  0  0 ]                 [-1  0  0 ]                 [ 1  Shx 0 ]
+[ 0 -1  0 ]                 [ 0  1  0 ]                 [ 0   1  0 ]
+[ 0  0  1 ]                 [ 0  0  1 ]                 [ 0   0  1 ]</div>
+
+      <h3>3D Homogeneous Transformations</h3>
+      <p>For a 3D point P = [x y z 1]ᵀ, we use a 4x4 matrix. <strong>Rotation</strong> around specific axes is essential for assembly positioning and robot arm simulation.</p>
+
+      <div class="callout blue">
+        <div class="callout-title">📘 3D Rotation Matrices</div>
+        <p><strong>Rotation about X-axis:</strong> Leaves x fixed, rotates y-z plane.<br/>
+        <strong>Rotation about Y-axis:</strong> Leaves y fixed, rotates x-z plane.<br/>
+        <strong>Rotation about Z-axis:</strong> Leaves z fixed, rotates x-y plane.</p>
+      </div>
+      
+      <div class="formula">
+Rot_X (θ)                  Reflection XY Plane (z' = -z)
+[ 1    0      0    0 ]     [ 1  0  0  0 ]
+[ 0  cosθ  -sinθ   0 ]     [ 0  1  0  0 ]
+[ 0  sinθ   cosθ   0 ]     [ 0  0 -1  0 ]
+[ 0    0      0    1 ]     [ 0  0  0  1 ]</div>
+    </section>
+
+    <hr class="divider" />
+
+    <!-- SECTION 3 -->
+    <section class="section" id="s3">
+      <div class="section-label">Chapter 03</div>
+      <h2 class="section-title"><span class="num">03.</span> Curves and Surface Modelling</h2>
+      <p>Surfaces model the outer skin of objects, critical when shape and aerodynamics supersede internal volume. Used heavily in automobile bodies and aircraft styling.</p>
+
+      <h3>Bezier Curves vs B-Splines</h3>
+      <p>A <strong>Bezier curve</strong> uses Bernstein basis polynomials. It suffers from a major drawback: <em>global control</em>, meaning moving one point shifts the whole curve, and its degree depends directly on the number of control points. A <strong>B-spline</strong> curve fixes this, offering local control and independent polynomial degree.</p>
+      
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr><th>Property</th><th>Bezier Curve</th><th>B-Spline Curve</th></tr>
+          </thead>
+          <tbody>
+            <tr><td><strong>Control Type</strong></td><td>Global (affects entire curve)</td><td>Local (only nearby region affected)</td></tr>
+            <tr><td><strong>Polynomial Degree</strong></td><td>Equals Number of Control Points - 1</td><td>Independent of Control Points</td></tr>
+            <tr><td><strong>Flexibility</strong></td><td>Less (hard for complex shapes)</td><td>High (ideal for long smooth curves)</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="callout orange">
+        <div class="callout-title">⚡ The Power of NURBS</div>
+        <p><strong>NURBS</strong> (Non-Uniform Rational B-Splines) provide the ultimate flexibility. Though mathematically complex, they can represent both free-form shapes and exact analytical geometries like perfect circles and cylinders. They are the standard for Class-A automotive surfaces.</p>
+      </div>
+
+      <h3>Types of Surfaces</h3>
+      <div class="pills">
+        <span class="pill">Plane Surface</span>
+        <span class="pill">Ruled Surface (transitions)</span>
+        <span class="pill">Revolved Surface (wheels/pulleys)</span>
+        <span class="pill">Swept Surface (pipes)</span>
+        <span class="pill good">Lofted Surface (aircraft wings)</span>
+      </div>
+    </section>
+
+    <hr class="divider" />
+
+    <!-- SECTION 4 -->
+    <section class="section" id="s4">
+      <div class="section-label">Chapter 04</div>
+      <h2 class="section-title"><span class="num">04.</span> Solid Modelling Techniques</h2>
+      <p>Solid models store complete volumetric and topological data, meaning mass properties, centers of gravity, and exact cross-sections can be calculated—making them far superior to ambiguous <em>wireframe models</em>.</p>
+
+      <div class="sample-grid">
+        <div class="sample-card highlight">
+          <div class="sample-id">CSG</div>
+          <h4>Constructive Solid Geometry</h4>
+          <p>Creates complex solids by combining primitive shapes (box, cylinder, sphere) using Boolean operations: Union, Difference, and Intersection.</p>
+        </div>
+        <div class="sample-card">
+          <div class="sample-id">B-REP</div>
+          <h4>Boundary Representation</h4>
+          <p>Represents the solid by its topological boundaries: faces, edges, and vertices. Excellent for complex castings and surface details.</p>
+        </div>
+        <div class="sample-card">
+          <div class="sample-id">SWEEP</div>
+          <h4>Sweep Representation</h4>
+          <p>Moving a 2D profile along a linear path (extrusion), rotational axis, or arbitrary curve. Used for pipes, shafts, and springs.</p>
+        </div>
+        <div class="sample-card">
+          <div class="sample-id">FEATURES</div>
+          <h4>Feature-based Modelling</h4>
+          <p>Constructs solids via engineering operations like holes, pockets, slots, fillets, and ribs. Easy to edit parametrically.</p>
+        </div>
+        <div class="sample-card">
+          <div class="sample-id">CELL DECOMP</div>
+          <h4>Cell Decomposition</h4>
+          <p>Dividing an object into simple non-overlapping cells. Highly useful for FEA mesh generation and manufacturing planning.</p>
+        </div>
+      </div>
+    </section>
+
+    <hr class="divider" />
+
+    <!-- SECTION 5 -->
+    <section class="section" id="s5">
+      <div class="section-label">Chapter 05</div>
+      <h2 class="section-title"><span class="num">05.</span> Finite Element Analysis (FEA)</h2>
+      <p><strong>FEA/CAE</strong> is a numerical method to solve physical engineering problems. A complex continuum body is discretized into small finite elements connected at nodes. It predicts real-world failure, thermal behavior, and vibrations, aiding <em>design optimization</em> before physical prototypes are built.</p>
+
+      <div class="flow">
+        <div class="flow-step">
+          <div class="step-num">01. PREPROCESSING</div>
+          <h4>Geometry & Mesh</h4>
+          <p>Import CAD, simplify (remove tiny holes/fillets), assign material properties, and mesh the body (coarse vs fine).</p>
+        </div>
+        <div class="flow-step">
+          <div class="step-num">02. SETUP & SOLVE</div>
+          <h4>Loads & Boundaries</h4>
+          <p>Apply constraints (fixed/roller) and loads. The solver compiles the global matrix [K]{d} = {F}.</p>
+        </div>
+        <div class="flow-step">
+          <div class="step-num">03. POSTPROCESSING</div>
+          <h4>Analyze Results</h4>
+          <p>Evaluate stress contours, deformation, and factor of safety. Modify design and repeat to optimize.</p>
+        </div>
+      </div>
+
+      <h3>Constant Strain Triangle (CST) Element</h3>
+      <p>The CST is a 3-node 2D element used in plane stress analysis. Its displacement field is linear (u = a₁ + a₂x + a₃y), which results in a constant strain across the element.</p>
+      
+      <div class="formula">
+Shape Functions (Ni):
+N_i = (a_i + b_i*x + c_i*y) / 2A
+where 2A = x1(y2 - y3) + x2(y3 - y1) + x3(y1 - y2)
+
+Displacement Field:
+u = N1*u1 + N2*u2 + N3*u3
+v = N1*v1 + N2*v2 + N3*v3
+
+Property: N1 + N2 + N3 = 1 (at any point inside the triangle)</div>
+
+      <div class="callout red">
+        <div class="callout-title">⚠️ Coarse vs Fine Meshing</div>
+        <p><strong>Coarse meshing</strong> solves faster but yields less accurate stress values. <strong>Fine meshing</strong> (using smaller elements) is computationally intensive but crucial around stress concentrations like holes and sharp corners to predict failure accurately.</p>
+      </div>
+    </section>
+
+    <hr class="divider" />
+
+    <!-- SECTION 6 -->
+    <section class="section" id="s6">
+      <div class="section-label">Chapter 06</div>
+      <h2 class="section-title"><span class="num">06.</span> Computer Aided Process Planning (CAPP)</h2>
+      <p>CAPP serves as the critical bridge connecting CAD (design) with CAM (manufacturing), ensuring systematic and optimal machining routes.</p>
+
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr><th>Attribute</th><th>Retrieval (Variant) CAPP</th><th>Generative CAPP</th></tr>
+          </thead>
+          <tbody>
+            <tr><td><strong>Methodology</strong></td><td>Retrieves existing plan from database, human modifies it.</td><td>Generates entirely new plan using logic & rules from scratch.</td></tr>
+            <tr><td><strong>Foundation</strong></td><td>Relies on Group Technology / Part Families.</td><td>Relies on Artificial Intelligence & Knowledge Base systems.</td></tr>
+            <tr><td><strong>Flexibility & Cost</strong></td><td>Low flexibility; low implementation cost.</td><td>High flexibility; high cost & complex setup.</td></tr>
+            <tr><td><strong>Best Suited For</strong></td><td>Similar parts, modifications to existing product lines.</td><td>Entirely new, complex, or highly varied parts.</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <hr class="divider" />
+
+    <!-- SECTION 7 -->
+    <section class="section" id="s7">
+      <div class="section-label">Chapter 07</div>
+      <h2 class="section-title"><span class="num">07.</span> CNC Machining & Distributed Control</h2>
+      <p>Numerical Control has evolved from punched tapes into integrated computer networks that drive precise manufacturing tools.</p>
+
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr><th>System</th><th>Controller</th><th>Editing</th><th>Data Storage</th></tr>
+          </thead>
+          <tbody>
+            <tr><td><strong>NC</strong></td><td>Hard-wired hardware</td><td>Extremely difficult</td><td>Punched tape (external)</td></tr>
+            <tr><td><strong>CNC</strong></td><td>Dedicated built-in computer</td><td>Easy on panel</td><td>Internal machine memory</td></tr>
+            <tr><td><strong>DNC</strong></td><td>Central network server</td><td>Centralized system</td><td>Central database / Cloud</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="callout green">
+        <div class="callout-title">✅ MasterCAM Simulation Benefits</div>
+        <p>Software like MasterCAM simulates CNC tool paths virtually. This predicts cycle times, visualizes material removal, optimizes feed rates, and crucially <strong>detects collisions</strong> (between tool, workpiece, and fixture) before physical cutting, saving vast amounts of time and tooling costs.</p>
+      </div>
+      
+      <p><strong>Adaptive Control:</strong> A system where cutting parameters (speed, feed, depth) automatically adjust in real-time based on actual sensor feedback (e.g., cutting forces or spindle torque).</p>
+    </section>
+
+    <hr class="divider" />
+
+    <!-- SECTION 8 -->
+    <section class="section" id="s8">
+      <div class="section-label">Chapter 08</div>
+      <h2 class="section-title"><span class="num">08.</span> Flexible Manufacturing Systems (FMS) & Robotics</h2>
+      <p>An FMS uses computer-controlled CNC stations combined with automated material handling. It is highly flexible (routing flexibility allows bypassing busy machines) but requires high initial investment.</p>
+      
+      <p><strong>FMS Components:</strong> Processing stations (CNCs), Material Handling (AGVs/Conveyors), Storage (AS/RS), Central Computer Control, and Tool Management.</p>
+
+      <h3>Industrial Robotics & Sensors</h3>
+      <p>Robots consist of a manipulator arm, end effector (tool/gripper), actuators, controller, and sensors. They shine in hazardous environments, welding, painting, and high-precision repetitive tasks.</p>
+
+      <div class="pills">
+        <span class="pill good">Position Sensors (Joint feedback)</span>
+        <span class="pill warn">Force/Torque (Assembly/Deburring)</span>
+        <span class="pill">Vision Sensors (Guidance/Inspection)</span>
+        <span class="pill bad">Safety Sensors (Collision Prevention)</span>
+        <span class="pill">Tactile Sensors (Gripping)</span>
+      </div>
+    </section>
+
+    <hr class="divider" />
+
+    <!-- SECTION 9 -->
+    <section class="section" id="s9">
+      <div class="section-label">Chapter 09</div>
+      <h2 class="section-title"><span class="num">09.</span> Industry 4.0, Cloud Manufacturing & AI</h2>
+      <p>The Fourth Industrial Revolution digitizes and interconnects the entire manufacturing stack.</p>
+
+      <div class="sample-grid">
+        <div class="sample-card highlight">
+          <div class="sample-id">PILLAR 01</div>
+          <h4>Internet of Things (IoT)</h4>
+          <p>Network of physical devices collecting and sharing real-time machine data across the factory floor.</p>
+        </div>
+        <div class="sample-card">
+          <div class="sample-id">PILLAR 02</div>
+          <h4>Cyber-Physical Systems</h4>
+          <p>Integration of computational processes with physical machinery, enabling self-adjusting smart factories.</p>
+        </div>
+        <div class="sample-card">
+          <div class="sample-id">PILLAR 03</div>
+          <h4>Artificial Intelligence (AI)</h4>
+          <p>Machines learning from Big Data. Example: Machine Learning algorithms predicting CNC spindle failure from vibration data.</p>
+        </div>
+        <div class="sample-card">
+          <div class="sample-id">PILLAR 04</div>
+          <h4>Digital Twin</h4>
+          <p>A live, virtual replica of a physical asset used for simulation, layout optimization, and continuous monitoring.</p>
+        </div>
+        <div class="sample-card">
+          <div class="sample-id">PILLAR 05</div>
+          <h4>Cloud Manufacturing</h4>
+          <p>Distributed model sharing CAD/CAM software, scheduling, and 3D printing resources remotely via the internet.</p>
+        </div>
+        <div class="sample-card">
+          <div class="sample-id">PILLAR 06</div>
+          <h4>Reverse Engineering</h4>
+          <p>Using 3D scanners/CMM to capture a point cloud from a physical part, converting it to surfaces, and generating a CAD model.</p>
+        </div>
+      </div>
+
+      <div class="verdict">
+        <span class="trophy">🏆</span>
+        <h3>The Ultimate Takeaway</h3>
+        <p>The progression from manual drafting to mathematically rigorous CAD systems, predictive FEA, automated CAM/CAPP, and finally to AI-driven Industry 4.0 networks represents a continuous push toward eliminating errors, maximizing efficiency, and realizing self-optimizing "smart" manufacturing.</p>
+      </div>
+
+    </section>
+
+  </main>
+
+  <script>
+    // Scroll progress
+    window.addEventListener("scroll", () => {
+      const total = document.body.scrollHeight - window.innerHeight;
+      document.getElementById("progress").style.width = (window.scrollY / total) * 100 + "%";
+    });
+
+    // Section fade-in
+    const obs = new IntersectionObserver(
+      entries => entries.forEach(e => { if (e.isIntersecting) e.target.classList.add("visible"); }),
+      { threshold: 0.08 }
+    );
+    document.querySelectorAll(".section").forEach(s => obs.observe(s));
+  </script>
+</body>
+</html>

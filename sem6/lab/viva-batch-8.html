@@ -1,0 +1,295 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CAD/CAM Viva Questions - Batch 08</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=Source+Serif+4:ital,opsz,wght@0,8..60,300;0,8..60,400;0,8..60,600;1,8..60,300&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg:      #0e0f14;
+      --surface: #15171f;
+      --card:    #1c1f2b;
+      --border:  #2a2e40;
+      --accent:  #f5a623;
+      --accent2: #4fc3f7;
+      --accent3: #81c784;
+      --accent4: #ef5350;
+      --text:    #e8e9f0;
+      --muted:   #8890aa;
+      --heading: #ffffff;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: "Source Serif 4", Georgia, serif;
+      font-size: 17px;
+      line-height: 1.8;
+      min-height: 100vh;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+      pointer-events: none;
+      z-index: 999;
+      opacity: 0.45;
+    }
+
+    strong { color: var(--heading); font-weight: 600; }
+    em     { color: var(--accent); font-style: italic; }
+    p      { margin-bottom: 18px; color: var(--text); }
+
+    h3 {
+      font-family: "Playfair Display", serif;
+      font-size: 20px;
+      color: var(--heading);
+      margin: 36px 0 14px;
+      font-weight: 700;
+    }
+
+    .page {
+      max-width: 1020px;
+      margin: 0 auto;
+      padding: 0 28px 100px;
+    }
+
+    #progress {
+      position: fixed; top: 0; left: 0;
+      height: 3px;
+      background: linear-gradient(90deg, var(--accent), var(--accent2));
+      z-index: 1000;
+      width: 0;
+      transition: width 0.1s linear;
+    }
+
+    @media (max-width: 768px) {
+      .page { padding: 0 16px 80px; }
+    }
+
+    .hero {
+      position: relative;
+      overflow: hidden;
+      padding: 90px 40px 80px;
+      text-align: center;
+      border-bottom: 1px solid var(--border);
+      background: radial-gradient(ellipse 80% 60% at 50% 0%, #1a2340 0%, var(--bg) 70%);
+    }
+
+    .hero-badge {
+      display: inline-block;
+      font-family: "JetBrains Mono", monospace;
+      font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase;
+      color: var(--accent); border: 1px solid var(--accent);
+      padding: 4px 14px; border-radius: 2px; margin-bottom: 24px;
+      opacity: 0; animation: fadeUp 0.6s 0.1s forwards;
+    }
+
+    .hero h1 {
+      font-family: "Playfair Display", serif;
+      font-size: clamp(28px, 5vw, 54px); font-weight: 900;
+      color: var(--heading); line-height: 1.15;
+      max-width: 860px; margin: 0 auto 20px;
+      opacity: 0; animation: fadeUp 0.7s 0.25s forwards;
+    }
+    .hero h1 em { color: var(--accent); font-style: normal; }
+
+    .hero-sub {
+      font-size: 16px; color: var(--muted);
+      max-width: 620px; margin: 0 auto 36px;
+      opacity: 0; animation: fadeUp 0.7s 0.4s forwards;
+    }
+
+    .hero-meta {
+      display: flex; flex-wrap: wrap; gap: 20px; justify-content: center;
+      opacity: 0; animation: fadeUp 0.7s 0.55s forwards;
+    }
+    .hero-meta span {
+      font-family: "JetBrains Mono", monospace; font-size: 12px;
+      color: var(--muted); background: var(--card);
+      border: 1px solid var(--border); padding: 6px 14px; border-radius: 2px;
+    }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(18px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .section {
+      margin-bottom: 72px;
+      opacity: 0; transform: translateY(24px);
+      transition: opacity 0.55s, transform 0.55s;
+    }
+    .section.visible { opacity: 1; transform: translateY(0); }
+
+    .callout {
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: 2px; padding: 22px 26px; margin: 40px 0 15px;
+    }
+    .callout.blue   { border-left: 3px solid var(--accent2); }
+
+    .callout-title {
+      font-family: "JetBrains Mono", monospace;
+      font-size: 11px; text-transform: uppercase; letter-spacing: 0.12em;
+      margin-bottom: 10px; color: var(--accent2);
+    }
+    
+    .qa-answer {
+      padding-left: 26px;
+      border-left: 2px solid var(--border);
+      margin-left: 2px;
+      color: var(--text);
+    }
+
+    .qa-answer strong {
+      color: var(--accent3);
+    }
+
+  </style>
+</head>
+<body>
+  <div id="progress"></div>
+
+  <header class="hero">
+    <div class="hero-badge">Examination Prep &middot; Q71-Q80</div>
+    <h1>CAD/CAM <em>Viva Voce</em></h1>
+    <p class="hero-sub">Batch 08: Continuing with a structurally randomized selection of rigorous viva-style questions spanning all core units.</p>
+    <div class="hero-meta">
+      <span>📝 Questions 71 - 80</span>
+      <span>🔄 Random Distribution</span>
+    </div>
+  </header>
+
+  <main class="page">
+    
+    <section class="section visible">
+      
+      <!-- Q71 -->
+      <div class="callout blue">
+        <div class="callout-title">Question 71 &bull; Unit 2 (Curves and Surfaces)</div>
+        <p><strong>What is a 'Hermite Cubic Spline' and what inputs are specifically required to define it?</strong></p>
+      </div>
+      <div class="qa-answer">
+        <p><strong>Answer:</strong> A Hermite Cubic Spline is an interpolating synthetic curve used to connect two points smoothly. To mathematically define a single Hermite spline segment, you need exactly four parameters: the coordinates of the two endpoints, and the direction/magnitude of the tangent vectors at those two endpoints.</p>
+      </div>
+
+      <!-- Q72 -->
+      <div class="callout blue">
+        <div class="callout-title">Question 72 &bull; Unit 6 (Latest Technologies)</div>
+        <p><strong>How do 'Cobots' (Collaborative Robots) fundamentally differ from traditional industrial robots?</strong></p>
+      </div>
+      <div class="qa-answer">
+        <p><strong>Answer:</strong> Traditional industrial robots are heavy, move at dangerous speeds, and must be strictly isolated behind safety cages to prevent human injury. Cobots are designed specifically for safe human-robot interaction in a shared workspace; they are lightweight, have padded joints, and are equipped with advanced force-limiting sensors that immediately halt motion if they bump into a human.</p>
+      </div>
+
+      <!-- Q73 -->
+      <div class="callout blue">
+        <div class="callout-title">Question 73 &bull; Unit 1 (Basics of CAD)</div>
+        <p><strong>What is the difference between uniform scaling and non-uniform scaling in geometric transformations?</strong></p>
+      </div>
+      <div class="qa-answer">
+        <p><strong>Answer:</strong> Uniform scaling applies the exact same scale multiplier (Sx = Sy = Sz) across all axes, changing the size of the object while perfectly preserving its original proportions and shape. Non-uniform scaling applies different multipliers to different axes, resulting in a distorted, stretched, or squashed geometry.</p>
+      </div>
+
+      <!-- Q74 -->
+      <div class="callout blue">
+        <div class="callout-title">Question 74 &bull; Unit 3 (Solid Modelling)</div>
+        <p><strong>What are the primary functional drawbacks of a Wireframe model in manufacturing?</strong></p>
+      </div>
+      <div class="qa-answer">
+        <p><strong>Answer:</strong> Because wireframe models only store edges and vertices, they lack surface skins and internal volume. Consequently, they suffer from visual ambiguity (front/back illusions), they cannot be used to calculate mass properties (like weight or center of gravity), and they are useless for generating finite element meshes or CAM toolpaths.</p>
+      </div>
+
+      <!-- Q75 -->
+      <div class="callout blue">
+        <div class="callout-title">Question 75 &bull; Unit 5 (CAM)</div>
+        <p><strong>Explain the purpose of 'Tool Radius Compensation' in CNC machining.</strong></p>
+      </div>
+      <div class="qa-answer">
+        <p><strong>Answer:</strong> Because a physical milling cutter has a measurable radius, programming the exact center of the tool to follow the part's profile boundary will overcut and produce an undersized part. Tool Radius Compensation (G41/G42 in G-code) tells the controller to automatically shift the toolpath left or right by exactly the tool's radius, ensuring accurate final dimensions.</p>
+      </div>
+
+      <!-- Q76 -->
+      <div class="callout blue">
+        <div class="callout-title">Question 76 &bull; Unit 4 (CAE)</div>
+        <p><strong>In Finite Element Analysis, what is meant by 'Mesh Convergence'?</strong></p>
+      </div>
+      <div class="qa-answer">
+        <p><strong>Answer:</strong> Convergence is the iterative process of successively refining the mesh (making elements smaller) and re-running the simulation until the calculated results (such as maximum stress or deformation) stop changing significantly. When the results level off, the solution is considered "converged," meaning it is mathematically accurate and independent of mesh size.</p>
+      </div>
+
+      <!-- Q77 -->
+      <div class="callout blue">
+        <div class="callout-title">Question 77 &bull; Unit 2 (Curves and Surfaces)</div>
+        <p><strong>Why are B-splines called "Non-Uniform" in the acronym NURBS?</strong></p>
+      </div>
+      <div class="qa-answer">
+        <p><strong>Answer:</strong> "Non-Uniform" refers to the parameter spacing within the curve's 'knot vector.' A uniform knot vector dictates that control points influence the curve equally at perfectly spaced intervals. A non-uniform knot vector allows unequal spacing, giving the designer the power to insert sharp corners (kinks) into the spline or perfectly replicate conic sections like perfect circles.</p>
+      </div>
+
+      <!-- Q78 -->
+      <div class="callout blue">
+        <div class="callout-title">Question 78 &bull; Unit 6 (Latest Technologies)</div>
+        <p><strong>Describe the concept of a 'Digital Thread' in modern manufacturing.</strong></p>
+      </div>
+      <div class="qa-answer">
+        <p><strong>Answer:</strong> While a Digital Twin is a replica of a single physical asset, the Digital Thread is the unbroken, seamless flow of data that connects the entire lifecycle of a product. It links initial CAD design, CAE simulation, CAM manufacturing, and post-sale field maintenance into a single, unified database, ensuring all departments have real-time access to the most updated version of a part.</p>
+      </div>
+
+      <!-- Q79 -->
+      <div class="callout blue">
+        <div class="callout-title">Question 79 &bull; Unit 1 (Basics of CAD)</div>
+        <p><strong>How is the 'Right-Hand Rule' applied to CAD coordinate systems?</strong></p>
+      </div>
+      <div class="qa-answer">
+        <p><strong>Answer:</strong> The Right-Hand Rule is a mnemonic for understanding 3D space. To determine positive rotational direction: if you point your right thumb along the positive direction of an axis, the curl of your fingers shows the direction of positive rotation. To determine orthogonal axes: your thumb points to +X, index finger to +Y, and middle finger to +Z.</p>
+      </div>
+
+      <!-- Q80 -->
+      <div class="callout blue">
+        <div class="callout-title">Question 80 &bull; Unit 5 (CAM)</div>
+        <p><strong>What does CIM stand for, and how does it relate to CAD/CAM?</strong></p>
+      </div>
+      <div class="qa-answer">
+        <p><strong>Answer:</strong> CIM stands for Computer Integrated Manufacturing. While CAD and CAM are specific computerized tools for design and machining, CIM is a much broader enterprise-level philosophy. It fully integrates CAD and CAM with all other business functions—such as ERP, inventory control, supply chain management, and accounting—under one massive computer network.</p>
+      </div>
+
+    </section>
+
+    <nav class="toc">
+      <h2>📋 Table of Contents</h2>
+      <ol>
+        <li><a href="https://praxian1905.github.io/html/sem6/lab/viva-batch-1.html">Batch 1</a></li>
+        <li><a href="https://praxian1905.github.io/html/sem6/lab/viva-batch-2.html">Batch 2</a></li>
+        <li><a href="https://praxian1905.github.io/html/sem6/lab/viva-batch-3.html">Batch 3</a></li>
+        <li><a href="https://praxian1905.github.io/html/sem6/lab/viva-batch-4.html">Batch 4</a></li>
+        <li><a href="https://praxian1905.github.io/html/sem6/lab/viva-batch-5.html">Batch 5</a></li>
+        <li><a href="https://praxian1905.github.io/html/sem6/lab/viva-batch-6.html">Batch 6</a></li>
+        <li><a href="https://praxian1905.github.io/html/sem6/lab/viva-batch-7.html">Batch 7</a></li>
+        <li><a href="https://praxian1905.github.io/html/sem6/lab/viva-batch-9.html">Batch 9</a></li>
+        <li><a href="https://praxian1905.github.io/html/sem6/lab/viva-batch-10.html">Batch 10</a></li>
+      </ol>
+    </nav>
+
+  </main>
+
+  <script>
+    window.addEventListener("scroll", () => {
+      const total = document.body.scrollHeight - window.innerHeight;
+      document.getElementById("progress").style.width = (window.scrollY / total) * 100 + "%";
+    });
+
+    const obs = new IntersectionObserver(
+      entries => entries.forEach(e => { if (e.isIntersecting) e.target.classList.add("visible"); }),
+      { threshold: 0.08 }
+    );
+    document.querySelectorAll(".section").forEach(s => obs.observe(s));
+  </script>
+</body>
+</html>

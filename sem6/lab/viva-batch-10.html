@@ -1,0 +1,314 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CAD/CAM Viva Questions - Batch 10</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=Source+Serif+4:ital,opsz,wght@0,8..60,300;0,8..60,400;0,8..60,600;1,8..60,300&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg:      #0e0f14;
+      --surface: #15171f;
+      --card:    #1c1f2b;
+      --border:  #2a2e40;
+      --accent:  #f5a623;
+      --accent2: #4fc3f7;
+      --accent3: #81c784;
+      --accent4: #ef5350;
+      --text:    #e8e9f0;
+      --muted:   #8890aa;
+      --heading: #ffffff;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: "Source Serif 4", Georgia, serif;
+      font-size: 17px;
+      line-height: 1.8;
+      min-height: 100vh;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+      pointer-events: none;
+      z-index: 999;
+      opacity: 0.45;
+    }
+
+    strong { color: var(--heading); font-weight: 600; }
+    em     { color: var(--accent); font-style: italic; }
+    p      { margin-bottom: 18px; color: var(--text); }
+
+    h3 {
+      font-family: "Playfair Display", serif;
+      font-size: 20px;
+      color: var(--heading);
+      margin: 36px 0 14px;
+      font-weight: 700;
+    }
+
+    .page {
+      max-width: 1020px;
+      margin: 0 auto;
+      padding: 0 28px 100px;
+    }
+
+    #progress {
+      position: fixed; top: 0; left: 0;
+      height: 3px;
+      background: linear-gradient(90deg, var(--accent), var(--accent2));
+      z-index: 1000;
+      width: 0;
+      transition: width 0.1s linear;
+    }
+
+    @media (max-width: 768px) {
+      .page { padding: 0 16px 80px; }
+    }
+
+    .hero {
+      position: relative;
+      overflow: hidden;
+      padding: 90px 40px 80px;
+      text-align: center;
+      border-bottom: 1px solid var(--border);
+      background: radial-gradient(ellipse 80% 60% at 50% 0%, #1a2340 0%, var(--bg) 70%);
+    }
+
+    .hero-badge {
+      display: inline-block;
+      font-family: "JetBrains Mono", monospace;
+      font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase;
+      color: var(--accent); border: 1px solid var(--accent);
+      padding: 4px 14px; border-radius: 2px; margin-bottom: 24px;
+      opacity: 0; animation: fadeUp 0.6s 0.1s forwards;
+    }
+
+    .hero h1 {
+      font-family: "Playfair Display", serif;
+      font-size: clamp(28px, 5vw, 54px); font-weight: 900;
+      color: var(--heading); line-height: 1.15;
+      max-width: 860px; margin: 0 auto 20px;
+      opacity: 0; animation: fadeUp 0.7s 0.25s forwards;
+    }
+    .hero h1 em { color: var(--accent); font-style: normal; }
+
+    .hero-sub {
+      font-size: 16px; color: var(--muted);
+      max-width: 620px; margin: 0 auto 36px;
+      opacity: 0; animation: fadeUp 0.7s 0.4s forwards;
+    }
+
+    .hero-meta {
+      display: flex; flex-wrap: wrap; gap: 20px; justify-content: center;
+      opacity: 0; animation: fadeUp 0.7s 0.55s forwards;
+    }
+    .hero-meta span {
+      font-family: "JetBrains Mono", monospace; font-size: 12px;
+      color: var(--muted); background: var(--card);
+      border: 1px solid var(--border); padding: 6px 14px; border-radius: 2px;
+    }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(18px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .section {
+      margin-bottom: 72px;
+      opacity: 0; transform: translateY(24px);
+      transition: opacity 0.55s, transform 0.55s;
+    }
+    .section.visible { opacity: 1; transform: translateY(0); }
+
+    .callout {
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: 2px; padding: 22px 26px; margin: 40px 0 15px;
+    }
+    .callout.blue   { border-left: 3px solid var(--accent2); }
+    .callout.green  { border-left: 3px solid var(--accent3); border-color: var(--accent3); }
+
+    .callout-title {
+      font-family: "JetBrains Mono", monospace;
+      font-size: 11px; text-transform: uppercase; letter-spacing: 0.12em;
+      margin-bottom: 10px; color: var(--accent2);
+    }
+    
+    .qa-answer {
+      padding-left: 26px;
+      border-left: 2px solid var(--border);
+      margin-left: 2px;
+      color: var(--text);
+    }
+
+    .qa-answer strong {
+      color: var(--accent3);
+    }
+
+    .verdict {
+      background: linear-gradient(135deg, #1a1a08, #1a1a0a);
+      border: 2px solid var(--accent); border-radius: 2px;
+      padding: 36px 40px; margin: 80px 0 40px; text-align: center;
+    }
+    .verdict .trophy { font-size: 48px; margin-bottom: 16px; display: block; }
+    .verdict h3 {
+      font-family: "Playfair Display", serif; font-size: 26px;
+      color: var(--accent); margin-bottom: 12px;
+    }
+    .verdict p { color: var(--text); max-width: 600px; margin: 0 auto; }
+
+  </style>
+</head>
+<body>
+  <div id="progress"></div>
+
+  <header class="hero">
+    <div class="hero-badge">Examination Prep &middot; Q91-Q100</div>
+    <h1>CAD/CAM <em>Viva Voce</em></h1>
+    <p class="hero-sub">Batch 10: The final randomized selection of rigorous viva-style questions completing the 100-question prep series.</p>
+    <div class="hero-meta">
+      <span>📝 Questions 91 - 100</span>
+      <span>🏆 Series Finale</span>
+    </div>
+  </header>
+
+  <main class="page">
+    
+    <section class="section visible">
+      
+      <!-- Q91 -->
+      <div class="callout blue">
+        <div class="callout-title">Question 91 &bull; Unit 1 (Basics of CAD)</div>
+        <p><strong>Differentiate between a 'Window' and a 'Viewport' in CAD graphics.</strong></p>
+      </div>
+      <div class="qa-answer">
+        <p><strong>Answer:</strong> A <em>window</em> is the virtual boundary defining a specific mathematical coordinate area in the CAD world space that the user wants to view. A <em>viewport</em>, however, is the actual physical rectangular display area on the computer monitor (usually measured in pixels) where the contents of that mathematical window are mapped and rendered for the user to see.</p>
+      </div>
+
+      <!-- Q92 -->
+      <div class="callout blue">
+        <div class="callout-title">Question 92 &bull; Unit 2 (Curves and Surfaces)</div>
+        <p><strong>How does the 'degree' of a curve affect B-Splines compared to Bezier curves?</strong></p>
+      </div>
+      <div class="qa-answer">
+        <p><strong>Answer:</strong> In a Bezier curve, the degree of the polynomial is strictly tied to the number of control points (Degree = N - 1). If you add more points to make a complex shape, the math becomes unmanageably heavy and globally affects the curve. In a B-Spline, the degree is completely independent of the number of control points, allowing designers to create massively complex curves using simple, local-control, low-degree polynomials.</p>
+      </div>
+
+      <!-- Q93 -->
+      <div class="callout blue">
+        <div class="callout-title">Question 93 &bull; Unit 3 (Solid Modelling)</div>
+        <p><strong>Explain the concept of 'Euler operations' in Boundary Representation (B-rep).</strong></p>
+      </div>
+      <div class="qa-answer">
+        <p><strong>Answer:</strong> Euler operations are low-level topological commands used by the CAD kernel to build or modify a solid model while guaranteeing it remains mathematically valid. Every time a feature (like a face or edge) is added or removed, Euler operations ensure that Euler's formula (Vertices - Edges + Faces = 2) is strictly satisfied, preventing internal holes or non-manifold errors.</p>
+      </div>
+
+      <!-- Q94 -->
+      <div class="callout blue">
+        <div class="callout-title">Question 94 &bull; Unit 4 (CAE)</div>
+        <p><strong>Briefly describe the difference between the 'h-method' and 'p-method' in FEA mesh refinement.</strong></p>
+      </div>
+      <div class="qa-answer">
+        <p><strong>Answer:</strong> To achieve accurate mesh convergence, the <em>h-method</em> refines the mesh by physically making the elements smaller (increasing the total number of elements, 'h') around high-stress concentrations. The <em>p-method</em>, however, leaves the physical element size unchanged but increases the polynomial degree ('p') of the shape functions inside the element to calculate highly accurate internal stress distributions without remeshing.</p>
+      </div>
+
+      <!-- Q95 -->
+      <div class="callout blue">
+        <div class="callout-title">Question 95 &bull; Unit 5 (CAM)</div>
+        <p><strong>What is an 'ATC' and what is its significance in a CNC machining center?</strong></p>
+      </div>
+      <div class="qa-answer">
+        <p><strong>Answer:</strong> ATC stands for Automatic Tool Changer. It is a robotic carousel or magazine integrated into a CNC machine that holds multiple different cutting tools. Its significance is that it allows the machine to rapidly and autonomously swap tools (e.g., switching from a center-drill to a tap to an endmill) mid-program without human intervention, drastically reducing production cycle times.</p>
+      </div>
+
+      <!-- Q96 -->
+      <div class="callout blue">
+        <div class="callout-title">Question 96 &bull; Unit 6 (Latest Technologies)</div>
+        <p><strong>Explain the difference between a 'Digital Twin' and a standard '3D CAD Model'.</strong></p>
+      </div>
+      <div class="qa-answer">
+        <p><strong>Answer:</strong> A 3D CAD model is a static, virtual, geometric representation of a part's theoretical design. A Digital Twin is a dynamic, living counterpart to a physical asset; it combines the 3D model with real-time IoT sensor telemetry, allowing it to simulate, predict, and reflect the actual operating conditions, wear, and mechanical performance of the physical machine on the factory floor.</p>
+      </div>
+
+      <!-- Q97 -->
+      <div class="callout blue">
+        <div class="callout-title">Question 97 &bull; Unit 1 (Basics of CAD)</div>
+        <p><strong>What is the mathematical difference in how Translation and Rotation are performed in 2D coordinates?</strong></p>
+      </div>
+      <div class="qa-answer">
+        <p><strong>Answer:</strong> In standard 2D cartesian coordinates, translation requires matrix <em>addition</em> (adding Delta X and Delta Y to the original points). Rotation and scaling, however, require matrix <em>multiplication</em>. This mathematical mismatch makes composite transformations difficult, which is exactly why CAD systems convert everything into 3D Homogeneous Coordinates—so all operations can be handled uniformly via continuous matrix multiplication.</p>
+      </div>
+
+      <!-- Q98 -->
+      <div class="callout blue">
+        <div class="callout-title">Question 98 &bull; Unit 3 (Solid Modelling)</div>
+        <p><strong>What is 'Feature Recognition' and why is it important for CAD/CAM integration?</strong></p>
+      </div>
+      <div class="qa-answer">
+        <p><strong>Answer:</strong> Feature Recognition is an algorithmic process where CAM software analyzes a neutral 3D solid model (like a STEP file) and automatically identifies manufacturable engineering features—such as holes, pockets, slots, and fillets. It is crucial because it allows the CAM software to automatically select the correct cutting tools and generate optimized G-code toolpaths without the machinist manually defining every boundary.</p>
+      </div>
+
+      <!-- Q99 -->
+      <div class="callout blue">
+        <div class="callout-title">Question 99 &bull; Unit 5 (CAM)</div>
+        <p><strong>What is 'Absolute' vs 'Incremental' programming in CNC (G90 vs G91)?</strong></p>
+      </div>
+      <div class="qa-answer">
+        <p><strong>Answer:</strong> In Absolute programming (G90), all tool coordinates are calculated from a single, fixed origin point (Part Zero) on the workpiece. In Incremental programming (G91), every new coordinate is calculated relative to the tool's <em>current resting position</em>, meaning the origin effectively moves to the end of every cut. Absolute is preferred for safety, as a single error in incremental shifts the entire remaining toolpath.</p>
+      </div>
+
+      <!-- Q100 -->
+      <div class="callout blue">
+        <div class="callout-title">Question 100 &bull; Unit 6 (Latest Technologies)</div>
+        <p><strong>How does 'Additive Manufacturing' (3D Printing) complement traditional CNC machining in modern smart factories?</strong></p>
+      </div>
+      <div class="qa-answer">
+        <p><strong>Answer:</strong> Traditional CNC is a <em>subtractive</em> process, removing material from a block, which limits the creation of complex internal cavities. Additive manufacturing builds parts layer-by-layer, excelling at impossibly complex, lightweight topological geometries. Modern hybrid factories use Additive to print complex near-net shapes, and then use CNC machining to subsequently mill the critical mating surfaces and holes to extremely tight, polished tolerances.</p>
+      </div>
+      
+      <div class="verdict">
+        <span class="trophy">💯</span>
+        <h3>Preparation Complete</h3>
+        <p>You have successfully covered 100 comprehensive, randomized Viva Voce questions spanning the entirety of the CAD/CAM syllabus. You are now fully equipped for your examination.</p>
+      </div>
+
+    </section>
+
+    <nav class="toc">
+      <h2>📋 Table of Contents</h2>
+      <ol>
+        <li><a href="https://praxian1905.github.io/html/sem6/lab/viva-batch-1.html">Batch 1</a></li>
+        <li><a href="https://praxian1905.github.io/html/sem6/lab/viva-batch-2.html">Batch 2</a></li>
+        <li><a href="https://praxian1905.github.io/html/sem6/lab/viva-batch-3.html">Batch 3</a></li>
+        <li><a href="https://praxian1905.github.io/html/sem6/lab/viva-batch-4.html">Batch 4</a></li>
+        <li><a href="https://praxian1905.github.io/html/sem6/lab/viva-batch-5.html">Batch 5</a></li>
+        <li><a href="https://praxian1905.github.io/html/sem6/lab/viva-batch-6.html">Batch 6</a></li>
+        <li><a href="https://praxian1905.github.io/html/sem6/lab/viva-batch-7.html">Batch 7</a></li>
+        <li><a href="https://praxian1905.github.io/html/sem6/lab/viva-batch-8.html">Batch 8</a></li>
+        <li><a href="https://praxian1905.github.io/html/sem6/lab/viva-batch-9.html">Batch 9</a></li>
+      </ol>
+    </nav>
+
+  </main>
+
+  <script>
+    window.addEventListener("scroll", () => {
+      const total = document.body.scrollHeight - window.innerHeight;
+      document.getElementById("progress").style.width = (window.scrollY / total) * 100 + "%";
+    });
+
+    const obs = new IntersectionObserver(
+      entries => entries.forEach(e => { if (e.isIntersecting) e.target.classList.add("visible"); }),
+      { threshold: 0.08 }
+    );
+    document.querySelectorAll(".section").forEach(s => obs.observe(s));
+  </script>
+</body>
+</html>

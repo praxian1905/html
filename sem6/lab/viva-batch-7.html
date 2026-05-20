@@ -1,0 +1,295 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CAD/CAM Viva Questions - Batch 07</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=Source+Serif+4:ital,opsz,wght@0,8..60,300;0,8..60,400;0,8..60,600;1,8..60,300&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg:      #0e0f14;
+      --surface: #15171f;
+      --card:    #1c1f2b;
+      --border:  #2a2e40;
+      --accent:  #f5a623;
+      --accent2: #4fc3f7;
+      --accent3: #81c784;
+      --accent4: #ef5350;
+      --text:    #e8e9f0;
+      --muted:   #8890aa;
+      --heading: #ffffff;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: "Source Serif 4", Georgia, serif;
+      font-size: 17px;
+      line-height: 1.8;
+      min-height: 100vh;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+      pointer-events: none;
+      z-index: 999;
+      opacity: 0.45;
+    }
+
+    strong { color: var(--heading); font-weight: 600; }
+    em     { color: var(--accent); font-style: italic; }
+    p      { margin-bottom: 18px; color: var(--text); }
+
+    h3 {
+      font-family: "Playfair Display", serif;
+      font-size: 20px;
+      color: var(--heading);
+      margin: 36px 0 14px;
+      font-weight: 700;
+    }
+
+    .page {
+      max-width: 1020px;
+      margin: 0 auto;
+      padding: 0 28px 100px;
+    }
+
+    #progress {
+      position: fixed; top: 0; left: 0;
+      height: 3px;
+      background: linear-gradient(90deg, var(--accent), var(--accent2));
+      z-index: 1000;
+      width: 0;
+      transition: width 0.1s linear;
+    }
+
+    @media (max-width: 768px) {
+      .page { padding: 0 16px 80px; }
+    }
+
+    .hero {
+      position: relative;
+      overflow: hidden;
+      padding: 90px 40px 80px;
+      text-align: center;
+      border-bottom: 1px solid var(--border);
+      background: radial-gradient(ellipse 80% 60% at 50% 0%, #1a2340 0%, var(--bg) 70%);
+    }
+
+    .hero-badge {
+      display: inline-block;
+      font-family: "JetBrains Mono", monospace;
+      font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase;
+      color: var(--accent); border: 1px solid var(--accent);
+      padding: 4px 14px; border-radius: 2px; margin-bottom: 24px;
+      opacity: 0; animation: fadeUp 0.6s 0.1s forwards;
+    }
+
+    .hero h1 {
+      font-family: "Playfair Display", serif;
+      font-size: clamp(28px, 5vw, 54px); font-weight: 900;
+      color: var(--heading); line-height: 1.15;
+      max-width: 860px; margin: 0 auto 20px;
+      opacity: 0; animation: fadeUp 0.7s 0.25s forwards;
+    }
+    .hero h1 em { color: var(--accent); font-style: normal; }
+
+    .hero-sub {
+      font-size: 16px; color: var(--muted);
+      max-width: 620px; margin: 0 auto 36px;
+      opacity: 0; animation: fadeUp 0.7s 0.4s forwards;
+    }
+
+    .hero-meta {
+      display: flex; flex-wrap: wrap; gap: 20px; justify-content: center;
+      opacity: 0; animation: fadeUp 0.7s 0.55s forwards;
+    }
+    .hero-meta span {
+      font-family: "JetBrains Mono", monospace; font-size: 12px;
+      color: var(--muted); background: var(--card);
+      border: 1px solid var(--border); padding: 6px 14px; border-radius: 2px;
+    }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(18px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .section {
+      margin-bottom: 72px;
+      opacity: 0; transform: translateY(24px);
+      transition: opacity 0.55s, transform 0.55s;
+    }
+    .section.visible { opacity: 1; transform: translateY(0); }
+
+    .callout {
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: 2px; padding: 22px 26px; margin: 40px 0 15px;
+    }
+    .callout.blue   { border-left: 3px solid var(--accent2); }
+
+    .callout-title {
+      font-family: "JetBrains Mono", monospace;
+      font-size: 11px; text-transform: uppercase; letter-spacing: 0.12em;
+      margin-bottom: 10px; color: var(--accent2);
+    }
+    
+    .qa-answer {
+      padding-left: 26px;
+      border-left: 2px solid var(--border);
+      margin-left: 2px;
+      color: var(--text);
+    }
+
+    .qa-answer strong {
+      color: var(--accent3);
+    }
+
+  </style>
+</head>
+<body>
+  <div id="progress"></div>
+
+  <header class="hero">
+    <div class="hero-badge">Examination Prep &middot; Q61-Q70</div>
+    <h1>CAD/CAM <em>Viva Voce</em></h1>
+    <p class="hero-sub">Batch 07: Continuing with a structurally randomized selection of rigorous viva-style questions spanning all core units.</p>
+    <div class="hero-meta">
+      <span>📝 Questions 61 - 70</span>
+      <span>🔄 Random Distribution</span>
+    </div>
+  </header>
+
+  <main class="page">
+    
+    <section class="section visible">
+      
+      <!-- Q61 -->
+      <div class="callout blue">
+        <div class="callout-title">Question 61 &bull; Unit 5 (CAM)</div>
+        <p><strong>What is the difference between Generative CAPP and Variant (Retrieval) CAPP?</strong></p>
+      </div>
+      <div class="qa-answer">
+        <p><strong>Answer:</strong> Variant CAPP retrieves a standard process plan for a similar "part family" from a database and requires a human process planner to manually modify it for the new part. Generative CAPP, however, uses Artificial Intelligence and logical decision-making rules to synthesize an entirely new, optimal process plan from scratch without any human intervention.</p>
+      </div>
+
+      <!-- Q62 -->
+      <div class="callout blue">
+        <div class="callout-title">Question 62 &bull; Unit 2 (Curves and Surfaces)</div>
+        <p><strong>Explain the 'Convex Hull' property of a Bezier curve.</strong></p>
+      </div>
+      <div class="qa-answer">
+        <p><strong>Answer:</strong> The convex hull property states that the entire Bezier curve will always lie completely within the geometric boundary (the convex polygon) formed by connecting its control points. This is incredibly useful for CAD software, as it allows rapid collision detection and bounds checking without having to calculate the exact, mathematically complex curve itself.</p>
+      </div>
+
+      <!-- Q63 -->
+      <div class="callout blue">
+        <div class="callout-title">Question 63 &bull; Unit 4 (CAE)</div>
+        <p><strong>What does the "Stiffness Matrix" [K] represent in Finite Element Analysis?</strong></p>
+      </div>
+      <div class="qa-answer">
+        <p><strong>Answer:</strong> In the core FEA governing equation <em>[F] = [K][d]</em>, the stiffness matrix [K] mathematically represents the geometric and material resistance of the digital mesh to physical deformation. It is compiled by aggregating the individual material properties (like Young's Modulus) and the physical geometry of every element into a massive global matrix to solve for nodal displacements [d].</p>
+      </div>
+
+      <!-- Q64 -->
+      <div class="callout blue">
+        <div class="callout-title">Question 64 &bull; Unit 6 (Latest Technologies)</div>
+        <p><strong>What is the role of the Industrial Internet of Things (IIoT) in Industry 4.0?</strong></p>
+      </div>
+      <div class="qa-answer">
+        <p><strong>Answer:</strong> IIoT is the vast interconnected network of embedded sensors, actuators, and smart CNC machines on the factory floor that continuously collect and exchange real-time operational data via the internet. It forms the digital nervous system of a smart factory, enabling remote monitoring, live digital twin synchronization, and AI-driven predictive maintenance.</p>
+      </div>
+
+      <!-- Q65 -->
+      <div class="callout blue">
+        <div class="callout-title">Question 65 &bull; Unit 3 (Solid Modelling)</div>
+        <p><strong>Differentiate between Parametric modelling and Feature-based modelling.</strong></p>
+      </div>
+      <div class="qa-answer">
+        <p><strong>Answer:</strong> Parametric modelling allows basic geometric dimensions to be controlled by mathematical parameters and relationships (e.g., Length = 2 * Width), meaning altering one driving dimension updates the entire sketch. Feature-based modelling goes a step further by building the 3D solid using recognizable engineering operations (features) like holes, pockets, fillets, and ribs, making the design intent clear and incredibly easy to modify later.</p>
+      </div>
+
+      <!-- Q66 -->
+      <div class="callout blue">
+        <div class="callout-title">Question 66 &bull; Unit 1 (Basics of CAD)</div>
+        <p><strong>Why are homogeneous coordinates expressed as a 4x4 matrix for 3D transformations?</strong></p>
+      </div>
+      <div class="qa-answer">
+        <p><strong>Answer:</strong> A standard 3D point is represented by 3 coordinates (x,y,z). To perform translation via matrix multiplication rather than matrix addition, a dummy 4th coordinate (w=1) is added, turning the point vector into [x,y,z,1]. Consequently, the transformation matrix must be expanded to a 4x4 size to legally and mathematically multiply with this 4-element coordinate vector.</p>
+      </div>
+
+      <!-- Q67 -->
+      <div class="callout blue">
+        <div class="callout-title">Question 67 &bull; Unit 5 (CAM)</div>
+        <p><strong>What is the function of "Interpolation" in a CNC machine controller?</strong></p>
+      </div>
+      <div class="qa-answer">
+        <p><strong>Answer:</strong> CNC toolpaths are essentially defined by a start point and an end point. The interpolator is the mathematical algorithm within the CNC controller that calculates the hundreds of micro-intermediate coordinate points required in real-time to drive the cutting tool along a perfectly straight line (Linear Interpolation) or a perfectly smooth arc (Circular Interpolation) between those two points.</p>
+      </div>
+
+      <!-- Q68 -->
+      <div class="callout blue">
+        <div class="callout-title">Question 68 &bull; Unit 4 (CAE)</div>
+        <p><strong>Briefly explain the difference between 1D, 2D, and 3D elements in FEA.</strong></p>
+      </div>
+      <div class="qa-answer">
+        <p><strong>Answer:</strong> 1D elements (like beams and trusses) transmit forces linearly and are used for skeletal frames. 2D elements (like CST triangles or quads) are used for thin shells or plane-stress problems where thickness is constant and negligible. 3D elements (like solid tetrahedrons or hexahedrons) have actual volume and are used for thick, complex castings where stress varies internally in all three spatial directions.</p>
+      </div>
+
+      <!-- Q69 -->
+      <div class="callout blue">
+        <div class="callout-title">Question 69 &bull; Unit 6 (Latest Technologies)</div>
+        <p><strong>In reverse engineering, what exactly is a "Point Cloud"?</strong></p>
+      </div>
+      <div class="qa-answer">
+        <p><strong>Answer:</strong> A point cloud is a massive digital dataset containing millions of raw, unorganized 3D coordinate points (x, y, z) generated by a 3D laser scanner or CMM reflecting off a physical object. It acts as the raw digital footprint of the exact external surface geometry, which must then be post-processed into a polygon mesh before it can be converted into a usable CAD solid model.</p>
+      </div>
+
+      <!-- Q70 -->
+      <div class="callout blue">
+        <div class="callout-title">Question 70 &bull; Unit 3 (Solid Modelling)</div>
+        <p><strong>What are the basic topological entities in a Boundary Representation (B-rep) model?</strong></p>
+      </div>
+      <div class="qa-answer">
+        <p><strong>Answer:</strong> The basic topological entities that define the boundary of a solid in B-rep are: <em>Vertices</em> (points where edges meet), <em>Edges</em> (curves that bound the faces), <em>Faces</em> (bounded surfaces enclosing the volume), <em>Loops</em> (closed sequences of edges forming the outer/inner boundary of a face), and the <em>Shell</em> (a set of connected faces forming the outer skin of the solid).</p>
+      </div>
+
+    </section>
+
+    <nav class="toc">
+      <h2>📋 Table of Contents</h2>
+      <ol>
+        <li><a href="https://praxian1905.github.io/html/sem6/lab/viva-batch-1.html">Batch 1</a></li>
+        <li><a href="https://praxian1905.github.io/html/sem6/lab/viva-batch-2.html">Batch 2</a></li>
+        <li><a href="https://praxian1905.github.io/html/sem6/lab/viva-batch-3.html">Batch 3</a></li>
+        <li><a href="https://praxian1905.github.io/html/sem6/lab/viva-batch-4.html">Batch 4</a></li>
+        <li><a href="https://praxian1905.github.io/html/sem6/lab/viva-batch-5.html">Batch 5</a></li>
+        <li><a href="https://praxian1905.github.io/html/sem6/lab/viva-batch-6.html">Batch 6</a></li> 
+        <li><a href="https://praxian1905.github.io/html/sem6/lab/viva-batch-8.html">Batch 8</a></li>
+        <li><a href="https://praxian1905.github.io/html/sem6/lab/viva-batch-9.html">Batch 9</a></li>
+        <li><a href="https://praxian1905.github.io/html/sem6/lab/viva-batch-10.html">Batch 10</a></li
+      </ol>
+    </nav>
+
+  </main>
+
+  <script>
+    window.addEventListener("scroll", () => {
+      const total = document.body.scrollHeight - window.innerHeight;
+      document.getElementById("progress").style.width = (window.scrollY / total) * 100 + "%";
+    });
+
+    const obs = new IntersectionObserver(
+      entries => entries.forEach(e => { if (e.isIntersecting) e.target.classList.add("visible"); }),
+      { threshold: 0.08 }
+    );
+    document.querySelectorAll(".section").forEach(s => obs.observe(s));
+  </script>
+</body>
+</html>

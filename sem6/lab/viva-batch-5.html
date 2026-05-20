@@ -1,0 +1,295 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CAD/CAM Viva Questions - Batch 05</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=Source+Serif+4:ital,opsz,wght@0,8..60,300;0,8..60,400;0,8..60,600;1,8..60,300&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg:      #0e0f14;
+      --surface: #15171f;
+      --card:    #1c1f2b;
+      --border:  #2a2e40;
+      --accent:  #f5a623;
+      --accent2: #4fc3f7;
+      --accent3: #81c784;
+      --accent4: #ef5350;
+      --text:    #e8e9f0;
+      --muted:   #8890aa;
+      --heading: #ffffff;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: "Source Serif 4", Georgia, serif;
+      font-size: 17px;
+      line-height: 1.8;
+      min-height: 100vh;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+      pointer-events: none;
+      z-index: 999;
+      opacity: 0.45;
+    }
+
+    strong { color: var(--heading); font-weight: 600; }
+    em     { color: var(--accent); font-style: italic; }
+    p      { margin-bottom: 18px; color: var(--text); }
+
+    h3 {
+      font-family: "Playfair Display", serif;
+      font-size: 20px;
+      color: var(--heading);
+      margin: 36px 0 14px;
+      font-weight: 700;
+    }
+
+    .page {
+      max-width: 1020px;
+      margin: 0 auto;
+      padding: 0 28px 100px;
+    }
+
+    #progress {
+      position: fixed; top: 0; left: 0;
+      height: 3px;
+      background: linear-gradient(90deg, var(--accent), var(--accent2));
+      z-index: 1000;
+      width: 0;
+      transition: width 0.1s linear;
+    }
+
+    @media (max-width: 768px) {
+      .page { padding: 0 16px 80px; }
+    }
+
+    .hero {
+      position: relative;
+      overflow: hidden;
+      padding: 90px 40px 80px;
+      text-align: center;
+      border-bottom: 1px solid var(--border);
+      background: radial-gradient(ellipse 80% 60% at 50% 0%, #1a2340 0%, var(--bg) 70%);
+    }
+
+    .hero-badge {
+      display: inline-block;
+      font-family: "JetBrains Mono", monospace;
+      font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase;
+      color: var(--accent); border: 1px solid var(--accent);
+      padding: 4px 14px; border-radius: 2px; margin-bottom: 24px;
+      opacity: 0; animation: fadeUp 0.6s 0.1s forwards;
+    }
+
+    .hero h1 {
+      font-family: "Playfair Display", serif;
+      font-size: clamp(28px, 5vw, 54px); font-weight: 900;
+      color: var(--heading); line-height: 1.15;
+      max-width: 860px; margin: 0 auto 20px;
+      opacity: 0; animation: fadeUp 0.7s 0.25s forwards;
+    }
+    .hero h1 em { color: var(--accent); font-style: normal; }
+
+    .hero-sub {
+      font-size: 16px; color: var(--muted);
+      max-width: 620px; margin: 0 auto 36px;
+      opacity: 0; animation: fadeUp 0.7s 0.4s forwards;
+    }
+
+    .hero-meta {
+      display: flex; flex-wrap: wrap; gap: 20px; justify-content: center;
+      opacity: 0; animation: fadeUp 0.7s 0.55s forwards;
+    }
+    .hero-meta span {
+      font-family: "JetBrains Mono", monospace; font-size: 12px;
+      color: var(--muted); background: var(--card);
+      border: 1px solid var(--border); padding: 6px 14px; border-radius: 2px;
+    }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(18px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .section {
+      margin-bottom: 72px;
+      opacity: 0; transform: translateY(24px);
+      transition: opacity 0.55s, transform 0.55s;
+    }
+    .section.visible { opacity: 1; transform: translateY(0); }
+
+    .callout {
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: 2px; padding: 22px 26px; margin: 40px 0 15px;
+    }
+    .callout.blue   { border-left: 3px solid var(--accent2); }
+
+    .callout-title {
+      font-family: "JetBrains Mono", monospace;
+      font-size: 11px; text-transform: uppercase; letter-spacing: 0.12em;
+      margin-bottom: 10px; color: var(--accent2);
+    }
+    
+    .qa-answer {
+      padding-left: 26px;
+      border-left: 2px solid var(--border);
+      margin-left: 2px;
+      color: var(--text);
+    }
+
+    .qa-answer strong {
+      color: var(--accent3);
+    }
+
+  </style>
+</head>
+<body>
+  <div id="progress"></div>
+
+  <header class="hero">
+    <div class="hero-badge">Examination Prep &middot; Q41-Q50</div>
+    <h1>CAD/CAM <em>Viva Voce</em></h1>
+    <p class="hero-sub">Batch 05: Continuing with a structurally randomized selection of rigorous viva-style questions spanning all core units.</p>
+    <div class="hero-meta">
+      <span>📝 Questions 41 - 50</span>
+      <span>🔄 Random Distribution</span>
+    </div>
+  </header>
+
+  <main class="page">
+    
+    <section class="section visible">
+      
+      <!-- Q41 -->
+      <div class="callout blue">
+        <div class="callout-title">Question 41 &bull; Unit 3 (Solid Modelling)</div>
+        <p><strong>What is 'Primitive Instancing' and where does it fall short in CAD modelling?</strong></p>
+      </div>
+      <div class="qa-answer">
+        <p><strong>Answer:</strong> Primitive instancing is a modelling approach where families of objects are pre-defined by a fixed set of parameters (like a standard gear where you only input the number of teeth and diameter). It falls short because you cannot apply boolean operations to them, making it impossible to model completely novel, free-form, or organically shaped parts that do not fit into pre-programmed templates.</p>
+      </div>
+
+      <!-- Q42 -->
+      <div class="callout blue">
+        <div class="callout-title">Question 42 &bull; Unit 5 (CAM)</div>
+        <p><strong>Explain the concept of 'Machine Zero' or 'Machine Datum' in CNC programming.</strong></p>
+      </div>
+      <div class="qa-answer">
+        <p><strong>Answer:</strong> Machine Zero is the absolute, fixed, irremovable origin point (0,0,0) set by the manufacturer of the CNC machine. It acts as the ultimate reference point for the machine controller to track the exact physical position of the cutting tool and establish secondary, movable coordinate systems like the Workpiece Zero.</p>
+      </div>
+
+      <!-- Q43 -->
+      <div class="callout blue">
+        <div class="callout-title">Question 43 &bull; Unit 1 (Basics of CAD)</div>
+        <p><strong>What is the significance of the "Shearing" operation in 2D transformations?</strong></p>
+      </div>
+      <div class="qa-answer">
+        <p><strong>Answer:</strong> Shearing distorts the shape of an object by shifting its X or Y coordinates by an amount proportional to the other coordinate. In CAD and graphics, it effectively "slants" the geometry, which is commonly used to simulate simple perspective or to italicize vector text and shapes without altering their overall bounding volume.</p>
+      </div>
+
+      <!-- Q44 -->
+      <div class="callout blue">
+        <div class="callout-title">Question 44 &bull; Unit 6 (Latest Technologies)</div>
+        <p><strong>Define the role of 'Topology Optimization' in modern manufacturing.</strong></p>
+      </div>
+      <div class="qa-answer">
+        <p><strong>Answer:</strong> Topology optimization is an AI and FEA-driven mathematical technique that systematically removes material from a solid model in areas where mechanical stresses are low. This generates highly complex, organic-looking, lightweight structures that maintain the original strength, which are typically manufactured using modern 3D printing/additive manufacturing techniques.</p>
+      </div>
+
+      <!-- Q45 -->
+      <div class="callout blue">
+        <div class="callout-title">Question 45 &bull; Unit 4 (CAE)</div>
+        <p><strong>What is meant by 'Degree of Freedom' (DOF) in FEA meshing?</strong></p>
+      </div>
+      <div class="qa-answer">
+        <p><strong>Answer:</strong> In FEA, the Degree of Freedom refers to the independent ways a specific node can move or rotate. For example, a node on a standard 3D solid element typically has 3 translational DOFs (moving in X, Y, and Z directions). Nodes in shell or beam elements often possess 6 DOFs, accounting for both translation and rotation around those axes.</p>
+      </div>
+
+      <!-- Q46 -->
+      <div class="callout blue">
+        <div class="callout-title">Question 46 &bull; Unit 2 (Curves and Surfaces)</div>
+        <p><strong>Describe 'C1 Continuity' and its visual effect on joining curves.</strong></p>
+      </div>
+      <div class="qa-answer">
+        <p><strong>Answer:</strong> C1 Continuity (First-Derivative Continuity) ensures that two adjoining curve segments share the exact same tangent direction at their meeting point. Visually, this eliminates sharp corners or "kinks," ensuring a perfectly smooth graphical transition from one curve segment to the next.</p>
+      </div>
+
+      <!-- Q47 -->
+      <div class="callout blue">
+        <div class="callout-title">Question 47 &bull; Unit 5 (CAM)</div>
+        <p><strong>What is an AS/RS in the context of a Flexible Manufacturing System?</strong></p>
+      </div>
+      <div class="qa-answer">
+        <p><strong>Answer:</strong> AS/RS stands for Automated Storage and Retrieval System. It is a computer-controlled racking system utilized in FMS layouts that employs robotic cranes to automatically place and retrieve heavy loads—such as raw material stock, heavy tooling pallets, or finished parts—from specific, high-density storage locations without human intervention.</p>
+      </div>
+
+      <!-- Q48 -->
+      <div class="callout blue">
+        <div class="callout-title">Question 48 &bull; Unit 1 (Basics of CAD)</div>
+        <p><strong>Why do CAD systems mathematically separate "viewing transformations" from "modelling transformations"?</strong></p>
+      </div>
+      <div class="qa-answer">
+        <p><strong>Answer:</strong> Modelling transformations permanently change the actual 3D geometric coordinates of the part stored in the database (like scaling a part to make it 10% larger). Viewing transformations, however, only change the virtual camera angle, pan, or zoom displayed on the monitor, without altering the true dimensional data of the part itself.</p>
+      </div>
+
+      <!-- Q49 -->
+      <div class="callout blue">
+        <div class="callout-title">Question 49 &bull; Unit 4 (CAE)</div>
+        <p><strong>What is the purpose of the 'Jacobian matrix' in finite element analysis computations?</strong></p>
+      </div>
+      <div class="qa-answer">
+        <p><strong>Answer:</strong> The Jacobian matrix acts as a mathematical translator. It maps the distorted, real-world shape of an element in the global coordinate system to a perfectly square or standard shape in the "natural" or "local" coordinate system. This simplifies the complex numerical integration required to solve the structural equations across the element.</p>
+      </div>
+
+      <!-- Q50 -->
+      <div class="callout blue">
+        <div class="callout-title">Question 50 &bull; Unit 3 (Solid Modelling)</div>
+        <p><strong>How does a 'Half-Space' help in creating digital solid models?</strong></p>
+      </div>
+      <div class="qa-answer">
+        <p><strong>Answer:</strong> A half-space mathematically divides the infinite 3D universe into two distinct regions (the "solid" inside and the "empty" outside) using a continuous surface boundary, like a flat plane. By taking multiple intersecting half-spaces and applying Boolean "Intersection" logic, a finite, bounded solid block or primitive can be accurately constructed.</p>
+      </div>
+
+    </section>
+
+    <nav class="toc">
+      <h2>📋 Table of Contents</h2>
+      <ol>
+        <li><a href="https://praxian1905.github.io/html/sem6/lab/viva-batch-1.html">Batch 1</a></li>
+        <li><a href="https://praxian1905.github.io/html/sem6/lab/viva-batch-2.html">Batch 2</a></li>
+        <li><a href="https://praxian1905.github.io/html/sem6/lab/viva-batch-3.html">Batch 3</a></li>
+        <li><a href="https://praxian1905.github.io/html/sem6/lab/viva-batch-4.html">Batch 4</a></li>
+        <li><a href="https://praxian1905.github.io/html/sem6/lab/viva-batch-6.html">Batch 6</a></li>
+        <li><a href="https://praxian1905.github.io/html/sem6/lab/viva-batch-7.html">Batch 7</a></li>
+        <li><a href="https://praxian1905.github.io/html/sem6/lab/viva-batch-8.html">Batch 8</a></li>
+        <li><a href="https://praxian1905.github.io/html/sem6/lab/viva-batch-9.html">Batch 9</a></li>
+        <li><a href="https://praxian1905.github.io/html/sem6/lab/viva-batch-10.html">Batch 10</a></li>
+      </ol>
+    </nav>
+
+  </main>
+
+  <script>
+    window.addEventListener("scroll", () => {
+      const total = document.body.scrollHeight - window.innerHeight;
+      document.getElementById("progress").style.width = (window.scrollY / total) * 100 + "%";
+    });
+
+    const obs = new IntersectionObserver(
+      entries => entries.forEach(e => { if (e.isIntersecting) e.target.classList.add("visible"); }),
+      { threshold: 0.08 }
+    );
+    document.querySelectorAll(".section").forEach(s => obs.observe(s));
+  </script>
+</body>
+</html>

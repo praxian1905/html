@@ -1,0 +1,299 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CAD/CAM Viva Questions - Batch 01</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=Source+Serif+4:ital,opsz,wght@0,8..60,300;0,8..60,400;0,8..60,600;1,8..60,300&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg:      #0e0f14;
+      --surface: #15171f;
+      --card:    #1c1f2b;
+      --border:  #2a2e40;
+      --accent:  #f5a623;
+      --accent2: #4fc3f7;
+      --accent3: #81c784;
+      --accent4: #ef5350;
+      --text:    #e8e9f0;
+      --muted:   #8890aa;
+      --heading: #ffffff;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: "Source Serif 4", Georgia, serif;
+      font-size: 17px;
+      line-height: 1.8;
+      min-height: 100vh;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+      pointer-events: none;
+      z-index: 999;
+      opacity: 0.45;
+    }
+
+    strong { color: var(--heading); font-weight: 600; }
+    em     { color: var(--accent); font-style: italic; }
+    p      { margin-bottom: 18px; color: var(--text); }
+
+    h3 {
+      font-family: "Playfair Display", serif;
+      font-size: 20px;
+      color: var(--heading);
+      margin: 36px 0 14px;
+      font-weight: 700;
+    }
+
+    .page {
+      max-width: 1020px;
+      margin: 0 auto;
+      padding: 0 28px 100px;
+    }
+
+    #progress {
+      position: fixed; top: 0; left: 0;
+      height: 3px;
+      background: linear-gradient(90deg, var(--accent), var(--accent2));
+      z-index: 1000;
+      width: 0;
+      transition: width 0.1s linear;
+    }
+
+    @media (max-width: 768px) {
+      .page { padding: 0 16px 80px; }
+    }
+
+    .hero {
+      position: relative;
+      overflow: hidden;
+      padding: 90px 40px 80px;
+      text-align: center;
+      border-bottom: 1px solid var(--border);
+      background: radial-gradient(ellipse 80% 60% at 50% 0%, #1a2340 0%, var(--bg) 70%);
+    }
+
+    .hero-badge {
+      display: inline-block;
+      font-family: "JetBrains Mono", monospace;
+      font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase;
+      color: var(--accent); border: 1px solid var(--accent);
+      padding: 4px 14px; border-radius: 2px; margin-bottom: 24px;
+      opacity: 0; animation: fadeUp 0.6s 0.1s forwards;
+    }
+
+    .hero h1 {
+      font-family: "Playfair Display", serif;
+      font-size: clamp(28px, 5vw, 54px); font-weight: 900;
+      color: var(--heading); line-height: 1.15;
+      max-width: 860px; margin: 0 auto 20px;
+      opacity: 0; animation: fadeUp 0.7s 0.25s forwards;
+    }
+    .hero h1 em { color: var(--accent); font-style: normal; }
+
+    .hero-sub {
+      font-size: 16px; color: var(--muted);
+      max-width: 620px; margin: 0 auto 36px;
+      opacity: 0; animation: fadeUp 0.7s 0.4s forwards;
+    }
+
+    .hero-meta {
+      display: flex; flex-wrap: wrap; gap: 20px; justify-content: center;
+      opacity: 0; animation: fadeUp 0.7s 0.55s forwards;
+    }
+    .hero-meta span {
+      font-family: "JetBrains Mono", monospace; font-size: 12px;
+      color: var(--muted); background: var(--card);
+      border: 1px solid var(--border); padding: 6px 14px; border-radius: 2px;
+    }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(18px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .section {
+      margin-bottom: 72px;
+      opacity: 0; transform: translateY(24px);
+      transition: opacity 0.55s, transform 0.55s;
+    }
+    .section.visible { opacity: 1; transform: translateY(0); }
+
+    .callout {
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: 2px; padding: 22px 26px; margin: 40px 0 15px;
+    }
+    .callout.blue   { border-left: 3px solid var(--accent2); }
+
+    .callout-title {
+      font-family: "JetBrains Mono", monospace;
+      font-size: 11px; text-transform: uppercase; letter-spacing: 0.12em;
+      margin-bottom: 10px; color: var(--accent2);
+    }
+    
+    .qa-answer {
+      padding-left: 26px;
+      border-left: 2px solid var(--border);
+      margin-left: 2px;
+      color: var(--text);
+    }
+
+    .qa-answer strong {
+      color: var(--accent3);
+    }
+
+    .divider { border: none; border-top: 1px solid var(--border); margin: 60px 0; }
+
+  </style>
+</head>
+<body>
+  <div id="progress"></div>
+
+  <header class="hero">
+    <div class="hero-badge">Examination Prep &middot; Q1-Q10</div>
+    <h1>CAD/CAM <em>Viva Voce</em></h1>
+    <p class="hero-sub">Batch 01: A structurally randomized selection of rigorous viva-style questions and comprehensive answers spanning all 6 units of the syllabus.</p>
+    <div class="hero-meta">
+      <span>📝 Questions 1 - 10</span>
+      <span>🔄 Random Distribution</span>
+    </div>
+  </header>
+
+  <main class="page">
+    
+    <section class="section visible">
+      
+      <!-- Q1 -->
+      <div class="callout blue">
+        <div class="callout-title">Question 01 &bull; Unit 3 (Solid Modelling)</div>
+        <p><strong>What is the fundamental difference between Constructive Solid Geometry (CSG) and Boundary Representation (B-rep)?</strong></p>
+      </div>
+      <div class="qa-answer">
+        <p><strong>Answer:</strong> In CSG, solids are created by combining basic 3D primitives (like cylinders, spheres, and blocks) using boolean operations (union, intersection, difference). It focuses on the <em>volume</em> of the object. B-rep, on the other hand, represents a solid indirectly by its topological boundaries—the faces, edges, and vertices that enclose the solid. B-rep is highly detailed and excellent for complex surfaces, whereas CSG is more mathematically robust for simple prismatic geometry.</p>
+      </div>
+
+      <!-- Q2 -->
+      <div class="callout blue">
+        <div class="callout-title">Question 02 &bull; Unit 1 (Basics of CAD)</div>
+        <p><strong>Define homogeneous coordinates and state why they are used in 2D/3D geometric transformations.</strong></p>
+      </div>
+      <div class="qa-answer">
+        <p><strong>Answer:</strong> Homogeneous coordinates involve adding a dummy dimension (w) to coordinate points, turning a 2D point (x, y) into a 3D matrix (x, y, 1). They are used because they allow <em>all</em> basic transformations—including translation, which is normally an addition operation—to be expressed consistently as matrix <em>multiplications</em>. This is crucial for combining multiple transformations easily into a single composite matrix.</p>
+      </div>
+
+      <!-- Q3 -->
+      <div class="callout blue">
+        <div class="callout-title">Question 03 &bull; Unit 5 (CAM)</div>
+        <p><strong>What is Adaptive Control in CNC machining, and how does it differ from a standard CNC system?</strong></p>
+      </div>
+      <div class="qa-answer">
+        <p><strong>Answer:</strong> A standard CNC system blindly executes programmed feeds and speeds regardless of changing cutting conditions. An <em>Adaptive Control</em> system continuously monitors real-time cutting metrics (like spindle torque, vibration, or cutting force) via sensors and automatically adjusts the feed rate and spindle speed to optimize production rate or preserve tool life without human intervention.</p>
+      </div>
+
+      <!-- Q4 -->
+      <div class="callout blue">
+        <div class="callout-title">Question 04 &bull; Unit 4 (CAE)</div>
+        <p><strong>What do you mean by 'meshing' in Finite Element Analysis (FEA), and what is the trade-off of using an extremely fine mesh?</strong></p>
+      </div>
+      <div class="qa-answer">
+        <p><strong>Answer:</strong> Meshing is the process of dividing a complex continuous body into a discrete number of smaller, manageable geometric elements (like triangles, quads, or tetrahedrons) connected by nodes. While an extremely fine mesh yields highly accurate stress/strain results (especially at stress concentration points like fillets or holes), the trade-off is a massive increase in computational time and required processing power.</p>
+      </div>
+
+      <!-- Q5 -->
+      <div class="callout blue">
+        <div class="callout-title">Question 05 &bull; Unit 2 (Curves and Surfaces)</div>
+        <p><strong>Why are B-Spline curves generally preferred over Bezier curves in complex CAD modelling?</strong></p>
+      </div>
+      <div class="qa-answer">
+        <p><strong>Answer:</strong> B-Splines are preferred because they offer <em>local control</em>; moving a single control point only alters a specific segment of the curve, unlike Bezier curves where moving one point globally alters the entire curve. Additionally, the polynomial degree of a B-spline is independent of the number of control points, whereas in a Bezier curve, adding more points arbitrarily increases the mathematical complexity of the curve.</p>
+      </div>
+
+      <!-- Q6 -->
+      <div class="callout blue">
+        <div class="callout-title">Question 06 &bull; Unit 6 (Latest Technologies)</div>
+        <p><strong>Briefly explain the concept of a 'Digital Twin' in the context of Industry 4.0.</strong></p>
+      </div>
+      <div class="qa-answer">
+        <p><strong>Answer:</strong> A Digital Twin is a highly complex, real-time virtual replica of a physical asset, process, or system. In Industry 4.0, physical machines feed live IoT sensor data directly into their Digital Twin, allowing engineers to run simulations, predict maintenance failures, and optimize layouts virtually without disrupting the actual physical production line.</p>
+      </div>
+
+      <!-- Q7 -->
+      <div class="callout blue">
+        <div class="callout-title">Question 07 &bull; Unit 1 (Basics of CAD)</div>
+        <p><strong>What is the difference between WCS (World Coordinate System) and UCS (User Coordinate System)?</strong></p>
+      </div>
+      <div class="qa-answer">
+        <p><strong>Answer:</strong> WCS is the absolute, fixed reference cartesian grid used universally by the CAD software workspace. UCS, however, is a custom, movable coordinate system defined by the user. The UCS can be shifted or rotated to align with tilted planes or faces of a 3D object, drastically simplifying the drafting of complex geometries at awkward angles.</p>
+      </div>
+
+      <!-- Q8 -->
+      <div class="callout blue">
+        <div class="callout-title">Question 08 &bull; Unit 5 (CAM)</div>
+        <p><strong>What are the main components of an FMS (Flexible Manufacturing System)?</strong></p>
+      </div>
+      <div class="qa-answer">
+        <p><strong>Answer:</strong> An FMS generally consists of three main sub-systems: (1) A series of processing stations, usually highly automated CNC machine tools; (2) An automated material handling and storage system, such as Automated Guided Vehicles (AGVs) and AS/RS; and (3) A central computer control system that integrates and coordinates the routing of parts and the scheduling of machines.</p>
+      </div>
+
+      <!-- Q9 -->
+      <div class="callout blue">
+        <div class="callout-title">Question 09 &bull; Unit 6 (Latest Technologies)</div>
+        <p><strong>How does Reverse Engineering differ from standard Forward Engineering in CAD?</strong></p>
+      </div>
+      <div class="qa-answer">
+        <p><strong>Answer:</strong> Forward engineering starts from a concept or digital CAD model and moves to a physical manufactured product. Reverse Engineering flips this process: it begins with an existing physical part, uses 3D scanners or CMMs (Coordinate Measuring Machines) to generate a point cloud, converts that data into a mesh/surface, and ultimately recreates a digital CAD solid model.</p>
+      </div>
+
+      <!-- Q10 -->
+      <div class="callout blue">
+        <div class="callout-title">Question 10 &bull; Unit 3 (Solid Modelling)</div>
+        <p><strong>What is 'Cell Decomposition' in solid modelling, and where is it primarily used?</strong></p>
+      </div>
+      <div class="qa-answer">
+        <p><strong>Answer:</strong> Cell decomposition is a representation scheme where a complex solid object is broken down into a set of simpler, non-overlapping primitive cells that seamlessly piece together. This technique is not often used for primary part design but is heavily relied upon for generating the meshes required in Finite Element Analysis (FEA) and creating volumetric tool paths in CAM.</p>
+      </div>
+
+    </section>
+
+    <nav class="toc">
+      <h2>📋 Table of Contents</h2>
+      <ol>
+        <li><a href="https://praxian1905.github.io/html/sem6/lab/viva-batch-2.html">Batch 2</a></li>
+        <li><a href="https://praxian1905.github.io/html/sem6/lab/viva-batch-3.html">Batch 3</a></li>
+        <li><a href="https://praxian1905.github.io/html/sem6/lab/viva-batch-3.html">Batch 4</a></li>
+        <li><a href="https://praxian1905.github.io/html/sem6/lab/viva-batch-3.html">Batch 5</a></li>
+        <li><a href="https://praxian1905.github.io/html/sem6/lab/viva-batch-3.html">Batch 6</a></li>
+        <li><a href="https://praxian1905.github.io/html/sem6/lab/viva-batch-3.html">Batch 7</a></li>
+        <li><a href="https://praxian1905.github.io/html/sem6/lab/viva-batch-3.html">Batch 8</a></li>
+        <li><a href="https://praxian1905.github.io/html/sem6/lab/viva-batch-3.html">Batch 9</a></li>
+        <li><a href="https://praxian1905.github.io/html/sem6/lab/viva-batch-3.html">Batch 10</a></li>
+      </ol>
+    </nav>
+
+  </main>
+
+  <script>
+    // Scroll progress indicator
+    window.addEventListener("scroll", () => {
+      const total = document.body.scrollHeight - window.innerHeight;
+      document.getElementById("progress").style.width = (window.scrollY / total) * 100 + "%";
+    });
+
+    // Intersection Observer for fade-in sections
+    const obs = new IntersectionObserver(
+      entries => entries.forEach(e => { if (e.isIntersecting) e.target.classList.add("visible"); }),
+      { threshold: 0.08 }
+    );
+    document.querySelectorAll(".section").forEach(s => obs.observe(s));
+  </script>
+</body>
+</html>
