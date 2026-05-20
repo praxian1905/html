@@ -1,0 +1,387 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Detailed Syllabus: CAD/CAM</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=Source+Serif+4:ital,opsz,wght@0,8..60,300;0,8..60,400;0,8..60,600;1,8..60,300&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg:      #0e0f14;
+      --surface: #15171f;
+      --card:    #1c1f2b;
+      --border:  #2a2e40;
+      --accent:  #f5a623;
+      --accent2: #4fc3f7;
+      --accent3: #81c784;
+      --accent4: #ef5350;
+      --text:    #e8e9f0;
+      --muted:   #8890aa;
+      --heading: #ffffff;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: "Source Serif 4", Georgia, serif;
+      font-size: 17px;
+      line-height: 1.8;
+      min-height: 100vh;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+      pointer-events: none;
+      z-index: 999;
+      opacity: 0.45;
+    }
+
+    strong { color: var(--heading); font-weight: 600; }
+    em     { color: var(--accent); font-style: italic; }
+    p      { margin-bottom: 18px; color: var(--text); }
+
+    h3 {
+      font-family: "Playfair Display", serif;
+      font-size: 20px;
+      color: var(--heading);
+      margin: 36px 0 14px;
+      font-weight: 700;
+    }
+
+    .page {
+      max-width: 1020px;
+      margin: 0 auto;
+      padding: 0 28px 100px;
+    }
+
+    #progress {
+      position: fixed; top: 0; left: 0;
+      height: 3px;
+      background: linear-gradient(90deg, var(--accent), var(--accent2));
+      z-index: 1000;
+      width: 0;
+      transition: width 0.1s linear;
+    }
+
+    @media (max-width: 768px) {
+      .page { padding: 0 16px 80px; }
+    }
+
+    .hero {
+      position: relative;
+      overflow: hidden;
+      padding: 90px 40px 80px;
+      text-align: center;
+      border-bottom: 1px solid var(--border);
+      background: radial-gradient(ellipse 80% 60% at 50% 0%, #1a2340 0%, var(--bg) 70%);
+    }
+
+    .hero-badge {
+      display: inline-block;
+      font-family: "JetBrains Mono", monospace;
+      font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase;
+      color: var(--accent); border: 1px solid var(--accent);
+      padding: 4px 14px; border-radius: 2px; margin-bottom: 24px;
+      opacity: 0; animation: fadeUp 0.6s 0.1s forwards;
+    }
+
+    .hero h1 {
+      font-family: "Playfair Display", serif;
+      font-size: clamp(28px, 5vw, 54px); font-weight: 900;
+      color: var(--heading); line-height: 1.15;
+      max-width: 860px; margin: 0 auto 20px;
+      opacity: 0; animation: fadeUp 0.7s 0.25s forwards;
+    }
+    .hero h1 em { color: var(--accent); font-style: normal; }
+
+    .hero-sub {
+      font-size: 16px; color: var(--muted);
+      max-width: 620px; margin: 0 auto 36px;
+      opacity: 0; animation: fadeUp 0.7s 0.4s forwards;
+    }
+
+    .hero-meta {
+      display: flex; flex-wrap: wrap; gap: 20px; justify-content: center;
+      opacity: 0; animation: fadeUp 0.7s 0.55s forwards;
+    }
+    .hero-meta span {
+      font-family: "JetBrains Mono", monospace; font-size: 12px;
+      color: var(--muted); background: var(--card);
+      border: 1px solid var(--border); padding: 6px 14px; border-radius: 2px;
+    }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(18px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .toc {
+      background: var(--card); border: 1px solid var(--border);
+      border-left: 3px solid var(--accent);
+      padding: 32px 36px; margin: 52px 0 60px; border-radius: 2px;
+    }
+    .toc h2 {
+      font-family: "Playfair Display", serif; font-size: 20px;
+      color: var(--heading); margin-bottom: 20px;
+    }
+    .toc ol { padding-left: 22px; }
+    .toc li { margin-bottom: 8px; }
+    .toc a {
+      color: var(--accent2); text-decoration: none;
+      font-family: "JetBrains Mono", monospace; font-size: 13px;
+      transition: color 0.2s;
+    }
+    .toc a:hover { color: var(--accent); }
+
+    .section {
+      margin-bottom: 72px;
+      opacity: 0; transform: translateY(24px);
+      transition: opacity 0.55s, transform 0.55s;
+    }
+    .section.visible { opacity: 1; transform: translateY(0); }
+
+    .section-label {
+      font-family: "JetBrains Mono", monospace;
+      font-size: 10.5px; letter-spacing: 0.18em; text-transform: uppercase;
+      color: var(--accent); margin-bottom: 10px;
+    }
+
+    h2.section-title {
+      font-family: "Playfair Display", serif;
+      font-size: clamp(22px, 3.5vw, 34px); font-weight: 700;
+      color: var(--heading); line-height: 1.2;
+      margin-bottom: 28px; padding-bottom: 14px;
+      border-bottom: 1px solid var(--border);
+    }
+    h2.section-title .num {
+      color: var(--accent); font-size: 0.7em; font-style: italic; margin-right: 10px;
+    }
+
+    ul.custom-list { padding-left: 20px; margin-bottom: 18px; color: var(--text); list-style-type: square; }
+    ul.custom-list li { margin-bottom: 12px; }
+    ul.custom-list li::marker { color: var(--accent); }
+
+    .callout {
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: 2px; padding: 22px 26px; margin: 28px 0;
+    }
+    .callout.orange { border-left: 3px solid var(--accent); }
+    .callout.blue   { border-left: 3px solid var(--accent2); }
+
+    .callout-title {
+      font-family: "JetBrains Mono", monospace;
+      font-size: 11px; text-transform: uppercase; letter-spacing: 0.12em;
+      margin-bottom: 10px;
+    }
+    .callout.orange .callout-title { color: var(--accent); }
+    .callout.blue   .callout-title { color: var(--accent2); }
+
+    .sample-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 18px; margin: 28px 0;
+    }
+    .sample-card {
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: 2px; padding: 22px 24px;
+      transition: border-color 0.2s, transform 0.2s;
+    }
+    .sample-card:hover { border-color: var(--accent2); transform: translateY(-3px); }
+    .sample-id {
+      font-family: "JetBrains Mono", monospace; font-size: 11px;
+      color: var(--accent); letter-spacing: 0.12em; margin-bottom: 8px;
+    }
+    .sample-card h4 {
+      font-family: "Playfair Display", serif; font-size: 17px;
+      color: var(--heading); margin-bottom: 10px;
+    }
+    .sample-card p { font-size: 14px; color: var(--muted); margin: 0; line-height: 1.6; }
+    
+    .divider { border: none; border-top: 1px solid var(--border); margin: 60px 0; }
+
+    .pills { display: flex; flex-wrap: wrap; gap: 10px; margin: 18px 0; }
+    .pill {
+      background: var(--card); border: 1px solid var(--border);
+      padding: 6px 14px; border-radius: 20px;
+      font-size: 13px; color: var(--text); font-family: "JetBrains Mono", monospace;
+    }
+    .pill.good { border-color: var(--accent3); color: var(--accent3); }
+    .pill.warn { border-color: var(--accent);  color: var(--accent); }
+
+  </style>
+</head>
+<body>
+  <div id="progress"></div>
+
+  <header class="hero">
+    <div class="hero-badge">Course Outline</div>
+    <h1>Detailed Syllabus: <em>CAD/CAM</em></h1>
+    <p class="hero-sub">A complete mapping of Computer-Aided Design, Engineering, and Manufacturing concepts structured for advanced academic study.</p>
+    <div class="hero-meta">
+      <span>📚 6 Core Units</span>
+      <span>⏱️ Full Semester</span>
+      <span>⚙️ Theory & Application</span>
+    </div>
+  </header>
+
+  <main class="page">
+    <nav class="toc">
+      <h2>📋 Table of Contents</h2>
+      <ol>
+        <li><a href="#u1">Unit 1: Basics of CAD</a></li>
+        <li><a href="#u2">Unit 2: Curves and Surfaces</a></li>
+        <li><a href="#u3">Unit 3: Solid Modelling</a></li>
+        <li><a href="#u4">Unit 4: Computer Aided Engineering</a></li>
+        <li><a href="#u5">Unit 5: Computer Aided Manufacturing</a></li>
+        <li><a href="#u6">Unit 6: Latest Technologies</a></li>
+      </ol>
+    </nav>
+
+    <!-- UNIT 1 -->
+    <section class="section" id="u1">
+      <div class="section-label">Unit 01</div>
+      <h2 class="section-title"><span class="num">01.</span> Basics of CAD</h2>
+      <ul class="custom-list">
+        <li><strong>Need and Scope</strong> of Computer Aided Design.</li>
+        <li><strong>Fundamentals</strong> of CAD and computer graphics.</li>
+        <li><strong>Application Areas</strong>, and Comparison of CAD with Manual designing.</li>
+        <li><strong>System Basics:</strong> Benefits of CAD, User Coordinate System (UCS), 3D systems.</li>
+        <li><strong>2D Geometrical Transformations:</strong> Matrix representations and homogeneous coordinates.</li>
+        <li><strong>Advanced Transformations:</strong> Composite transformations, transformations between coordinate systems.</li>
+        <li><strong>3D Graphics:</strong> 2-D viewing, 3-D Geometric transformations, composite transformations.</li>
+        <li><strong>Importance</strong> of transformations in spatial representation.</li>
+      </ul>
+    </section>
+
+    <hr class="divider" />
+
+    <!-- UNIT 2 -->
+    <section class="section" id="u2">
+      <div class="section-label">Unit 02</div>
+      <h2 class="section-title"><span class="num">02.</span> Curves and Surfaces</h2>
+      <div class="sample-grid">
+        <div class="sample-card">
+          <div class="sample-id">ANALYTIC CURVES</div>
+          <h4>Basic Geometries</h4>
+          <p>Mathematical representation of simple entities: Circle, Arc, Ellipse, Parabola, and Hyperbola.</p>
+        </div>
+        <div class="sample-card">
+          <div class="sample-id">SYNTHETIC CURVES</div>
+          <h4>Splines & Continuity</h4>
+          <p>Concept of continuity (C0, C1, C2). Cubic Splines: equations, properties, and blending functions.</p>
+        </div>
+        <div class="sample-card">
+          <div class="sample-id">ADVANCED CURVES</div>
+          <h4>Bezier & B-Splines</h4>
+          <p>Bezier Curve equations and properties. Introduction to B-Splines and the extensive advantages of NURBS.</p>
+        </div>
+      </div>
+      <div class="callout orange">
+        <div class="callout-title">🚗 Automotive Application</div>
+        <p>Detailed study of various types of surfaces (ruled, swept, lofted) used specifically in the automotive industry alongside their practical applications.</p>
+      </div>
+    </section>
+
+    <hr class="divider" />
+
+    <!-- UNIT 3 -->
+    <section class="section" id="u3">
+      <div class="section-label">Unit 03</div>
+      <h2 class="section-title"><span class="num">03.</span> Solid Modelling</h2>
+      <ul class="custom-list">
+        <li><strong>Geometry and Topology:</strong> Differentiating the mathematical shape from the structural connectivity.</li>
+        <li><strong>Modelling Paradigms:</strong> Comparison between wireframe, surface, and solid models.</li>
+        <li><strong>Core Properties:</strong> Properties of solid models and their representation schemes.</li>
+        <li><strong>Mathematical Foundations:</strong> Concept of Half-spaces and Boolean operations (Union, Intersect, Subtract).</li>
+      </ul>
+      <h3>Representation Schemes</h3>
+      <div class="pills">
+        <span class="pill good">Boundary Representation (B-rep)</span>
+        <span class="pill good">Constructive Solid Geometry (CSG)</span>
+        <span class="pill">Sweep Representation</span>
+        <span class="pill">Primitive Instancing</span>
+        <span class="pill warn">Cell Decomposition Techniques</span>
+      </div>
+    </section>
+
+    <hr class="divider" />
+
+    <!-- UNIT 4 -->
+    <section class="section" id="u4">
+      <div class="section-label">Unit 04</div>
+      <h2 class="section-title"><span class="num">04.</span> Computer Aided Engineering (CAE)</h2>
+      <p>This unit dives into the simulation and validation of digital designs before manufacturing.</p>
+      <ul class="custom-list">
+        <li><strong>Introduction</strong> to simulation, interference detection, and failure analysis under static and dynamic loading.</li>
+        <li><strong>Preprocessing:</strong> Elements used in CAE, material defining, meshing, and determining optimal mesh density.</li>
+        <li><strong>Setup:</strong> Application of loading and constraints, defining boundary conditions.</li>
+        <li><strong>Solving & Post-processing:</strong> Understanding solvers, reviewing the results, and validating CAE outputs.</li>
+        <li><strong>Case Study:</strong> Practical application and workflow demonstration using <em>ANSYS software</em>.</li>
+      </ul>
+    </section>
+
+    <hr class="divider" />
+
+    <!-- UNIT 5 -->
+    <section class="section" id="u5">
+      <div class="section-label">Unit 05</div>
+      <h2 class="section-title"><span class="num">05.</span> Computer Aided Manufacturing (CAM)</h2>
+      <div class="sample-grid">
+        <div class="sample-card">
+          <div class="sample-id">NC / CNC / DNC</div>
+          <h4>Numerical Control</h4>
+          <p>Introduction, roles, advantages, disadvantages, and applications of NC. Features of CNC systems, DNC networks, adaptive control, and safety measures.</p>
+        </div>
+        <div class="sample-card">
+          <div class="sample-id">FLEXIBILITY</div>
+          <h4>FMS Components</h4>
+          <p>Flexible Manufacturing Systems (FMS): Equipment, control systems, Automated Guided Vehicles (AGVs), and Automated Storage and Retrieval Systems (AS/RS).</p>
+        </div>
+        <div class="sample-card">
+          <div class="sample-id">INTEGRATION</div>
+          <h4>CIM & CAPP</h4>
+          <p>Principles of Computer Integrated Manufacturing (CIM) and Computer Aided Process Planning (CAPP) spanning variant and generative approaches.</p>
+        </div>
+      </div>
+    </section>
+
+    <hr class="divider" />
+
+    <!-- UNIT 6 -->
+    <section class="section" id="u6">
+      <div class="section-label">Unit 06</div>
+      <h2 class="section-title"><span class="num">06.</span> Latest Technologies</h2>
+      <ul class="custom-list">
+        <li><strong>Industry 4.0:</strong> Introduction to the interconnected smart factory paradigm.</li>
+        <li><strong>FEM:</strong> Advanced Finite Element Method implementations.</li>
+        <li><strong>Robotics & Automation:</strong> Industrial robotics, kinematics, and applications.</li>
+        <li><strong>Reverse Engineering:</strong> Techniques for capturing physical models and computer aided inspection (CMM/scanners).</li>
+        <li><strong>Cloud Manufacturing:</strong> Distributed manufacturing models leveraging internet networks.</li>
+        <li><strong>AI & ML:</strong> Artificial intelligence and machine learning applications in modern CAD/CAM processes.</li>
+      </ul>
+    </section>
+
+  </main>
+
+  <script>
+    // Scroll progress indicator
+    window.addEventListener("scroll", () => {
+      const total = document.body.scrollHeight - window.innerHeight;
+      document.getElementById("progress").style.width = (window.scrollY / total) * 100 + "%";
+    });
+
+    // Intersection Observer for fade-in sections
+    const obs = new IntersectionObserver(
+      entries => entries.forEach(e => { if (e.isIntersecting) e.target.classList.add("visible"); }),
+      { threshold: 0.08 }
+    );
+    document.querySelectorAll(".section").forEach(s => obs.observe(s));
+  </script>
+</body>
+</html>
