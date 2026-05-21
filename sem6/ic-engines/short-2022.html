@@ -1,0 +1,604 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>IC Engines 2022 PYQs (1.5 Marks)</title>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=Source+Serif+4:ital,opsz,wght@0,8..60,300;0,8..60,400;0,8..60,600;1,8..60,300&family=JetBrains+Mono:wght@400;500&display=swap"
+    rel="stylesheet"
+  />
+  <style>
+    /* Base / Reset */
+    :root {
+      --bg:      #0e0f14;
+      --surface: #15171f;
+      --card:    #1c1f2b;
+      --border:  #2a2e40;
+      --accent:  #f5a623;
+      --accent2: #4fc3f7;
+      --accent3: #81c784;
+      --accent4: #ef5350;
+      --text:    #e8e9f0;
+      --muted:   #8890aa;
+      --heading: #ffffff;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: "Source Serif 4", Georgia, serif;
+      font-size: 17px;
+      line-height: 1.8;
+      min-height: 100vh;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+      pointer-events: none;
+      z-index: 999;
+      opacity: 0.45;
+    }
+
+    strong { color: var(--heading); font-weight: 600; }
+    em     { color: var(--accent); font-style: italic; }
+    p      { margin-bottom: 18px; color: var(--text); }
+    ul, ol { margin-bottom: 18px; padding-left: 20px; }
+    li     { margin-bottom: 8px; }
+
+    h3 {
+      font-family: "Playfair Display", serif;
+      font-size: 20px;
+      color: var(--heading);
+      margin: 36px 0 14px;
+      font-weight: 700;
+    }
+
+    blockquote {
+      border-left: 3px solid var(--accent);
+      margin: 28px 0;
+      padding: 14px 24px;
+      background: var(--card);
+      font-style: italic;
+      color: var(--muted);
+      font-size: 16px;
+      border-radius: 0 2px 2px 0;
+    }
+
+    /* Layout */
+    .page {
+      max-width: 1020px;
+      margin: 0 auto;
+      padding: 0 28px 100px;
+    }
+
+    #progress {
+      position: fixed; top: 0; left: 0;
+      height: 3px;
+      background: linear-gradient(90deg, var(--accent), var(--accent2));
+      z-index: 1000;
+      width: 0;
+      transition: width 0.1s linear;
+    }
+
+    @media (max-width: 768px) {
+      .page { padding: 0 16px 80px; }
+    }
+
+    /* Hero Header */
+    .hero {
+      position: relative;
+      overflow: hidden;
+      padding: 90px 40px 80px;
+      text-align: center;
+      border-bottom: 1px solid var(--border);
+      background: radial-gradient(ellipse 80% 60% at 50% 0%, #1a2340 0%, var(--bg) 70%);
+    }
+    .hero::after {
+      content: "";
+      position: absolute;
+      left: 50%; top: -60px;
+      transform: translateX(-50%);
+      width: 600px; height: 600px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(245,166,35,0.07) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .hero-badge {
+      display: inline-block;
+      font-family: "JetBrains Mono", monospace;
+      font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase;
+      color: var(--accent); border: 1px solid var(--accent);
+      padding: 4px 14px; border-radius: 2px; margin-bottom: 24px;
+      opacity: 0; animation: fadeUp 0.6s 0.1s forwards;
+    }
+
+    .hero h1 {
+      font-family: "Playfair Display", serif;
+      font-size: clamp(28px, 5vw, 54px); font-weight: 900;
+      color: var(--heading); line-height: 1.15;
+      max-width: 860px; margin: 0 auto 20px;
+      opacity: 0; animation: fadeUp 0.7s 0.25s forwards;
+    }
+    .hero h1 em { color: var(--accent); font-style: normal; }
+
+    .hero-sub {
+      font-size: 16px; color: var(--muted);
+      max-width: 620px; margin: 0 auto 36px;
+      opacity: 0; animation: fadeUp 0.7s 0.4s forwards;
+    }
+
+    .hero-meta {
+      display: flex; flex-wrap: wrap; gap: 20px; justify-content: center;
+      opacity: 0; animation: fadeUp 0.7s 0.55s forwards;
+    }
+    .hero-meta span {
+      font-family: "JetBrains Mono", monospace; font-size: 12px;
+      color: var(--muted); background: var(--card);
+      border: 1px solid var(--border); padding: 6px 14px; border-radius: 2px;
+    }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(18px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Table of Contents */
+    .toc {
+      background: var(--card); border: 1px solid var(--border);
+      border-left: 3px solid var(--accent);
+      padding: 32px 36px; margin: 52px 0 60px; border-radius: 2px;
+    }
+    .toc h2 {
+      font-family: "Playfair Display", serif; font-size: 20px;
+      color: var(--heading); margin-bottom: 20px;
+    }
+    .toc ol { padding-left: 22px; }
+    .toc li { margin-bottom: 8px; }
+    .toc a {
+      color: var(--accent2); text-decoration: none;
+      font-family: "JetBrains Mono", monospace; font-size: 13px;
+      transition: color 0.2s;
+    }
+    .toc a:hover { color: var(--accent); }
+
+    /* Content Sections */
+    .section {
+      margin-bottom: 72px;
+      opacity: 0; transform: translateY(24px);
+      transition: opacity 0.55s, transform 0.55s;
+    }
+    .section.visible { opacity: 1; transform: translateY(0); }
+
+    .section-label {
+      font-family: "JetBrains Mono", monospace;
+      font-size: 10.5px; letter-spacing: 0.18em; text-transform: uppercase;
+      color: var(--accent); margin-bottom: 10px;
+    }
+
+    h2.section-title {
+      font-family: "Playfair Display", serif;
+      font-size: clamp(22px, 3.5vw, 34px); font-weight: 700;
+      color: var(--heading); line-height: 1.2;
+      margin-bottom: 28px; padding-bottom: 14px;
+      border-bottom: 1px solid var(--border);
+    }
+    h2.section-title .num {
+      color: var(--accent); font-size: 0.7em; font-style: italic; margin-right: 10px;
+    }
+
+    /* Callout Boxes */
+    .callout {
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: 2px; padding: 22px 26px; margin: 28px 0;
+    }
+    .callout.orange { border-left: 3px solid var(--accent); }
+    .callout.blue   { border-left: 3px solid var(--accent2); }
+    .callout.green  { border-left: 3px solid var(--accent3); }
+    .callout.red    { border-left: 3px solid var(--accent4); }
+
+    .callout-title {
+      font-family: "JetBrains Mono", monospace;
+      font-size: 11px; text-transform: uppercase; letter-spacing: 0.12em;
+      margin-bottom: 10px;
+    }
+    .callout.orange .callout-title { color: var(--accent); }
+    .callout.blue   .callout-title { color: var(--accent2); }
+    .callout.green  .callout-title { color: var(--accent3); }
+    .callout.red    .callout-title { color: var(--accent4); }
+
+    /* Tables */
+    .table-wrap { overflow-x: auto; margin: 28px 0; }
+    table {
+      width: 100%; border-collapse: collapse;
+      font-size: 15px; background: var(--card); border: 1px solid var(--border);
+    }
+    thead th {
+      background: #20253a; color: var(--accent);
+      font-family: "JetBrains Mono", monospace;
+      font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase;
+      padding: 12px 16px; text-align: left; border-bottom: 1px solid var(--border);
+    }
+    tbody td {
+      padding: 11px 16px; border-bottom: 1px solid var(--border); vertical-align: top;
+    }
+    tbody tr:last-child td { border-bottom: none; }
+    tbody tr:hover td { background: rgba(255,255,255,0.025); }
+
+    /* Formula / Code Block */
+    .formula {
+      background: #0b0c12; border: 1px solid var(--border); border-radius: 2px;
+      padding: 18px 24px; margin: 22px 0;
+      font-family: "JetBrains Mono", monospace; font-size: 14.5px;
+      color: var(--accent2);
+      overflow-x: auto; white-space: pre;
+    }
+
+    /* Flow Steps */
+    .flow { display: flex; flex-wrap: wrap; gap: 16px; margin: 28px 0; }
+    .flow-step {
+      flex: 1; min-width: 160px;
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: 2px; padding: 18px 20px;
+    }
+    .flow-step .step-num {
+      font-family: "JetBrains Mono", monospace; font-size: 11px;
+      color: var(--accent); letter-spacing: 0.1em; margin-bottom: 8px;
+    }
+    .flow-step h4 {
+      font-family: "Playfair Display", serif; font-size: 16px;
+      color: var(--heading); margin-bottom: 6px;
+    }
+    .flow-step p { font-size: 14px; color: var(--muted); margin: 0; }
+
+    /* Sample Cards Grid */
+    .sample-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(270px, 1fr));
+      gap: 18px; margin: 28px 0;
+    }
+    .sample-card {
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: 2px; padding: 22px 24px;
+      transition: border-color 0.2s, transform 0.2s;
+    }
+    .sample-card:hover { border-color: var(--accent2); transform: translateY(-3px); }
+    .sample-id {
+      font-family: "JetBrains Mono", monospace; font-size: 11px;
+      color: var(--accent); letter-spacing: 0.12em; margin-bottom: 8px;
+    }
+    .sample-card h4 {
+      font-family: "Playfair Display", serif; font-size: 17px;
+      color: var(--heading); margin-bottom: 10px;
+    }
+    .sample-card p { font-size: 14px; color: var(--muted); margin: 0; }
+
+    .sample-card.highlight { border-color: var(--accent); background: #1f1f0e; }
+    .sample-card.highlight h4 { color: var(--accent); }
+
+    /* Pills / Tags */
+    .pills { display: flex; flex-wrap: wrap; gap: 10px; margin: 18px 0; }
+    .pill {
+      background: var(--card); border: 1px solid var(--border);
+      padding: 6px 14px; border-radius: 20px;
+      font-size: 13px; color: var(--text); font-family: "JetBrains Mono", monospace;
+    }
+    .pill.good { border-color: var(--accent3); color: var(--accent3); }
+    .pill.warn { border-color: var(--accent);  color: var(--accent); }
+    .pill.bad  { border-color: var(--accent4); color: var(--accent4); }
+
+    /* Verdict */
+    .verdict {
+      background: linear-gradient(135deg, #1a1a08, #1a1a0a);
+      border: 2px solid var(--accent); border-radius: 2px;
+      padding: 36px 40px; margin: 40px 0; text-align: center;
+    }
+    .verdict .trophy { font-size: 48px; margin-bottom: 16px; display: block; }
+    .verdict h3 {
+      font-family: "Playfair Display", serif; font-size: 26px;
+      color: var(--accent); margin-bottom: 12px;
+    }
+    .verdict p { color: var(--text); max-width: 600px; margin: 0 auto; }
+
+    /* Divider */
+    .divider { border: none; border-top: 1px solid var(--border); margin: 60px 0; }
+  </style>
+</head>
+<body>
+  <div id="progress"></div>
+
+  <header class="hero">
+    <div class="hero-badge">Mechanical Engineering · 2022 PYQ</div>
+    <h1>IC Engines <em>Short Questions</em></h1>
+    <p class="hero-sub">Complete solutions for the 2022 examination short questions, formulated per the 1.5-mark scheme.</p>
+    <div class="hero-meta">
+      <span>⚙️ Internal Combustion</span>
+      <span>📝 1.5 Marks Each</span>
+      <span>📐 Thermodynamics</span>
+    </div>
+  </header>
+
+  <main class="page">
+    <nav class="toc">
+      <h2>📋 Table of Contents</h2>
+      <ol>
+        <li><a href="#qa">Mean Piston Speed</a></li>
+        <li><a href="#qb">Use of Air-Standard Cycle Analysis</a></li>
+        <li><a href="#qc">Exhaust Temp & Mean Effective Pressure</a></li>
+        <li><a href="#qd">Volumetric Efficiency & Factors</a></li>
+        <li><a href="#qe">Rich Mixture for Idling</a></li>
+        <li><a href="#qf">High Fuel Pressure in Modern Systems</a></li>
+        <li><a href="#qg">Delay Period & Factors</a></li>
+        <li><a href="#qh">Limitations of Liquid Cooling</a></li>
+        <li><a href="#qi">Crankcase Blowby & Control</a></li>
+        <li><a href="#qj">Temperature Measurement Sensors</a></li>
+      </ol>
+    </nav>
+
+    <!-- Q(a) -->
+    <section class="section" id="qa">
+      <div class="section-label">Question A</div>
+      <h2 class="section-title"><span class="num">(a)</span> What is meant by mean piston speed? Explain its importance.</h2>
+      
+      <p><strong>Mean piston speed</strong> is the average velocity of the piston as it moves back and forth in the cylinder. Since piston speed varies from zero at Top/Bottom Dead Centers to a maximum near mid-stroke, the average is calculated using the stroke length ($L$) and engine speed ($N$).</p>
+      
+      <div class="formula">S_p = 2LN
+
+Where:
+S_p = Mean piston speed (m/s)
+L   = Stroke length (m)
+N   = Engine speed (rev/s)</div>
+      
+      <div class="callout orange">
+        <div class="callout-title">⚡ Importance</div>
+        <p>Mean piston speed is a critical limiting parameter for engine design. High mean piston speeds lead to excessive <em>inertia forces</em> (causing mechanical stress on the connecting rod and bearings) and increase the friction between the piston rings and cylinder wall. It also heavily dictates the <strong>gas flow velocities</strong> through the valves, which limits volumetric efficiency.</p>
+      </div>
+    </section>
+    
+    <hr class="divider" />
+
+    <!-- Q(b) -->
+    <section class="section" id="qb">
+      <div class="section-label">Question B</div>
+      <h2 class="section-title"><span class="num">(b)</span> What is the use of air-standard cycle analysis?</h2>
+      
+      <p>Air-standard cycle analysis provides a highly idealized theoretical model of an engine cycle by assuming air as a perfect working fluid. Its primary uses are:</p>
+      
+      <div class="sample-grid">
+        <div class="sample-card highlight">
+          <div class="sample-id">USE 01 ★</div>
+          <h4>Upper Limit Baseline</h4>
+          <p>It establishes the absolute maximum theoretical thermal efficiency an engine design could achieve, serving as a baseline for comparing actual engine performance.</p>
+        </div>
+        <div class="sample-card">
+          <div class="sample-id">USE 02</div>
+          <h4>Isolating Variables</h4>
+          <p>It simplifies complex thermodynamic calculations, allowing engineers to isolate and understand how changes in basic parameters (like <em>compression ratio</em>) affect efficiency, without the complications of actual combustion chemistry.</p>
+        </div>
+      </div>
+    </section>
+
+    <hr class="divider" />
+
+    <!-- Q(c) -->
+    <section class="section" id="qc">
+      <div class="section-label">Question C</div>
+      <h2 class="section-title"><span class="num">(c)</span> How does exhaust temperature and mean effective pressure affect engine performance?</h2>
+      
+      <div class="flow">
+        <div class="flow-step">
+          <div class="step-num">PARAMETER 1</div>
+          <h4>Mean Effective Pressure (MEP)</h4>
+          <p>MEP is a theoretical constant pressure that would produce the same work per cycle as the actual varying pressure. A <strong>higher MEP</strong> directly correlates to a <em>higher power output</em> for a given engine displacement, indicating excellent cylinder packing and combustion efficiency.</p>
+        </div>
+        <div class="flow-step">
+          <div class="step-num">PARAMETER 2</div>
+          <h4>Exhaust Temperature</h4>
+          <p>A <strong>high exhaust temperature</strong> indicates that a significant portion of combustion heat was rejected rather than converted into work, signalling <em>lower thermal efficiency</em>, delayed burning, or an excessively rich mixture. It acts as an indicator of waste energy.</p>
+        </div>
+      </div>
+    </section>
+
+    <hr class="divider" />
+
+    <!-- Q(d) -->
+    <section class="section" id="qd">
+      <div class="section-label">Question D</div>
+      <h2 class="section-title"><span class="num">(d)</span> Define volumetric efficiency and discuss affecting factors.</h2>
+      
+      <div class="callout blue">
+        <div class="callout-title">✓ Definition</div>
+        <p><strong>Volumetric efficiency</strong> ($\eta_v$) is the ratio of the actual mass of air inducted into the cylinder during the intake stroke to the theoretical mass of air that would fill the swept volume at ambient temperature and pressure.</p>
+      </div>
+      
+      <p>Factors affecting volumetric efficiency include:</p>
+      <div class="pills">
+        <span class="pill warn">Engine Speed</span>
+        <span class="pill warn">Valve Timing & Size</span>
+        <span class="pill warn">Intake Manifold Temp</span>
+        <span class="pill warn">Exhaust Back-pressure</span>
+      </div>
+      
+      <ul>
+        <li><strong>Engine Speed:</strong> At very high speeds, friction and flow resistance increase, dropping $\eta_v$.</li>
+        <li><strong>Intake Temperature:</strong> Hotter intake tracts reduce air density, directly lowering the mass of air inducted.</li>
+        <li><strong>Valve Geometry:</strong> Smaller valves or poor timing restrict airflow, throttling the incoming charge.</li>
+      </ul>
+    </section>
+    
+    <hr class="divider" />
+
+    <!-- Q(e) -->
+    <section class="section" id="qe">
+      <div class="section-label">Question E</div>
+      <h2 class="section-title"><span class="num">(e)</span> Explain why a rich mixture is required for idling.</h2>
+      
+      <p>During idling, the engine operates at low speeds with the throttle valve nearly closed. This creates two distinct problems that require a <em>rich mixture</em> (high fuel-to-air ratio) to solve:</p>
+      
+      <div class="callout orange">
+        <div class="callout-title">⚡ Exhaust Gas Dilution</div>
+        <p>Because of the closed throttle, a high vacuum is formed in the intake manifold. During valve overlap, a significant amount of burned <strong>residual exhaust gas is sucked back</strong> into the cylinder. A richer mixture ensures enough fuel molecules are present among this inert gas to sustain combustion.</p>
+      </div>
+      
+      <p>Additionally, low air velocities at idle lead to poor fuel atomization and vaporization, meaning extra liquid fuel must be supplied to yield a combustible vapor near the spark plug.</p>
+    </section>
+
+    <hr class="divider" />
+
+    <!-- Q(f) -->
+    <section class="section" id="qf">
+      <div class="section-label">Question F</div>
+      <h2 class="section-title"><span class="num">(f)</span> Why high fuel pressure is required in modern injection systems?</h2>
+      
+      <p>Modern Direct Injection (DI) systems in both SI and CI engines require incredibly high fuel pressures to optimize combustion. The sequence of benefits is as follows:</p>
+      
+      <div class="flow">
+        <div class="flow-step">
+          <div class="step-num">PHASE 01</div>
+          <h4>Superior Atomization</h4>
+          <p>High pressure breaks the injected liquid fuel into much smaller micro-droplets, drastically increasing the surface area.</p>
+        </div>
+        <div class="flow-step">
+          <div class="step-num">PHASE 02</div>
+          <h4>Better Penetration</h4>
+          <p>The high momentum allows the fuel jet to penetrate deeply into the highly compressed, dense air inside the cylinder.</p>
+        </div>
+        <div class="flow-step">
+          <div class="step-num">PHASE 03</div>
+          <h4>Rapid Vaporization</h4>
+          <p>The micro-droplets absorb heat rapidly, vaporize, and mix with oxygen instantly, reducing emissions and increasing power.</p>
+        </div>
+      </div>
+    </section>
+
+    <hr class="divider" />
+
+    <!-- Q(g) -->
+    <section class="section" id="qg">
+      <div class="section-label">Question G</div>
+      <h2 class="section-title"><span class="num">(g)</span> What is delay period and what are the factors that affect it?</h2>
+      
+      <p>In a CI engine, the <strong>delay period</strong> (ignition delay) is the time interval between the start of fuel injection into the combustion chamber and the actual onset of auto-ignition.</p>
+      
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Factor</th>
+              <th>Effect on Delay Period</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Compression Ratio</strong></td>
+              <td>Higher compression ratio increases air temperature, <em>decreasing</em> the delay period.</td>
+            </tr>
+            <tr>
+              <td><strong>Cetane Number</strong></td>
+              <td>A higher cetane number indicates better ignition quality, <em>decreasing</em> the delay period.</td>
+            </tr>
+            <tr>
+              <td><strong>Intake Air Temp/Pressure</strong></td>
+              <td>Higher initial temperature and pressure <em>decrease</em> the delay period.</td>
+            </tr>
+            <tr>
+              <td><strong>Engine Speed</strong></td>
+              <td>Increasing speed reduces available physical time, effectively <em>increasing</em> the delay period in terms of crank angles.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <hr class="divider" />
+
+    <!-- Q(h) -->
+    <section class="section" id="qh">
+      <div class="section-label">Question H</div>
+      <h2 class="section-title"><span class="num">(h)</span> What are the limitations of liquid cooling system?</h2>
+      
+      <p>While more effective at maintaining uniform engine temperatures compared to air cooling, liquid cooling systems suffer from several distinct drawbacks:</p>
+      
+      <div class="pills">
+        <span class="pill bad">Added Weight</span>
+        <span class="pill bad">High Maintenance</span>
+        <span class="pill bad">Parasitic Power Loss</span>
+      </div>
+      
+      <ul>
+        <li><strong>Complexity and Weight:</strong> The system requires a radiator, water pump, thermostat, hoses, and coolant jackets, adding significant bulk and weight to the engine.</li>
+        <li><strong>Leakage Risks:</strong> Vulnerable to coolant leaks from failed hoses, radiator punctures, or blown head gaskets, which can instantly lead to catastrophic engine overheating.</li>
+        <li><strong>Freezing/Boiling:</strong> Requires a specific mix of anti-freeze to prevent coolant from freezing in cold climates or boiling over in extreme heat.</li>
+        <li><strong>Parasitic Loss:</strong> Driving the mechanical water pump and cooling fan consumes a portion of the engine's power output.</li>
+      </ul>
+    </section>
+
+    <hr class="divider" />
+
+    <!-- Q(i) -->
+    <section class="section" id="qi">
+      <div class="section-label">Question I</div>
+      <h2 class="section-title"><span class="num">(i)</span> What is crankcase blowby? How it is controlled?</h2>
+      
+      <p><strong>Crankcase blowby</strong> is the leakage of unburned air-fuel mixture and high-pressure combustion gases from the cylinder, past the piston rings, and into the crankcase. If left uncontrolled, blowby pressurizes the crankcase, degrades the engine oil, and releases severe hydrocarbon emissions.</p>
+      
+      <div class="callout green">
+        <div class="callout-title">✓ Control Mechanism: PCV System</div>
+        <p>Blowby is controlled using a <strong>Positive Crankcase Ventilation (PCV)</strong> system. A PCV valve uses intake manifold vacuum to draw the blowby gases out of the crankcase and route them back into the intake manifold, where they are re-burned in the combustion chamber.</p>
+      </div>
+    </section>
+
+    <hr class="divider" />
+
+    <!-- Q(j) -->
+    <section class="section" id="qj">
+      <div class="section-label">Question J</div>
+      <h2 class="section-title"><span class="num">(j)</span> Explain the sensors used for temperature measurements.</h2>
+      
+      <p>Modern IC engines rely heavily on temperature measurements for the ECU to adjust fuel injection and ignition timing. The two most common types of sensors used are:</p>
+      
+      <div class="sample-grid">
+        <div class="sample-card highlight">
+          <div class="sample-id">SENSOR 01 ★</div>
+          <h4>Thermistors (NTC type)</h4>
+          <p>These are resistors whose electrical resistance drops significantly as temperature rises (Negative Temperature Coefficient). They are widely used for monitoring <strong>Engine Coolant Temperature (ECT)</strong> and <strong>Intake Air Temperature (IAT)</strong> due to their high sensitivity at moderate temperatures.</p>
+        </div>
+        <div class="sample-card">
+          <div class="sample-id">SENSOR 02</div>
+          <h4>Thermocouples</h4>
+          <p>Made of two dissimilar metals joined at a junction, generating a voltage proportional to the temperature difference. They are extremely robust and are exclusively used for measuring extreme heat, such as <strong>Exhaust Gas Temperature (EGT)</strong>.</p>
+        </div>
+      </div>
+      
+      <div class="verdict">
+        <span class="trophy">🎓</span>
+        <h3>End of Short Questions (2022)</h3>
+        <p>These responses provide the highly precise, focused technical definitions required for the 1.5-mark section of the 2022 examination.</p>
+      </div>
+    </section>
+
+  </main>
+
+  <script>
+    // Scroll progress
+    window.addEventListener("scroll", () => {
+      const total = document.body.scrollHeight - window.innerHeight;
+      document.getElementById("progress").style.width = (window.scrollY / total) * 100 + "%";
+    });
+
+    // Section fade-in
+    const obs = new IntersectionObserver(
+      entries => entries.forEach(e => { if (e.isIntersecting) e.target.classList.add("visible"); }),
+      { threshold: 0.08 }
+    );
+    document.querySelectorAll(".section").forEach(s => obs.observe(s));
+  </script>
+</body>
+</html>

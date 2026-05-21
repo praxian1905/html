@@ -1,0 +1,592 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>IC Engines 2025 PYQs (1.5 Marks)</title>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=Source+Serif+4:ital,opsz,wght@0,8..60,300;0,8..60,400;0,8..60,600;1,8..60,300&family=JetBrains+Mono:wght@400;500&display=swap"
+    rel="stylesheet"
+  />
+  <style>
+    /* Base / Reset */
+    :root {
+      --bg:      #0e0f14;
+      --surface: #15171f;
+      --card:    #1c1f2b;
+      --border:  --border:  #2a2e40;
+      --border:  #2a2e40;
+      --accent:  #f5a623;
+      --accent2: #4fc3f7;
+      --accent3: #81c784;
+      --accent4: #ef5350;
+      --text:    #e8e9f0;
+      --muted:   #8890aa;
+      --heading: #ffffff;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: "Source Serif 4", Georgia, serif;
+      font-size: 17px;
+      line-height: 1.8;
+      min-height: 100vh;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+      pointer-events: none;
+      z-index: 999;
+      opacity: 0.45;
+    }
+
+    strong { color: var(--heading); font-weight: 600; }
+    em     { color: var(--accent); font-style: italic; }
+    p      { margin-bottom: 18px; color: var(--text); }
+    ul, ol { margin-bottom: 18px; padding-left: 20px; }
+    li     { margin-bottom: 8px; }
+
+    h3 {
+      font-family: "Playfair Display", serif;
+      font-size: 20px;
+      color: var(--heading);
+      margin: 36px 0 14px;
+      font-weight: 700;
+    }
+
+    blockquote {
+      border-left: 3px solid var(--accent);
+      margin: 28px 0;
+      padding: 14px 24px;
+      background: var(--card);
+      font-style: italic;
+      color: var(--muted);
+      font-size: 16px;
+      border-radius: 0 2px 2px 0;
+    }
+
+    /* Layout */
+    .page {
+      max-width: 1020px;
+      margin: 0 auto;
+      padding: 0 28px 100px;
+    }
+
+    #progress {
+      position: fixed; top: 0; left: 0;
+      height: 3px;
+      background: linear-gradient(90deg, var(--accent), var(--accent2));
+      z-index: 1000;
+      width: 0;
+      transition: width 0.1s linear;
+    }
+
+    @media (max-width: 768px) {
+      .page { padding: 0 16px 80px; }
+    }
+
+    /* Hero Header */
+    .hero {
+      position: relative;
+      overflow: hidden;
+      padding: 90px 40px 80px;
+      text-align: center;
+      border-bottom: 1px solid var(--border);
+      background: radial-gradient(ellipse 80% 60% at 50% 0%, #1a2340 0%, var(--bg) 70%);
+    }
+    .hero::after {
+      content: "";
+      position: absolute;
+      left: 50%; top: -60px;
+      transform: translateX(-50%);
+      width: 600px; height: 600px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(245,166,35,0.07) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .hero-badge {
+      display: inline-block;
+      font-family: "JetBrains Mono", monospace;
+      font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase;
+      color: var(--accent); border: 1px solid var(--accent);
+      padding: 4px 14px; border-radius: 2px; margin-bottom: 24px;
+      opacity: 0; animation: fadeUp 0.6s 0.1s forwards;
+    }
+
+    .hero h1 {
+      font-family: "Playfair Display", serif;
+      font-size: clamp(28px, 5vw, 54px); font-weight: 900;
+      color: var(--heading); line-height: 1.15;
+      max-width: 860px; margin: 0 auto 20px;
+      opacity: 0; animation: fadeUp 0.7s 0.25s forwards;
+    }
+    .hero h1 em { color: var(--accent); font-style: normal; }
+
+    .hero-sub {
+      font-size: 16px; color: var(--muted);
+      max-width: 620px; margin: 0 auto 36px;
+      opacity: 0; animation: fadeUp 0.7s 0.4s forwards;
+    }
+
+    .hero-meta {
+      display: flex; flex-wrap: wrap; gap: 20px; justify-content: center;
+      opacity: 0; animation: fadeUp 0.7s 0.55s forwards;
+    }
+    .hero-meta span {
+      font-family: "JetBrains Mono", monospace; font-size: 12px;
+      color: var(--muted); background: var(--card);
+      border: 1px solid var(--border); padding: 6px 14px; border-radius: 2px;
+    }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(18px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Table of Contents */
+    .toc {
+      background: var(--card); border: 1px solid var(--border);
+      border-left: 3px solid var(--accent);
+      padding: 32px 36px; margin: 52px 0 60px; border-radius: 2px;
+    }
+    .toc h2 {
+      font-family: "Playfair Display", serif; font-size: 20px;
+      color: var(--heading); margin-bottom: 20px;
+    }
+    .toc ol { padding-left: 22px; }
+    .toc li { margin-bottom: 8px; }
+    .toc a {
+      color: var(--accent2); text-decoration: none;
+      font-family: "JetBrains Mono", monospace; font-size: 13px;
+      transition: color 0.2s;
+    }
+    .toc a:hover { color: var(--accent); }
+
+    /* Content Sections */
+    .section {
+      margin-bottom: 72px;
+      opacity: 0; transform: translateY(24px);
+      transition: opacity 0.55s, transform 0.55s;
+    }
+    .section.visible { opacity: 1; transform: translateY(0); }
+
+    .section-label {
+      font-family: "JetBrains Mono", monospace;
+      font-size: 10.5px; letter-spacing: 0.18em; text-transform: uppercase;
+      color: var(--accent); margin-bottom: 10px;
+    }
+
+    h2.section-title {
+      font-family: "Playfair Display", serif;
+      font-size: clamp(22px, 3.5vw, 34px); font-weight: 700;
+      color: var(--heading); line-height: 1.2;
+      margin-bottom: 28px; padding-bottom: 14px;
+      border-bottom: 1px solid var(--border);
+    }
+    h2.section-title .num {
+      color: var(--accent); font-size: 0.7em; font-style: italic; margin-right: 10px;
+    }
+
+    /* Callout Boxes */
+    .callout {
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: 2px; padding: 22px 26px; margin: 28px 0;
+    }
+    .callout.orange { border-left: 3px solid var(--accent); }
+    .callout.blue   { border-left: 3px solid var(--accent2); }
+    .callout.green  { border-left: 3px solid var(--accent3); }
+    .callout.red    { border-left: 3px solid var(--accent4); }
+
+    .callout-title {
+      font-family: "JetBrains Mono", monospace;
+      font-size: 11px; text-transform: uppercase; letter-spacing: 0.12em;
+      margin-bottom: 10px;
+    }
+    .callout.orange .callout-title { color: var(--accent); }
+    .callout.blue   .callout-title { color: var(--accent2); }
+    .callout.green  .callout-title { color: var(--accent3); }
+    .callout.red    .callout-title { color: var(--accent4); }
+
+    /* Tables */
+    .table-wrap { overflow-x: auto; margin: 28px 0; }
+    table {
+      width: 100%; border-collapse: collapse;
+      font-size: 15px; background: var(--card); border: 1px solid var(--border);
+    }
+    thead th {
+      background: #20253a; color: var(--accent);
+      font-family: "JetBrains Mono", monospace;
+      font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase;
+      padding: 12px 16px; text-align: left; border-bottom: 1px solid var(--border);
+    }
+    tbody td {
+      padding: 11px 16px; border-bottom: 1px solid var(--border); vertical-align: top;
+    }
+    tbody tr:last-child td { border-bottom: none; }
+    tbody tr:hover td { background: rgba(255,255,255,0.025); }
+
+    /* Formula / Code Block */
+    .formula {
+      background: #0b0c12; border: 1px solid var(--border); border-radius: 2px;
+      padding: 18px 24px; margin: 22px 0;
+      font-family: "JetBrains Mono", monospace; font-size: 14.5px;
+      color: var(--accent2);
+      overflow-x: auto; white-space: pre;
+    }
+
+    /* Flow Steps */
+    .flow { display: flex; flex-wrap: wrap; gap: 16px; margin: 28px 0; }
+    .flow-step {
+      flex: 1; min-width: 160px;
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: 2px; padding: 18px 20px;
+    }
+    .flow-step .step-num {
+      font-family: "JetBrains Mono", monospace; font-size: 11px;
+      color: var(--accent); letter-spacing: 0.1em; margin-bottom: 8px;
+    }
+    .flow-step h4 {
+      font-family: "Playfair Display", serif; font-size: 16px;
+      color: var(--heading); margin-bottom: 6px;
+    }
+    .flow-step p { font-size: 14px; color: var(--muted); margin: 0; }
+
+    /* Sample Cards Grid */
+    .sample-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(270px, 1fr));
+      gap: 18px; margin: 28px 0;
+    }
+    .sample-card {
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: 2px; padding: 22px 24px;
+      transition: border-color 0.2s, transform 0.2s;
+    }
+    .sample-card:hover { border-color: var(--accent2); transform: translateY(-3px); }
+    .sample-id {
+      font-family: "JetBrains Mono", monospace; font-size: 11px;
+      color: var(--accent); letter-spacing: 0.12em; margin-bottom: 8px;
+    }
+    .sample-card h4 {
+      font-family: "Playfair Display", serif; font-size: 17px;
+      color: var(--heading); margin-bottom: 10px;
+    }
+    .sample-card p { font-size: 14px; color: var(--muted); margin: 0; }
+
+    .sample-card.highlight { border-color: var(--accent); background: #1f1f0e; }
+    .sample-card.highlight h4 { color: var(--accent); }
+
+    /* Pills / Tags */
+    .pills { display: flex; flex-wrap: wrap; gap: 10px; margin: 18px 0; }
+    .pill {
+      background: var(--card); border: 1px solid var(--border);
+      padding: 6px 14px; border-radius: 20px;
+      font-size: 13px; color: var(--text); font-family: "JetBrains Mono", monospace;
+    }
+    .pill.good { border-color: var(--accent3); color: var(--accent3); }
+    .pill.warn { border-color: var(--accent);  color: var(--accent); }
+    .pill.bad  { border-color: var(--accent4); color: var(--accent4); }
+
+    /* Verdict */
+    .verdict {
+      background: linear-gradient(135deg, #1a1a08, #1a1a0a);
+      border: 2px solid var(--accent); border-radius: 2px;
+      padding: 36px 40px; margin: 40px 0; text-align: center;
+    }
+    .verdict .trophy { font-size: 48px; margin-bottom: 16px; display: block; }
+    .verdict h3 {
+      font-family: "Playfair Display", serif; font-size: 26px;
+      color: var(--accent); margin-bottom: 12px;
+    }
+    .verdict p { color: var(--text); max-width: 600px; margin: 0 auto; }
+
+    /* Divider */
+    .divider { border: none; border-top: 1px solid var(--border); margin: 60px 0; }
+  </style>
+</head>
+<body>
+  <div id="progress"></div>
+
+  <header class="hero">
+    <div class="hero-badge">Mechanical Engineering · 2025 PYQ</div>
+    <h1>IC Engines <em>Short Questions</em></h1>
+    <p class="hero-sub">Complete solutions for the 2025 examination short questions, formulated per the 1.5-mark scheme.</p>
+    <div class="hero-meta">
+      <span>⚙️ Internal Combustion</span>
+      <span>📝 1.5 Marks Each</span>
+      <span>📐 Thermodynamics</span>
+    </div>
+  </header>
+
+  <main class="page">
+    <nav class="toc">
+      <h2>📋 Table of Contents</h2>
+      <ol>
+        <li><a href="#qa">Definition of IC Engines</a></li>
+        <li><a href="#qb">Classification of IC Engines</a></li>
+        <li><a href="#qc">Function of Fuel Injection Pump</a></li>
+        <li><a href="#qd">Ignition Lag Concepts</a></li>
+        <li><a href="#qe">Battery Ignition System</a></li>
+        <li><a href="#qf">Brake Power Definition</a></li>
+        <li><a href="#qg">Need for Turbocharging System</a></li>
+        <li><a href="#qh">Air Cooling System Mechanics</a></li>
+        <li><a href="#qi">Composition of CNG</a></li>
+        <li><a href="#qj">History of EURO Standards</a></li>
+      </ol>
+    </nav>
+
+    <!-- Q(a) -->
+    <section class="section" id="qa">
+      <div class="section-label">Question A</div>
+      <h2 class="section-title"><span class="num">(a)</span> What are Internal Combustion Engines?</h2>
+      
+      <p>An <strong>Internal Combustion (IC) Engine</strong> is a thermal prime mover in which the chemical energy contained within a fuel is released via combustion <em>inside the boundaries of a closed working cylinder</em>.</p>
+      
+      <div class="callout blue">
+        <div class="callout-title">✓ Energy Conversion Chain</div>
+        <p>The high-temperature, high-pressure combustion gases expand directly against mechanical engine parts (such as a piston or turbine blades), converting the liberated <strong>thermal energy directly into mechanical work</strong>.</p>
+      </div>
+    </section>
+    
+    <hr class="divider" />
+
+    <!-- Q(b) -->
+    <section class="section" id="qb">
+      <div class="section-label">Question B</div>
+      <h2 class="section-title"><span class="num">(b)</span> What are the classifications of IC Engines?</h2>
+      
+      <p>IC Engines are classified into distinct groups depending on structural and thermodynamic features. Key classification types include:</p>
+      
+      <div class="sample-grid">
+        <div class="sample-card">
+          <div class="sample-id">BY CYCLE / STROKE</div>
+          <h4>Operating Cycle</h4>
+          <p>Divided into <strong>Two-Stroke</strong> and <strong>Four-Stroke</strong> engines; or by thermodynamics into <em>Otto</em>, <em>Diesel</em>, and <em>Dual</em> cycles.</p>
+        </div>
+        <div class="sample-card highlight">
+          <div class="sample-id">BY IGNITION MODE ★</div>
+          <h4>Ignition Mechanism</h4>
+          <p>Classified as <strong>Spark Ignition (SI)</strong> engines (petrol) or <strong>Compression Ignition (CI)</strong> engines (diesel).</p>
+        </div>
+        <div class="sample-card">
+          <div class="sample-id">BY FUEL TYPE</div>
+          <h4>Fuel Consumed</h4>
+          <p>Categorized by fuel types, including <em>Petrol</em>, <em>Diesel</em>, <em>CNG / LPG</em>, or <em>Bi biofuels</em>.</p>
+        </div>
+        <div class="sample-card">
+          <div class="sample-id">BY COOLING METHOD</div>
+          <h4>Thermal Management</h4>
+          <p>Separated into mechanical <strong>Air-cooled</strong> systems or closed <strong>Liquid-cooled</strong> jacketed configurations.</p>
+        </div>
+      </div>
+    </section>
+
+    <hr class="divider" />
+
+    <!-- Q(c) -->
+    <section class="section" id="qc">
+      <div class="section-label">Question C</div>
+      <h2 class="section-title"><span class="num">(c)</span> What is the function of Fuel Injection Pump system?</h2>
+      
+      <p>In Compression Ignition (CI) engines, the <strong>Fuel Injection Pump (FIP)</strong> serves two primary high-precision operating functions:</p>
+      
+      <div class="flow">
+        <div class="flow-step">
+          <div class="step-num">FUNCTION 01</div>
+          <h4>Pressure Elevation</h4>
+          <p>It elevates the fuel pressure to extreme levels (often 200 to 2000+ bar) to overcome high in-cylinder air pressures and ensure complete fuel atomization.</p>
+        </div>
+        <div class="flow-step">
+          <div class="step-num">FUNCTION 02</div>
+          <h4>Metering & Timing</h4>
+          <p>It measures the exact volume of fuel required based on engine load and delivers it at a precise crank angle moment.</p>
+        </div>
+      </div>
+    </section>
+
+    <hr class="divider" />
+
+    <!-- Q(d) -->
+    <section class="section" id="qd">
+      <div class="section-label">Question D</div>
+      <h2 class="section-title"><span class="num">(d)</span> What is the Ignition lag?</h2>
+      
+      <p><strong>Ignition lag</strong> (or ignition delay) is the precise time interval between the point where the initialization criteria are met and the actual measurable rise in cylinder pressure due to chemical combustion.</p>
+      
+      <div class="formula">Ignition Lag (SI) = Moment of Flame Nucleus Growth - Moment of Spark Discharge
+Ignition Lag (CI) = Moment of Auto-Ignition Start - Moment of Injection Commencement</div>
+      
+      <p>It consists of a physical delay period (atomization and mixing) and a chemical delay period (pre-flame oxidation reactions).</p>
+    </section>
+    
+    <hr class="divider" />
+
+    <!-- Q(e) -->
+    <section class="section" id="qe">
+      <div class="section-label">Question E</div>
+      <h2 class="section-title"><span class="num">(e)</span> What is Battery Ignition System?</h2>
+      
+      <p>A <strong>Battery Ignition System</strong> is an electrical assembly used in SI engines where a low-voltage storage battery supplies the primary electrical current needed to generate a high-voltage spark.</p>
+      
+      <div class="callout orange">
+        <div class="callout-title">⚡ Principle of Induction</div>
+        <p>The system routes low-voltage current ($12V$) from the battery through the primary winding of an ignition coil. When a breaker point or electronic switch breaks this current, a high voltage ($20,000V–30,000V$) is induced in the secondary winding, which is then routed via a distributor to the appropriate spark plug.</p>
+      </div>
+    </section>
+
+    <hr class="divider" />
+
+    <!-- Q(f) -->
+    <section class="section" id="qf">
+      <div class="section-label">Question F</div>
+      <h2 class="section-title"><span class="num">(f)</span> What is Brake Power?</h2>
+      
+      <p><strong>Brake Power (BP)</strong> is the actual net useful mechanical power output available at the engine crankshaft for driving an external load.</p>
+      
+      <div class="formula">Brake Power (BP) = Indicated Power (IP) - Frictional Power (FP)
+
+BP = (2 * π * N * T) / 60000  [kW]
+
+Where:
+N = Engine crankshaft rotational speed (RPM)
+T = Net output brake torque measured at dynamometer (N·m)</div>
+      
+      <p>It is called "brake" power because it is traditionally measured using a mechanical brake mechanism or dynamometer applied to the output shaft.</p>
+    </section>
+    
+    <hr class="divider" />
+
+    <!-- Q(g) -->
+    <section class="section" id="qg">
+      <div class="section-label">Question G</div>
+      <h2 class="section-title"><span class="num">(g)</span> What is the need for Turbocharging system?</h2>
+      
+      <p>A <strong>Turbocharging system</strong> is an air forced-induction setup driven by the engine's exhaust gas energy. The primary reasons for turbocharging include:</p>
+      
+      <div class="pills">
+        <span class="pill good">Increased Power Density</span>
+        <span class="pill good">Downsizing Benefits</span>
+        <span class="pill warn">Altitude Compensation</span>
+      </div>
+      
+      <ul>
+        <li><strong>Enhanced Power Output:</strong> Compressing the intake air packs a higher mass of oxygen into the cylinders, allowing more fuel to be burned completely per stroke.</li>
+        <li><strong>Engine Downsizing:</strong> Smaller, lighter engines can match the power output of larger naturally aspirated variants, improving overall vehicle fuel efficiency.</li>
+        <li><strong>Altitude Compensation:</strong> At high elevations where air is thin, a turbocharger restores air density to prevent engine power drop-off.</li>
+      </ul>
+    </section>
+
+    <hr class="divider" />
+
+    <!-- Q(h) -->
+    <section class="section" id="qh">
+      <div class="section-label">Question H</div>
+      <h2 class="section-title"><span class="num">(h)</span> What is Air Cooling system?</h2>
+      
+      <p>An <strong>Air Cooling system</strong> is a thermal management design where waste heat is dissipated directly from the engine components to the surrounding atmosphere by convection.</p>
+      
+      <div class="callout green">
+        <div class="callout-title">✓ Extended Fin Surfaces</div>
+        <p>The cylinder barrels and cylinder heads are cast with thin, extended metallic paths known as <strong>cooling fins</strong>. These fins increase the overall conductive surface area, allowing fast convective heat transfer to the air currents passing around the engine block.</p>
+      </div>
+    </section>
+
+    <hr class="divider" />
+
+    <!-- Q(i) -->
+    <section class="section" id="qi">
+      <div class="section-label">Question I</div>
+      <h2 class="section-title"><span class="num">(i)</span> What is the composition in CNG?</h2>
+      
+      <p><strong>Compressed Natural Gas (CNG)</strong> is an eco-friendly alternative fuel composed primarily of light, volatile gaseous hydrocarbons.</p>
+      
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Constituent Gas Compound</th>
+              <th>Chemical Formula</th>
+              <th>Approximate Percentage Volume</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Methane (Primary)</strong></td>
+              <td>$CH_4$</td>
+              <td><strong>80% – 95%</strong></td>
+            </tr>
+            <tr>
+              <td>Ethane</td>
+              <td>$C_2H_6$</td>
+              <td>2% – 5%</td>
+            </tr>
+            <tr>
+              <td>Propane & Butane traces</td>
+              <td>$C_3H_8$ / $C_4H_{10}$</td>
+              <td>&lt; 1% – 2%</td>
+            </tr>
+            <tr>
+              <td>Inert Gases (Nitrogen, $CO_2$)</td>
+              <td>$N_2$ / $CO_2$</td>
+              <td>1% – 3%</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <hr class="divider" />
+
+    <!-- Q(j) -->
+    <section class="section" id="qj">
+      <div class="section-label">Question J</div>
+      <h2 class="section-title"><span class="num">(j)</span> When EURO standards started and where?</h2>
+      
+      <p>The <strong>EURO emission standards</strong> are unified regulatory criteria defining the acceptable limits for exhaust emissions from new vehicles sold across Europe.</p>
+      
+      <div class="flow">
+        <div class="flow-step">
+          <div class="step-num">TIMELINE ARTIFACT</div>
+          <h4>Inception Year</h4>
+          <p>The regulatory framework officially started in the year <strong>1992</strong> with the introduction of the EURO 1 standard tier.</p>
+        </div>
+        <div class="flow-step">
+          <div class="step-num">GEOGRAPHIC SOURCE</div>
+          <h4>Origin Region</h4>
+          <p>The standards were formulated and enacted within the member states of the <strong>European Union (EU)</strong>.</p>
+        </div>
+      </div>
+      
+      <div class="verdict">
+        <span class="trophy">🎓</span>
+        <h3>End of Short Questions (2025)</h3>
+        <p>This comprehensive set concludes the academic solutions for the 2025 short question series in accordance with the 1.5-mark mechanical engineering guidelines.</p>
+      </div>
+    </section>
+
+  </main>
+
+  <script>
+    // Scroll progress
+    window.addEventListener("scroll", () => {
+      const total = document.body.scrollHeight - window.innerHeight;
+      document.getElementById("progress").style.width = (window.scrollY / total) * 100 + "%";
+    });
+
+    // Section fade-in
+    const obs = new IntersectionObserver(
+      entries => entries.forEach(e => { if (e.isIntersecting) e.target.classList.add("visible"); }),
+      { threshold: 0.08 }
+    );
+    document.querySelectorAll(".section").forEach(s => obs.observe(s));
+  </script>
+</body>
+</html>
