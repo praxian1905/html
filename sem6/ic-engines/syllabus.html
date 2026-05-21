@@ -1,0 +1,475 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>IC Engines Course Syllabus</title>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=Source+Serif+4:ital,opsz,wght@0,8..60,300;0,8..60,400;0,8..60,600;1,8..60,300&family=JetBrains+Mono:wght@400;500&display=swap"
+    rel="stylesheet"
+  />
+  <style>
+    /* Base / Reset */
+    :root {
+      --bg:      #0e0f14;
+      --surface: #15171f;
+      --card:    #1c1f2b;
+      --border:  #2a2e40;
+      --accent:  #f5a623;
+      --accent2: #4fc3f7;
+      --accent3: #81c784;
+      --accent4: #ef5350;
+      --text:    #e8e9f0;
+      --muted:   #8890aa;
+      --heading: #ffffff;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: "Source Serif 4", Georgia, serif;
+      font-size: 17px;
+      line-height: 1.8;
+      min-height: 100vh;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+      pointer-events: none;
+      z-index: 999;
+      opacity: 0.45;
+    }
+
+    strong { color: var(--heading); font-weight: 600; }
+    em     { color: var(--accent); font-style: italic; }
+    p      { margin-bottom: 18px; color: var(--text); }
+    ul, ol { margin-bottom: 18px; padding-left: 20px; }
+    li     { margin-bottom: 8px; color: var(--text); }
+
+    h3 {
+      font-family: "Playfair Display", serif;
+      font-size: 20px;
+      color: var(--accent2);
+      margin: 28px 0 14px;
+      font-weight: 700;
+      letter-spacing: 0.03em;
+    }
+
+    /* Layout */
+    .page {
+      max-width: 1020px;
+      margin: 0 auto;
+      padding: 0 28px 100px;
+    }
+
+    #progress {
+      position: fixed; top: 0; left: 0;
+      height: 3px;
+      background: linear-gradient(90deg, var(--accent), var(--accent2));
+      z-index: 1000;
+      width: 0;
+      transition: width 0.1s linear;
+    }
+
+    @media (max-width: 768px) {
+      .page { padding: 0 16px 80px; }
+    }
+
+    /* Hero Header */
+    .hero {
+      position: relative;
+      overflow: hidden;
+      padding: 90px 40px 80px;
+      text-align: center;
+      border-bottom: 1px solid var(--border);
+      background: radial-gradient(ellipse 80% 60% at 50% 0%, #1a2340 0%, var(--bg) 70%);
+    }
+    .hero::after {
+      content: "";
+      position: absolute;
+      left: 50%; top: -60px;
+      transform: translateX(-50%);
+      width: 600px; height: 600px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(245,166,35,0.07) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .hero-badge {
+      display: inline-block;
+      font-family: "JetBrains Mono", monospace;
+      font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase;
+      color: var(--accent); border: 1px solid var(--accent);
+      padding: 4px 14px; border-radius: 2px; margin-bottom: 24px;
+      opacity: 0; animation: fadeUp 0.6s 0.1s forwards;
+    }
+
+    .hero h1 {
+      font-family: "Playfair Display", serif;
+      font-size: clamp(28px, 5vw, 54px); font-weight: 900;
+      color: var(--heading); line-height: 1.15;
+      max-width: 860px; margin: 0 auto 20px;
+      opacity: 0; animation: fadeUp 0.7s 0.25s forwards;
+    }
+    .hero h1 em { color: var(--accent); font-style: normal; }
+
+    .hero-sub {
+      font-size: 16px; color: var(--muted);
+      max-width: 620px; margin: 0 auto 36px;
+      opacity: 0; animation: fadeUp 0.7s 0.4s forwards;
+    }
+
+    .hero-meta {
+      display: flex; flex-wrap: wrap; gap: 20px; justify-content: center;
+      opacity: 0; animation: fadeUp 0.7s 0.55s forwards;
+    }
+    .hero-meta span {
+      font-family: "JetBrains Mono", monospace; font-size: 12px;
+      color: var(--muted); background: var(--card);
+      border: 1px solid var(--border); padding: 6px 14px; border-radius: 2px;
+    }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(18px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Table of Contents */
+    .toc {
+      background: var(--card); border: 1px solid var(--border);
+      border-left: 3px solid var(--accent);
+      padding: 32px 36px; margin: 52px 0 60px; border-radius: 2px;
+    }
+    .toc h2 {
+      font-family: "Playfair Display", serif; font-size: 20px;
+      color: var(--heading); margin-bottom: 20px;
+    }
+    .toc ol { padding-left: 22px; }
+    .toc li { margin-bottom: 8px; }
+    .toc a {
+      color: var(--accent2); text-decoration: none;
+      font-family: "JetBrains Mono", monospace; font-size: 13px;
+      transition: color 0.2s;
+    }
+    .toc a:hover { color: var(--accent); }
+
+    /* Content Sections */
+    .section {
+      margin-bottom: 72px;
+      opacity: 0; transform: translateY(24px);
+      transition: opacity 0.55s, transform 0.55s;
+    }
+    .section.visible { opacity: 1; transform: translateY(0); }
+
+    .section-label {
+      font-family: "JetBrains Mono", monospace;
+      font-size: 10.5px; letter-spacing: 0.18em; text-transform: uppercase;
+      color: var(--accent); margin-bottom: 10px;
+    }
+
+    h2.section-title {
+      font-family: "Playfair Display", serif;
+      font-size: clamp(22px, 3.5vw, 34px); font-weight: 700;
+      color: var(--heading); line-height: 1.2;
+      margin-bottom: 28px; padding-bottom: 14px;
+      border-bottom: 1px solid var(--border);
+    }
+    h2.section-title .num {
+      color: var(--accent); font-size: 0.7em; font-style: italic; margin-right: 10px;
+    }
+
+    /* Callout Boxes */
+    .callout {
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: 2px; padding: 22px 26px; margin: 28px 0;
+    }
+    .callout.orange { border-left: 3px solid var(--accent); }
+    .callout.blue   { border-left: 3px solid var(--accent2); }
+    .callout.green  { border-left: 3px solid var(--accent3); }
+    .callout.red    { border-left: 3px solid var(--accent4); }
+
+    .callout-title {
+      font-family: "JetBrains Mono", monospace;
+      font-size: 11px; text-transform: uppercase; letter-spacing: 0.12em;
+      margin-bottom: 10px;
+    }
+    .callout.orange .callout-title { color: var(--accent); }
+    .callout.blue   .callout-title { color: var(--accent2); }
+    .callout.green  .callout-title { color: var(--accent3); }
+    .callout.red    .callout-title { color: var(--accent4); }
+
+    /* Sample Cards Grid */
+    .sample-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(270px, 1fr));
+      gap: 18px; margin: 28px 0;
+    }
+    .sample-card {
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: 2px; padding: 22px 24px;
+      transition: border-color 0.2s, transform 0.2s;
+    }
+    .sample-card:hover { border-color: var(--accent2); transform: translateY(-3px); }
+    .sample-id {
+      font-family: "JetBrains Mono", monospace; font-size: 11px;
+      color: var(--accent); letter-spacing: 0.12em; margin-bottom: 8px;
+    }
+    .sample-card h4 {
+      font-family: "Playfair Display", serif; font-size: 17px;
+      color: var(--heading); margin-bottom: 10px;
+    }
+    .sample-card p { font-size: 14px; color: var(--muted); margin: 0; }
+
+    /* Pills / Tags */
+    .pills { display: flex; flex-wrap: wrap; gap: 10px; margin: 18px 0; }
+    .pill {
+      background: var(--card); border: 1px solid var(--border);
+      padding: 6px 14px; border-radius: 20px;
+      font-size: 13px; color: var(--text); font-family: "JetBrains Mono", monospace;
+    }
+    .pill.good { border-color: var(--accent3); color: var(--accent3); }
+    .pill.warn { border-color: var(--accent);  color: var(--accent); }
+    .pill.bad  { border-color: var(--accent4); color: var(--accent4); }
+
+    /* Divider */
+    .divider { border: none; border-top: 1px solid var(--border); margin: 60px 0; }
+
+    /* Custom syllabus list styling */
+    .syllabus-list {
+      list-style: none;
+      padding-left: 0;
+    }
+    .syllabus-list li {
+      position: relative;
+      padding-left: 26px;
+      margin-bottom: 12px;
+    }
+    .syllabus-list li::before {
+      content: "•";
+      position: absolute;
+      left: 8px;
+      color: var(--accent);
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+  <div id="progress"></div>
+
+  <header class="hero">
+    <div class="hero-badge">Mechanical Engineering · Course Outline</div>
+    <h1>Detailed <em>Syllabus</em></h1>
+    <p class="hero-sub">Comprehensive blueprint for Internal Combustion Engines core curriculum, parameters, and emissions control frameworks.</p>
+    <div class="hero-meta">
+      <span>📐 Academic Plan</span>
+      <span>🔥 Core Syllabus</span>
+      <span>🌿 Automotive & Alternative Energy</span>
+    </div>
+  </header>
+
+  <main class="page">
+    <nav class="toc">
+      <h2>📋 Table of Contents</h2>
+      <ol>
+        <li><a href="#unit1">Unit 1: Introduction</a></li>
+        <li><a href="#unit2">Unit 2: Combustion and Ignition System in SI Engines</a></li>
+        <li><a href="#unit3">Unit 3: Fuel Injection and Combustion in CI Engines</a></li>
+        <li><a href="#unit4">Unit 4: Lubrication System and Cooling System</a></li>
+        <li><a href="#unit5">Unit 5: Alternative Fuels</a></li>
+        <li><a href="#unit6">Unit 6: Emissions and Control</a></li>
+      </ol>
+    </nav>
+
+    <!-- Unit 1 -->
+    <section class="section" id="unit1">
+      <div class="section-label">Module 01</div>
+      <h2 class="section-title"><span class="num">01.</span> Unit 1: Introduction</h2>
+      
+      <div class="callout blue">
+        <div class="callout-title">MODULE FOCUS</div>
+        <p>Thermodynamic engine foundations, classifications, and parameters related to performance testing metrics.</p>
+      </div>
+
+      <ul class="syllabus-list">
+        <li>Classification of Internal Combustion Engine</li>
+        <li>Parts of I.C. Engine and their materials</li>
+        <li>Air standard Cycles in Four stroke and Two-stroke IC engines and their comparative study</li>
+        <li>Brayton cycle</li>
+        <li>Parameters related to testing of IC engines</li>
+        <li>Determination of volumetric efficiency and factors affecting volumetric efficiency</li>
+        <li>Adiabatic flame temperature</li>
+        <li>Combustion efficiency</li>
+        <li>Valve Timing Diagram</li>
+        <li>Low Heat Rejection Engines</li>
+        <li>Homogeneous charge compression Ignition</li>
+      </ul>
+    </section>
+    
+    <hr class="divider" />
+
+    <!-- Unit 2 -->
+    <section class="section" id="unit2">
+      <div class="section-label">Module 02</div>
+      <h2 class="section-title"><span class="num">02.</span> Unit 2: Combustion & Ignition System in SI Engines</h2>
+      
+      <div class="callout orange">
+        <div class="callout-title">MODULE FOCUS</div>
+        <p>Spark ignition fuel distribution mechanics, abnormal combustion phenomenon, and tracking electronics frameworks.</p>
+      </div>
+
+      <h3>Fuel & Fuel Systems</h3>
+      <ul class="syllabus-list">
+        <li>Spark ignition Engine mixture requirements</li>
+        <li>Fuel-Air ratio</li>
+        <li>Simple carburettor</li>
+        <li>Single-point and Multipoint injection system</li>
+        <li>Gasoline Direct Injection</li>
+      </ul>
+
+      <h3>Combustion Dynamics</h3>
+      <ul class="syllabus-list">
+        <li>Combustion phenomenon in SI Engines</li>
+        <li>Ignition delay & Flame propagation</li>
+        <li>Pressure-Crank angle diagram</li>
+        <li>Abnormal combustion, Auto ignition, Detonation and Knocking</li>
+        <li>Factors affecting combustion and detonation</li>
+        <li>Types of combustion chambers</li>
+        <li>Working principle of stratified charge engines</li>
+      </ul>
+
+      <h3>Ignition Infrastructure</h3>
+      <ul class="syllabus-list">
+        <li>Battery Ignition System & Magneto Ignition System</li>
+        <li>Functions and working of ignition coil, spark plug, and contact breaker point</li>
+        <li>Requirements and working of Ignition advance mechanisms</li>
+        <li>Electronic Ignition Systems</li>
+        <li>Capacitor Discharge Ignition System</li>
+        <li>Transistorized Coil Assisted Ignition System</li>
+        <li>Transistor Ignition system with contactless breaker</li>
+      </ul>
+    </section>
+
+    <hr class="divider" />
+
+    <!-- Unit 3 -->
+    <section class="section" id="unit3">
+      <div class="section-label">Module 03</div>
+      <h2 class="section-title"><span class="num">03.</span> Unit 3: Fuel Injection & Combustion in CI Engines</h2>
+      
+      <div class="callout green">
+        <div class="callout-title">MODULE FOCUS</div>
+        <p>Airless high-pressure delivery systems, solid injection architectures, and knocking mitigation methods.</p>
+      </div>
+
+      <ul class="syllabus-list">
+        <li>Air injection systems</li>
+        <li>Airless/solid injection systems: Common rail, individual pump, distributor and unit systems</li>
+        <li>Injection pumps & Fuel injector</li>
+        <li>Types of nozzle</li>
+        <li>Electronically controlled unit fuel injection system</li>
+        <li>Stages of combustion in CI engines</li>
+        <li>Air-fuel ratio requirements</li>
+        <li>Cold starting of CI engine and cold starting aids</li>
+        <li>Delay period or ignition lag & Variables effecting delay period</li>
+        <li>Diesel knock & Factors affecting combustion and knocking</li>
+        <li>Methods of controlling diesel knock</li>
+        <li>Types of CI engine combustion chamber</li>
+        <li>Need for supercharging, Effect of supercharging, types of supercharger, methods of supercharging</li>
+        <li>Thermodynamic analysis of supercharged engine cycle</li>
+        <li>Limitations of supercharging & Turbocharging</li>
+      </ul>
+    </section>
+
+    <hr class="divider" />
+
+    <!-- Unit 4 -->
+    <section class="section" id="unit4">
+      <div class="section-label">Module 04</div>
+      <h2 class="section-title"><span class="num">04.</span> Unit 4: Lubrication System & Cooling System</h2>
+      
+      <p>Management of tribological constraints and uniform thermal balances inside the moving internal configuration blocks:</p>
+
+      <div class="sample-grid">
+        <div class="sample-card">
+          <div class="sample-id">SYS 01</div>
+          <h4>Tribology & Lubricants</h4>
+          <p>Types of lubricants and their properties; SAE rating metrics of oils; Wet sump and dry sump lubrication system circuits; Crankcase ventilation control setups.</p>
+        </div>
+        <div class="sample-card">
+          <div class="sample-id">SYS 02</div>
+          <h4>Thermal Management</h4>
+          <p>Fundamental necessity of engine cooling structures; Serious engineering disadvantages of engine over-cooling; Comprehensive comparison of Air cooling vs Liquid cooling.</p>
+        </div>
+      </div>
+    </section>
+    
+    <hr class="divider" />
+
+    <!-- Unit 5 -->
+    <section class="section" id="unit5">
+      <div class="section-label">Module 05</div>
+      <h2 class="section-title"><span class="num">05.</span> Unit 5: Alternative Fuels</h2>
+      
+      <div class="callout blue">
+        <div class="callout-title">MODULE FOCUS</div>
+        <p>Analysis of gaseous, alcohol, and eco-friendly fuels alongside modifications required to match standard fuel outputs.</p>
+      </div>
+
+      <ul class="syllabus-list">
+        <li>Alcohol, Hydrogen, Natural Gas, and Liquefied Petroleum Gas</li>
+        <li>Biodiesel, Biogas, and Producer Gas</li>
+        <li>Chemical Properties & Suitability vectors</li>
+        <li>Engine Modifications required for alternative operation</li>
+        <li>Merits and Demerits as fuels</li>
+        <li>Comparison of alternative fuel properties with standard Diesel and Petrol</li>
+        <li>Methods of industrial manufacturing</li>
+      </ul>
+    </section>
+
+    <hr class="divider" />
+
+    <!-- Unit 6 -->
+    <section class="section" id="unit6">
+      <div class="section-label">Module 06</div>
+      <h2 class="section-title"><span class="num">06.</span> Unit 6: Emissions and Control</h2>
+      
+      <div class="callout red">
+        <div class="callout-title">MODULE FOCUS</div>
+        <p>Understanding mechanisms of airborne exhaust pollution, environmental toxic profiles, and international standard trends.</p>
+      </div>
+
+      <ul class="syllabus-list">
+        <li>Air pollution due to IC engines</li>
+        <li>Constituents of exhaust emission and its harmful effects on the environment and human health</li>
+        <li>Formation mechanisms of NOx, HC, CO, and particulate emissions</li>
+        <li>Methods of controlling vehicular emissions</li>
+        <li>Catalytic convertors & Particulate traps</li>
+        <li>Exhaust Gas Recirculation (EGR) frameworks</li>
+        <li>EURO and BHARAT compliance norms</li>
+      </ul>
+    </section>
+
+  </main>
+
+  <script>
+    // Scroll progress tracking
+    window.addEventListener("scroll", () => {
+      const total = document.body.scrollHeight - window.innerHeight;
+      document.getElementById("progress").style.width = (window.scrollY / total) * 100 + "%";
+    });
+
+    // Fade-in effect via IntersectionObserver
+    const obs = new IntersectionObserver(
+      entries => entries.forEach(e => { if (e.isIntersecting) e.target.classList.add("visible"); }),
+      { threshold: 0.05 }
+    );
+    document.querySelectorAll(".section").forEach(s => obs.observe(s));
+  </script>
+</body>
+</html>
