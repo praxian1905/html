@@ -1,0 +1,1111 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CAD / CAM | Course Syllabus</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=Source+Serif+4:ital,opsz,wght@0,8..60,300;0,8..60,400;0,8..60,600;1,8..60,300&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg:      #0a0c14;
+      --surface: #0f1120;
+      --card:    #141829;
+      --border:  #1e2440;
+      --accent:  #7b8cde;   /* indigo-blue */
+      --accent2: #56cfe1;   /* cyan */
+      --accent3: #74c69d;   /* mint green */
+      --accent4: #f4a261;   /* warm orange */
+      --accent5: #c77dff;   /* violet */
+      --accent6: #ef5350;   /* red */
+      --text:    #d8ddf5;
+      --muted:   #7880a8;
+      --heading: #eef0ff;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: "Source Serif 4", Georgia, serif;
+      font-size: 17px;
+      line-height: 1.8;
+      min-height: 100vh;
+    }
+
+    body::before {
+      content: "";
+      position: fixed; inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+      pointer-events: none; z-index: 999; opacity: 0.45;
+    }
+
+    /* grid-dot overlay */
+    body::after {
+      content: "";
+      position: fixed; inset: 0;
+      background-image: radial-gradient(circle, rgba(123,140,222,0.12) 1px, transparent 1px);
+      background-size: 36px 36px;
+      pointer-events: none; z-index: 0; opacity: 1;
+    }
+
+    main, header, nav { position: relative; z-index: 1; }
+
+    strong { color: var(--heading); font-weight: 600; }
+    em     { color: var(--accent2); font-style: italic; }
+    p      { margin-bottom: 18px; color: var(--text); }
+    h3 {
+      font-family: "Playfair Display", serif;
+      font-size: 19px; color: var(--heading);
+      margin: 32px 0 12px; font-weight: 700;
+    }
+    blockquote {
+      border-left: 3px solid var(--accent);
+      margin: 28px 0; padding: 14px 24px;
+      background: var(--card); font-style: italic;
+      color: var(--muted); font-size: 16px; border-radius: 0 2px 2px 0;
+    }
+
+    /* ── Scroll progress ── */
+    #progress {
+      position: fixed; top: 0; left: 0; height: 3px;
+      background: linear-gradient(90deg, var(--accent), var(--accent2), var(--accent5));
+      z-index: 1000; width: 0; transition: width 0.1s linear;
+    }
+
+    /* ── Layout ── */
+    .page { max-width: 1020px; margin: 0 auto; padding: 0 28px 100px; }
+    @media (max-width: 768px) { .page { padding: 0 16px 80px; } }
+
+    /* ── Hero ── */
+    .hero {
+      position: relative; overflow: hidden;
+      padding: 90px 40px 80px; text-align: center;
+      border-bottom: 1px solid var(--border);
+      background: radial-gradient(ellipse 80% 60% at 50% 0%, #111830 0%, var(--bg) 70%);
+      z-index: 1;
+    }
+    .hero::after {
+      content: ""; position: absolute; left: 50%; top: -60px;
+      transform: translateX(-50%); width: 700px; height: 700px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(86,207,225,0.07) 0%, transparent 65%);
+      pointer-events: none;
+    }
+    /* wireframe-corner decoration */
+    .hero-corner {
+      position: absolute; width: 80px; height: 80px;
+      border-color: rgba(123,140,222,0.2); border-style: solid;
+    }
+    .hero-corner.tl { top: 24px; left: 28px; border-width: 1px 0 0 1px; }
+    .hero-corner.tr { top: 24px; right: 28px; border-width: 1px 1px 0 0; }
+    .hero-corner.bl { bottom: 24px; left: 28px; border-width: 0 0 1px 1px; }
+    .hero-corner.br { bottom: 24px; right: 28px; border-width: 0 1px 1px 0; }
+
+    .hero-badge {
+      display: inline-block;
+      font-family: "JetBrains Mono", monospace;
+      font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase;
+      color: var(--accent2); border: 1px solid var(--accent2);
+      padding: 4px 14px; border-radius: 2px; margin-bottom: 24px;
+      opacity: 0; animation: fadeUp 0.6s 0.1s forwards;
+    }
+    .hero h1 {
+      font-family: "Playfair Display", serif;
+      font-size: clamp(28px, 5vw, 54px); font-weight: 900;
+      color: var(--heading); line-height: 1.15;
+      max-width: 860px; margin: 0 auto 20px;
+      opacity: 0; animation: fadeUp 0.7s 0.25s forwards;
+    }
+    .hero h1 em { color: var(--accent2); font-style: normal; }
+    .hero-sub {
+      font-size: 16px; color: var(--muted);
+      max-width: 640px; margin: 0 auto 36px;
+      opacity: 0; animation: fadeUp 0.7s 0.4s forwards;
+    }
+    .hero-meta {
+      display: flex; flex-wrap: wrap; gap: 20px; justify-content: center;
+      opacity: 0; animation: fadeUp 0.7s 0.55s forwards;
+    }
+    .hero-meta span {
+      font-family: "JetBrains Mono", monospace; font-size: 12px;
+      color: var(--muted); background: var(--card);
+      border: 1px solid var(--border); padding: 6px 14px; border-radius: 2px;
+    }
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(18px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ── TOC ── */
+    .toc {
+      background: var(--card); border: 1px solid var(--border);
+      border-left: 3px solid var(--accent);
+      padding: 32px 36px; margin: 52px 0 60px; border-radius: 2px;
+    }
+    .toc h2 {
+      font-family: "Playfair Display", serif; font-size: 20px;
+      color: var(--heading); margin-bottom: 20px;
+    }
+    .toc ol { padding-left: 22px; }
+    .toc li { margin-bottom: 8px; }
+    .toc a {
+      color: var(--accent2); text-decoration: none;
+      font-family: "JetBrains Mono", monospace; font-size: 13px;
+      transition: color 0.2s;
+    }
+    .toc a:hover { color: var(--accent); }
+
+    /* ── Sections ── */
+    .section {
+      margin-bottom: 72px;
+      opacity: 0; transform: translateY(24px);
+      transition: opacity 0.55s, transform 0.55s;
+    }
+    .section.visible { opacity: 1; transform: translateY(0); }
+    .section-label {
+      font-family: "JetBrains Mono", monospace;
+      font-size: 10.5px; letter-spacing: 0.18em; text-transform: uppercase;
+      color: var(--accent); margin-bottom: 10px;
+    }
+    h2.section-title {
+      font-family: "Playfair Display", serif;
+      font-size: clamp(22px, 3.5vw, 34px); font-weight: 700;
+      color: var(--heading); line-height: 1.2;
+      margin-bottom: 28px; padding-bottom: 14px;
+      border-bottom: 1px solid var(--border);
+    }
+    h2.section-title .num {
+      color: var(--accent2); font-size: 0.7em; font-style: italic; margin-right: 10px;
+    }
+
+    /* ── Topic list ── */
+    .topic-list { list-style: none; padding: 0; margin: 0 0 24px; }
+    .topic-list li {
+      position: relative;
+      padding: 10px 16px 10px 36px;
+      border-bottom: 1px solid var(--border);
+      font-size: 15.5px; color: var(--text);
+      transition: background 0.15s;
+    }
+    .topic-list li:last-child { border-bottom: none; }
+    .topic-list li:hover { background: rgba(86,207,225,0.04); }
+    .topic-list li::before {
+      content: "▸";
+      position: absolute; left: 12px; top: 10px;
+      color: var(--accent2); font-size: 13px;
+    }
+    .topic-list li.sub {
+      padding-left: 60px; font-size: 14.5px; color: var(--muted);
+    }
+    .topic-list li.sub::before { content: "–"; left: 38px; color: var(--accent); }
+    .topic-list li.sub2 {
+      padding-left: 84px; font-size: 14px; color: #4a5278;
+    }
+    .topic-list li.sub2::before { content: "·"; left: 66px; color: var(--accent3); font-size: 16px; }
+
+    /* ── Callouts ── */
+    .callout {
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: 2px; padding: 22px 26px; margin: 28px 0;
+    }
+    .callout.indigo  { border-left: 3px solid var(--accent); }
+    .callout.cyan    { border-left: 3px solid var(--accent2); }
+    .callout.mint    { border-left: 3px solid var(--accent3); }
+    .callout.orange  { border-left: 3px solid var(--accent4); }
+    .callout.violet  { border-left: 3px solid var(--accent5); }
+    .callout.red     { border-left: 3px solid var(--accent6); }
+    .callout-title {
+      font-family: "JetBrains Mono", monospace;
+      font-size: 11px; text-transform: uppercase; letter-spacing: 0.12em; margin-bottom: 10px;
+    }
+    .callout.indigo  .callout-title { color: var(--accent); }
+    .callout.cyan    .callout-title { color: var(--accent2); }
+    .callout.mint    .callout-title { color: var(--accent3); }
+    .callout.orange  .callout-title { color: var(--accent4); }
+    .callout.violet  .callout-title { color: var(--accent5); }
+    .callout.red     .callout-title { color: var(--accent6); }
+    .callout p { margin-bottom: 0; font-size: 15px; }
+
+    /* ── Formula / code block ── */
+    .formula {
+      background: #060810; border: 1px solid var(--border); border-radius: 2px;
+      padding: 18px 24px; margin: 22px 0;
+      font-family: "JetBrains Mono", monospace; font-size: 13.5px;
+      color: var(--accent2); overflow-x: auto; white-space: pre;
+    }
+
+    /* ── Card grid ── */
+    .card-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+      gap: 18px; margin: 24px 0;
+    }
+    .card {
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: 2px; padding: 22px 24px;
+      transition: border-color 0.2s, transform 0.2s;
+    }
+    .card:hover { border-color: var(--accent2); transform: translateY(-3px); }
+    .card-id {
+      font-family: "JetBrains Mono", monospace; font-size: 10px;
+      color: var(--accent2); letter-spacing: 0.14em;
+      text-transform: uppercase; margin-bottom: 8px;
+    }
+    .card h4 {
+      font-family: "Playfair Display", serif; font-size: 16px;
+      color: var(--heading); margin-bottom: 10px;
+    }
+    .card ul { list-style: none; padding: 0; margin: 0; }
+    .card ul li {
+      font-size: 13.5px; color: var(--muted);
+      padding: 4px 0 4px 14px; border-bottom: 1px solid rgba(30,36,64,0.9);
+      position: relative;
+    }
+    .card ul li:last-child { border-bottom: none; }
+    .card ul li::before { content: "·"; position: absolute; left: 2px; color: var(--accent); }
+    .card.hl-cyan   { border-color: var(--accent2); background: #081520; }
+    .card.hl-cyan   h4 { color: var(--accent2); }
+    .card.hl-indigo { border-color: var(--accent);  background: #0d1030; }
+    .card.hl-indigo h4 { color: var(--accent); }
+    .card.hl-mint   { border-color: var(--accent3); background: #081a12; }
+    .card.hl-mint   h4 { color: var(--accent3); }
+    .card.hl-orange { border-color: var(--accent4); background: #1a1008; }
+    .card.hl-orange h4 { color: var(--accent4); }
+    .card.hl-violet { border-color: var(--accent5); background: #140d1f; }
+    .card.hl-violet h4 { color: var(--accent5); }
+
+    /* ── Transformation matrix visual ── */
+    .matrix-showcase {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 14px; margin: 24px 0;
+    }
+    .matrix-card {
+      background: #060810; border: 1px solid var(--border);
+      border-radius: 2px; padding: 16px 18px;
+      transition: border-color 0.2s;
+    }
+    .matrix-card:hover { border-color: var(--accent2); }
+    .matrix-card h4 {
+      font-family: "JetBrains Mono", monospace; font-size: 11px;
+      color: var(--accent); letter-spacing: 0.1em; margin-bottom: 10px;
+      text-transform: uppercase;
+    }
+    .matrix-card pre {
+      font-family: "JetBrains Mono", monospace; font-size: 12px;
+      color: var(--accent2); white-space: pre; line-height: 1.6;
+    }
+
+    /* ── Curve type band ── */
+    .curve-band {
+      display: flex; height: 50px;
+      border: 1px solid var(--border); border-radius: 2px; overflow: hidden; margin: 24px 0;
+    }
+    .curve-seg {
+      flex: 1; display: flex; align-items: center; justify-content: center;
+      font-family: "JetBrains Mono", monospace; font-size: 11px;
+      text-align: center; padding: 6px; transition: flex 0.3s; cursor: default;
+    }
+    .curve-seg:hover { flex: 2.4; }
+    .cs1 { background: #0d1030; color: var(--accent);  border-right: 1px solid var(--border); }
+    .cs2 { background: #081520; color: var(--accent2); border-right: 1px solid var(--border); }
+    .cs3 { background: #081a12; color: var(--accent3); border-right: 1px solid var(--border); }
+    .cs4 { background: #1a1008; color: var(--accent4); border-right: 1px solid var(--border); }
+    .cs5 { background: #140d1f; color: var(--accent5); }
+
+    /* ── Solid model comparison ── */
+    .compare-strip {
+      display: flex; gap: 0;
+      border: 1px solid var(--border); border-radius: 2px; overflow: hidden; margin: 24px 0;
+    }
+    .compare-col {
+      flex: 1; padding: 20px 18px; border-right: 1px solid var(--border);
+      transition: background 0.2s, flex 0.3s; cursor: default;
+    }
+    .compare-col:last-child { border-right: none; }
+    .compare-col:hover { background: rgba(86,207,225,0.04); flex: 1.5; }
+    .compare-col h4 {
+      font-family: "JetBrains Mono", monospace; font-size: 12px;
+      letter-spacing: 0.1em; margin-bottom: 12px; text-transform: uppercase;
+    }
+    .compare-col.wireframe h4 { color: var(--accent); }
+    .compare-col.surface   h4 { color: var(--accent2); }
+    .compare-col.solid     h4 { color: var(--accent3); }
+    .compare-col ul { list-style: none; padding: 0; margin: 0; }
+    .compare-col ul li {
+      font-size: 13px; color: var(--muted);
+      padding: 4px 0; border-bottom: 1px solid rgba(30,36,64,0.6);
+    }
+    .compare-col ul li:last-child { border-bottom: none; }
+
+    /* ── CAE workflow steps ── */
+    .flow { display: flex; flex-wrap: wrap; gap: 14px; margin: 24px 0; }
+    .flow-step {
+      flex: 1; min-width: 140px;
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: 2px; padding: 16px 18px;
+      transition: border-color 0.2s;
+    }
+    .flow-step:hover { border-color: var(--accent2); }
+    .step-num {
+      font-family: "JetBrains Mono", monospace; font-size: 10px;
+      color: var(--accent2); letter-spacing: 0.12em; margin-bottom: 6px;
+    }
+    .flow-step h4 {
+      font-family: "Playfair Display", serif; font-size: 15px;
+      color: var(--heading); margin-bottom: 4px;
+    }
+    .flow-step p { font-size: 13px; color: var(--muted); margin: 0; }
+
+    /* ── NC evolution timeline ── */
+    .timeline { margin: 24px 0; }
+    .tl-item {
+      display: flex; gap: 18px; margin-bottom: 0;
+      position: relative;
+    }
+    .tl-item::after {
+      content: "";
+      position: absolute; left: 22px; top: 46px;
+      width: 1px; height: calc(100% - 10px);
+      background: var(--border);
+    }
+    .tl-item:last-child::after { display: none; }
+    .tl-dot {
+      width: 44px; height: 44px; flex-shrink: 0;
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: 2px; display: flex; align-items: center; justify-content: center;
+      font-family: "JetBrains Mono", monospace; font-size: 11px;
+      color: var(--accent2); z-index: 1;
+    }
+    .tl-body {
+      padding: 10px 0 24px;
+    }
+    .tl-body h4 {
+      font-family: "Playfair Display", serif; font-size: 16px;
+      color: var(--heading); margin-bottom: 4px;
+    }
+    .tl-body p { font-size: 14px; color: var(--muted); margin: 0; }
+
+    /* ── Industry 4.0 tech grid ── */
+    .tech-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+      gap: 14px; margin: 24px 0;
+    }
+    .tech-card {
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: 2px; padding: 20px 16px; text-align: center;
+      transition: border-color 0.2s, transform 0.2s;
+    }
+    .tech-card:hover { border-color: var(--accent5); transform: translateY(-3px); }
+    .tech-icon { font-size: 28px; display: block; margin-bottom: 10px; }
+    .tech-card h4 {
+      font-family: "JetBrains Mono", monospace; font-size: 11px;
+      color: var(--accent5); letter-spacing: 0.08em; margin-bottom: 5px;
+    }
+    .tech-card p { font-size: 12.5px; color: var(--muted); margin: 0; line-height: 1.5; }
+
+    /* ── Table ── */
+    .table-wrap { overflow-x: auto; margin: 28px 0; }
+    table { width: 100%; border-collapse: collapse; font-size: 15px; background: var(--card); border: 1px solid var(--border); }
+    thead th {
+      background: #0d1030; color: var(--accent);
+      font-family: "JetBrains Mono", monospace;
+      font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase;
+      padding: 12px 16px; text-align: left; border-bottom: 1px solid var(--border);
+    }
+    tbody td { padding: 11px 16px; border-bottom: 1px solid var(--border); vertical-align: top; }
+    tbody tr:last-child td { border-bottom: none; }
+    tbody tr:hover td { background: rgba(86,207,225,0.03); }
+
+    /* ── Pills ── */
+    .pills { display: flex; flex-wrap: wrap; gap: 10px; margin: 18px 0; }
+    .pill {
+      background: var(--card); border: 1px solid var(--border);
+      padding: 6px 14px; border-radius: 20px;
+      font-size: 13px; color: var(--text); font-family: "JetBrains Mono", monospace;
+    }
+    .pill.indigo { border-color: var(--accent);  color: var(--accent); }
+    .pill.cyan   { border-color: var(--accent2); color: var(--accent2); }
+    .pill.mint   { border-color: var(--accent3); color: var(--accent3); }
+    .pill.orange { border-color: var(--accent4); color: var(--accent4); }
+    .pill.violet { border-color: var(--accent5); color: var(--accent5); }
+    .pill.red    { border-color: var(--accent6); color: var(--accent6); }
+
+    /* ── Divider ── */
+    .divider { border: none; border-top: 1px solid var(--border); margin: 60px 0; }
+  </style>
+</head>
+<body>
+  <div id="progress"></div>
+
+  <!-- ── Hero ── -->
+  <header class="hero">
+    <div class="hero-corner tl"></div>
+    <div class="hero-corner tr"></div>
+    <div class="hero-corner bl"></div>
+    <div class="hero-corner br"></div>
+    <div class="hero-badge">Mechanical / Production Engineering · Core Subject</div>
+    <h1>CAD / <em>CAM</em></h1>
+    <p class="hero-sub">A comprehensive unit-by-unit syllabus covering geometric transformations, curve and surface modelling, solid modelling schemes, computer-aided engineering, CNC/DNC manufacturing, and Industry 4.0 technologies.</p>
+    <div class="hero-meta">
+      <span>🖥️ 6 Units</span>
+      <span>📐 Geometry &amp; Modelling</span>
+      <span>⚙️ CNC · FMS · CAE</span>
+      <span>🎓 B.Tech / B.E. Level</span>
+    </div>
+  </header>
+
+  <main class="page">
+
+    <!-- ── TOC ── -->
+    <nav class="toc">
+      <h2>📋 Table of Contents</h2>
+      <ol>
+        <li><a href="#unit1">Unit 1 — Basics of CAD</a></li>
+        <li><a href="#unit2">Unit 2 — Curves and Surfaces</a></li>
+        <li><a href="#unit3">Unit 3 — Solid Modelling</a></li>
+        <li><a href="#unit4">Unit 4 — Computer Aided Engineering (CAE)</a></li>
+        <li><a href="#unit5">Unit 5 — Computer Aided Manufacturing (CAM)</a></li>
+        <li><a href="#unit6">Unit 6 — Latest Technologies</a></li>
+      </ol>
+    </nav>
+
+    <!-- ══════════════════════════════════════════
+         UNIT 1
+    ══════════════════════════════════════════ -->
+    <section class="section" id="unit1">
+      <div class="section-label">Unit 01</div>
+      <h2 class="section-title"><span class="num">01.</span> Basics of CAD</h2>
+
+      <div class="callout cyan">
+        <div class="callout-title">🖥️ Unit Overview</div>
+        <p>Establishes the conceptual and mathematical foundations of Computer Aided Design — from the scope and benefits of CAD over manual drafting, through coordinate systems and 3D space, to the matrix algebra of 2D and 3D geometric transformations that underpin every CAD kernel.</p>
+      </div>
+
+      <h3>Introduction to CAD</h3>
+      <ul class="topic-list">
+        <li>Need and scope of Computer Aided Design — product lifecycle, design iteration speed</li>
+        <li>Fundamentals of CAD and computer graphics — display hardware, input devices, graphics pipeline</li>
+        <li>Application areas — mechanical, civil, architectural, VLSI, aerospace design</li>
+        <li>Comparison of CAD with manual designing — accuracy, speed, reuse, documentation</li>
+        <li>Benefits of CAD — reduced errors, faster prototyping, integration with CAM/CAE</li>
+        <li>User Coordinate System (UCS) and World Coordinate System (WCS)</li>
+        <li>2D and 3D coordinate systems; right-hand rule; homogeneous coordinates</li>
+      </ul>
+
+      <h3>Geometric Transformations</h3>
+
+      <div class="matrix-showcase">
+        <div class="matrix-card">
+          <h4>2D Translation</h4>
+          <pre>[ 1  0  tx ]
+[ 0  1  ty ]
+[ 0  0   1 ]</pre>
+        </div>
+        <div class="matrix-card">
+          <h4>2D Rotation (θ)</h4>
+          <pre>[ cosθ  -sinθ  0 ]
+[ sinθ   cosθ  0 ]
+[  0      0    1 ]</pre>
+        </div>
+        <div class="matrix-card">
+          <h4>2D Scaling</h4>
+          <pre>[ sx  0   0 ]
+[  0  sy  0 ]
+[  0  0   1 ]</pre>
+        </div>
+        <div class="matrix-card">
+          <h4>3D Rotation (Z)</h4>
+          <pre>[ cosθ -sinθ  0  0 ]
+[ sinθ  cosθ  0  0 ]
+[  0     0    1  0 ]
+[  0     0    0  1 ]</pre>
+        </div>
+      </div>
+
+      <ul class="topic-list">
+        <li><strong>2D geometric transformations</strong> — translation, rotation, scaling, reflection, shear</li>
+        <li>Matrix representations and homogeneous coordinates — (n+1) × (n+1) matrix form</li>
+        <li><strong>Composite transformations</strong> — concatenation of transformation matrices (right-to-left order)</li>
+        <li>Transformations between coordinate systems — local to world, world to view</li>
+        <li>2D viewing — window, viewport, clipping (Cohen-Sutherland, Liang-Barsky)</li>
+        <li><strong>3D geometric transformations</strong> — Rx, Ry, Rz rotation matrices; 4×4 homogeneous form</li>
+        <li>3D composite transformations — rotation about arbitrary axis</li>
+        <li>Importance of transformations — animation, assembly modelling, FEA mesh generation</li>
+      </ul>
+
+      <div class="formula">Homogeneous Coordinate Representation (2D):
+
+  [x' y' 1] = [x y 1] × T
+
+Composite Transform — Rotation about arbitrary point (px, py):
+  T = T(px,py) · R(θ) · T(-px,-py)
+
+  =  [ cosθ  -sinθ  px(1-cosθ)+py·sinθ ]
+     [ sinθ   cosθ  py(1-cosθ)-px·sinθ ]
+     [   0      0              1        ]</div>
+    </section>
+
+    <hr class="divider" />
+
+    <!-- ══════════════════════════════════════════
+         UNIT 2
+    ══════════════════════════════════════════ -->
+    <section class="section" id="unit2">
+      <div class="section-label">Unit 02</div>
+      <h2 class="section-title"><span class="num">02.</span> Curves and Surfaces</h2>
+
+      <div class="callout indigo">
+        <div class="callout-title">📈 Unit Overview</div>
+        <p>Covers the mathematical representations used to define smooth, precise curves and surfaces in CAD systems — from analytic conics through parametric synthetic curves (cubic spline, Bézier, B-spline, NURBS) to the surface types critical in automotive and industrial design.</p>
+      </div>
+
+      <h3>Analytic Curves</h3>
+      <ul class="topic-list">
+        <li>Representation of <strong>circle</strong> — implicit, parametric (cos t, sin t); arc definition</li>
+        <li><strong>Ellipse</strong> — semi-axes a, b; parametric form (a·cos t, b·sin t)</li>
+        <li><strong>Parabola</strong> — reflector geometry; parametric and standard forms</li>
+        <li><strong>Hyperbola</strong> — two-branch curve; applications in gear tooth profiles</li>
+      </ul>
+
+      <h3>Synthetic (Parametric) Curves</h3>
+
+      <div class="curve-band" title="Hover to expand">
+        <div class="curve-seg cs1">Cubic Spline<br>C² continuous</div>
+        <div class="curve-seg cs2">Hermite Spline<br>Tangent-specified</div>
+        <div class="curve-seg cs3">Bézier Curve<br>Convex hull property</div>
+        <div class="curve-seg cs4">B-Spline<br>Local control</div>
+        <div class="curve-seg cs5">NURBS<br>Exact conics</div>
+      </div>
+
+      <div class="card-grid">
+        <div class="card hl-indigo">
+          <div class="card-id">Curve 01 ★</div>
+          <h4>Cubic Spline</h4>
+          <ul>
+            <li>Piecewise cubic polynomial; C² continuity</li>
+            <li>Equation: P(t) = a₀ + a₁t + a₂t² + a₃t³</li>
+            <li>Natural, clamped, periodic end conditions</li>
+            <li>Properties: minimum curvature (stiffest spline)</li>
+          </ul>
+        </div>
+        <div class="card hl-cyan">
+          <div class="card-id">Curve 02 ★</div>
+          <h4>Bézier Curve</h4>
+          <ul>
+            <li>P(t) = Σ Bᵢ Cᵢⁿ tⁱ (1−t)ⁿ⁻ⁱ  (Bernstein basis)</li>
+            <li>Convex hull, endpoint interpolation</li>
+            <li>Variation-diminishing; affine invariance</li>
+            <li>Degree = number of control points − 1</li>
+          </ul>
+        </div>
+        <div class="card hl-mint">
+          <div class="card-id">Curve 03 ★</div>
+          <h4>B-Spline</h4>
+          <ul>
+            <li>Local control — moving one point affects only k spans</li>
+            <li>Degree independent of control polygon count</li>
+            <li>Uniform, non-uniform, open, closed types</li>
+            <li>Generalises Bézier; C^(k-2) continuity</li>
+          </ul>
+        </div>
+        <div class="card hl-violet">
+          <div class="card-id">Curve 04 ★</div>
+          <h4>NURBS</h4>
+          <ul>
+            <li>Non-Uniform Rational B-Splines</li>
+            <li>Exact representation of conics (circle, ellipse)</li>
+            <li>Weights modify curve toward control points</li>
+            <li>Industry standard (IGES, STEP, ACIS, Parasolid)</li>
+          </ul>
+        </div>
+      </div>
+
+      <h3>Continuity &amp; Surfaces</h3>
+      <ul class="topic-list">
+        <li>Concept of continuity — G⁰ (positional), G¹ (tangent), G² (curvature); C⁰, C¹, C² (parametric)</li>
+        <li><strong>Types of surfaces used in the automotive industry</strong></li>
+        <li class="sub">Class-A surfaces — curvature-continuous, visible exterior body panels</li>
+        <li class="sub">Bilinear, ruled, and lofted surfaces</li>
+        <li class="sub">Bézier and B-spline / NURBS surface patches</li>
+        <li class="sub">Coons patch — blending four boundary curves</li>
+        <li class="sub">Swept and revolved surfaces; fillet and blend surfaces</li>
+        <li>Applications — hood, door panel, windscreen, turbine blade, car bumper</li>
+      </ul>
+
+      <div class="formula">Bézier Curve (degree n):
+
+  P(t) = Σᵢ₌₀ⁿ  Bᵢ · Cᵢⁿ · tⁱ · (1-t)^(n-i)      t ∈ [0,1]
+
+  where  Cᵢⁿ = n! / (i!(n-i)!)   (binomial coefficient)
+         Bᵢ  = control points
+
+NURBS Curve (rational B-spline):
+  C(u) = Σ Nᵢ,ₖ(u) · wᵢ · Pᵢ  /  Σ Nᵢ,ₖ(u) · wᵢ
+
+  Nᵢ,ₖ = B-spline basis functions of degree k
+  wᵢ   = weights  (wᵢ = 1 → non-rational = B-spline)</div>
+    </section>
+
+    <hr class="divider" />
+
+    <!-- ══════════════════════════════════════════
+         UNIT 3
+    ══════════════════════════════════════════ -->
+    <section class="section" id="unit3">
+      <div class="section-label">Unit 03</div>
+      <h2 class="section-title"><span class="num">03.</span> Solid Modelling</h2>
+
+      <div class="callout mint">
+        <div class="callout-title">🧊 Unit Overview</div>
+        <p>Introduces the rigorous geometric and topological framework of solid modelling — comparing wireframe, surface, and solid representations — and surveys the principal solid modelling schemes (B-rep, CSG, sweep, primitive instancing, cell decomposition) along with Boolean operations that combine them.</p>
+      </div>
+
+      <h3>Geometry vs. Topology &amp; Model Comparison</h3>
+
+      <div class="compare-strip">
+        <div class="compare-col wireframe">
+          <h4>Wireframe Model</h4>
+          <ul>
+            <li>Edges and vertices only</li>
+            <li>No surface or volume data</li>
+            <li>Ambiguous — multiple interpretations</li>
+            <li>Fast; used in early CAD</li>
+            <li>No mass properties, no FEA</li>
+          </ul>
+        </div>
+        <div class="compare-col surface">
+          <h4>Surface Model</h4>
+          <ul>
+            <li>Edges + faces; no enclosed volume</li>
+            <li>Defines shape but not interior</li>
+            <li>Used in styling (Class-A)</li>
+            <li>Rendering and toolpath possible</li>
+            <li>No volume / mass properties</li>
+          </ul>
+        </div>
+        <div class="compare-col solid">
+          <h4>Solid Model ★</h4>
+          <ul>
+            <li>Complete: vertices + edges + faces + volume</li>
+            <li>Unambiguous; physically valid</li>
+            <li>Mass, inertia, centroid computable</li>
+            <li>Supports FEA, interference check</li>
+            <li>Industry standard for CAD/CAM/CAE</li>
+          </ul>
+        </div>
+      </div>
+
+      <h3>Solid Modelling Concepts</h3>
+      <ul class="topic-list">
+        <li>Geometry (shape — curves, surfaces) vs. Topology (connectivity — V, E, F relationships)</li>
+        <li>Euler–Poincaré formula: V − E + F − H = 2(B − G) &nbsp; (validity check)</li>
+        <li>Properties of solid models — closure, rigidity, finite, orientability</li>
+        <li>Properties of representation schemes — domain, unambiguity, uniqueness, conciseness, efficiency</li>
+        <li><strong>Concept of half-spaces</strong> — a solid defined as intersection of half-spaces (S = H₁ ∩ H₂ ∩ … ∩ Hₙ)</li>
+        <li><strong>Boolean operations</strong> — Union (∪), Intersection (∩), Difference (−); regularised Boolean</li>
+      </ul>
+
+      <h3>Representation Schemes</h3>
+      <div class="card-grid">
+        <div class="card hl-cyan">
+          <div class="card-id">Scheme 01 ★</div>
+          <h4>B-rep (Boundary Representation)</h4>
+          <ul>
+            <li>Solid described by bounding faces, edges, vertices</li>
+            <li>Data structure: face–loop–edge–vertex (half-edge)</li>
+            <li>Basis of most commercial CAD kernels (ACIS, Parasolid)</li>
+            <li>Excellent for visualisation and NC toolpath</li>
+          </ul>
+        </div>
+        <div class="card hl-indigo">
+          <div class="card-id">Scheme 02 ★</div>
+          <h4>CSG (Constructive Solid Geometry)</h4>
+          <ul>
+            <li>Binary tree of Boolean ops on primitives</li>
+            <li>Compact; easy to edit; history-based</li>
+            <li>Feature-based modelling (Pro-E, SolidWorks)</li>
+            <li>Evaluation needed for rendering</li>
+          </ul>
+        </div>
+        <div class="card">
+          <div class="card-id">Scheme 03</div>
+          <h4>Sweep Representation</h4>
+          <ul>
+            <li>Extrude or revolve a 2D profile</li>
+            <li>Translational and rotational sweep</li>
+            <li>Generalised sweep along arbitrary spine</li>
+          </ul>
+        </div>
+        <div class="card">
+          <div class="card-id">Scheme 04</div>
+          <h4>Primitive Instancing</h4>
+          <ul>
+            <li>Library of parameterised primitives</li>
+            <li>Bolt, hole, gear families</li>
+            <li>Efficient for standard components</li>
+          </ul>
+        </div>
+        <div class="card">
+          <div class="card-id">Scheme 05</div>
+          <h4>Cell Decomposition</h4>
+          <ul>
+            <li>Solid partitioned into non-overlapping cells</li>
+            <li>Spatial occupancy enumeration (voxels)</li>
+            <li>Used in FEA meshing, additive manufacturing</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="formula">Euler–Poincaré Validity Formula:
+
+  V − E + F − H = 2(B − G)
+
+  where  V = vertices,  E = edges,  F = faces
+         H = holes in faces (through-holes in faces)
+         B = number of bodies
+         G = genus (through-holes in body, e.g. G=1 for torus)
+
+Example — Cube: V=8, E=12, F=6, H=0, B=1, G=0
+  8 − 12 + 6 − 0 = 2(1−0) = 2  ✓</div>
+    </section>
+
+    <hr class="divider" />
+
+    <!-- ══════════════════════════════════════════
+         UNIT 4
+    ══════════════════════════════════════════ -->
+    <section class="section" id="unit4">
+      <div class="section-label">Unit 04</div>
+      <h2 class="section-title"><span class="num">04.</span> Computer Aided Engineering (CAE)</h2>
+
+      <div class="callout orange">
+        <div class="callout-title">🔬 Unit Overview</div>
+        <p>Covers the complete simulation-driven engineering analysis workflow — from importing geometry and defining material models through meshing, applying loads and boundary conditions, running FEA solvers, post-processing results, and validating against physical tests — with a case study in ANSYS.</p>
+      </div>
+
+      <h3>CAE Workflow</h3>
+      <div class="flow">
+        <div class="flow-step">
+          <div class="step-num">Step 01</div>
+          <h4>Pre-processing</h4>
+          <p>Import CAD geometry (IGES/STEP), simplify for analysis, define coordinate systems.</p>
+        </div>
+        <div class="flow-step">
+          <div class="step-num">Step 02</div>
+          <h4>Material Definition</h4>
+          <p>E, ν, ρ, yield strength, fatigue data; isotropic / orthotropic / non-linear models.</p>
+        </div>
+        <div class="flow-step">
+          <div class="step-num">Step 03</div>
+          <h4>Meshing</h4>
+          <p>Element type selection, mesh density, refinement at stress concentrations; quality checks.</p>
+        </div>
+        <div class="flow-step">
+          <div class="step-num">Step 04</div>
+          <h4>Loads &amp; BCs</h4>
+          <p>Forces, pressures, moments; fixed supports, symmetry planes; thermal and inertial loads.</p>
+        </div>
+        <div class="flow-step">
+          <div class="step-num">Step 05</div>
+          <h4>Solver</h4>
+          <p>Direct (sparse), iterative (CG); linear static, modal, transient, non-linear.</p>
+        </div>
+        <div class="flow-step">
+          <div class="step-num">Step 06</div>
+          <h4>Post-processing</h4>
+          <p>Von Mises stress, deformation, safety factor, mode shapes, fatigue life contours.</p>
+        </div>
+      </div>
+
+      <h3>Detailed Topics</h3>
+      <ul class="topic-list">
+        <li>Introduction to simulation — purpose, accuracy vs. cost trade-off, virtual prototyping</li>
+        <li><strong>Interference detection</strong> — clash checking, clearance analysis in assemblies</li>
+        <li>Failure analysis under <em>static loading</em> — stress, displacement, buckling (linear)</li>
+        <li>Failure analysis under <em>dynamic loading</em> — modal analysis, harmonic response, transient FEA</li>
+        <li><strong>Elements used in CAE</strong></li>
+        <li class="sub">1D: Beam (BEAM188), Spring, Truss elements</li>
+        <li class="sub">2D: Plane stress/strain (PLANE182), Shell (SHELL181)</li>
+        <li class="sub">3D: Tetrahedra (TET10), Hexahedral (HEX20, SOLID186)</li>
+        <li>Meshing — free meshing vs. mapped meshing; aspect ratio, Jacobian, skewness quality metrics</li>
+        <li>Optimal mesh — convergence study (h-refinement, p-refinement)</li>
+        <li>Loading and constraints; boundary conditions — fixed, pinned, roller; symmetry exploitation</li>
+        <li>Solvers — direct (LU factorisation), iterative (PCG); non-linear Newton-Raphson</li>
+        <li>Post-processing and reviewing results — stress contours, FOS, deformed shape animation</li>
+        <li>Validation of CAE results — comparison with analytical solutions, physical test data (correlation)</li>
+        <li>Case study using <strong>ANSYS software</strong> — bracket or connecting-rod static structural analysis</li>
+      </ul>
+
+      <div class="callout orange">
+        <div class="callout-title">💡 Validation Principle</div>
+        <p>CAE results are only as trustworthy as the model's assumptions. Always validate against a closed-form solution or physical test before using results for design decisions — mesh independence study and material property accuracy are the two largest sources of error.</p>
+      </div>
+    </section>
+
+    <hr class="divider" />
+
+    <!-- ══════════════════════════════════════════
+         UNIT 5
+    ══════════════════════════════════════════ -->
+    <section class="section" id="unit5">
+      <div class="section-label">Unit 05</div>
+      <h2 class="section-title"><span class="num">05.</span> Computer Aided Manufacturing (CAM)</h2>
+
+      <div class="callout cyan">
+        <div class="callout-title">⚙️ Unit Overview</div>
+        <p>Traces the evolution from manual NC to modern CNC and DNC systems, examines flexible and automated manufacturing architectures (FMS, AGV, AS/RS), and introduces the digital planning and integration layers of CIM and CAPP.</p>
+      </div>
+
+      <h3>NC / CNC / DNC Evolution</h3>
+      <div class="timeline">
+        <div class="tl-item">
+          <div class="tl-dot">NC</div>
+          <div class="tl-body">
+            <h4>Numerical Control</h4>
+            <p>Punched tape; fixed program; no feedback loop; hard-wired controller. High setup time, no editing.</p>
+          </div>
+        </div>
+        <div class="tl-item">
+          <div class="tl-dot">CNC</div>
+          <div class="tl-body">
+            <h4>Computer Numerical Control</h4>
+            <p>Dedicated onboard microcomputer; soft-wired; program stored in RAM; tool compensation, canned cycles, conversational programming.</p>
+          </div>
+        </div>
+        <div class="tl-item">
+          <div class="tl-dot">DNC</div>
+          <div class="tl-body">
+            <h4>Direct / Distributed Numerical Control</h4>
+            <p>Central host computer distributes NC programs to multiple CNC machines over a network (RS-232 → Ethernet → MTConnect).</p>
+          </div>
+        </div>
+        <div class="tl-item">
+          <div class="tl-dot">AC</div>
+          <div class="tl-body">
+            <h4>Adaptive Control</h4>
+            <p>Real-time sensor feedback (force, vibration, temperature) adjusts feeds/speeds in-process — geometric AC (ACC) and optimisation AC (ACO).</p>
+          </div>
+        </div>
+      </div>
+
+      <h3>NC Advantages, Disadvantages &amp; Features</h3>
+      <div class="card-grid">
+        <div class="card hl-mint">
+          <div class="card-id">NC/CNC Advantages</div>
+          <h4>Why CNC?</h4>
+          <ul>
+            <li>High repeatability and accuracy</li>
+            <li>Complex 3D contours achievable</li>
+            <li>Reduced setup and inspection time</li>
+            <li>Lights-out manufacturing possible</li>
+            <li>Easy design change via program edit</li>
+          </ul>
+        </div>
+        <div class="card hl-orange">
+          <div class="card-id">NC Disadvantages</div>
+          <h4>Limitations</h4>
+          <ul>
+            <li>High initial capital investment</li>
+            <li>Skilled programmers required</li>
+            <li>Not cost-effective for one-offs</li>
+            <li>Maintenance complexity</li>
+          </ul>
+        </div>
+        <div class="card hl-cyan">
+          <div class="card-id">CNC Features</div>
+          <h4>Key CNC Capabilities</h4>
+          <ul>
+            <li>Tool length / radius compensation</li>
+            <li>Canned cycles (drilling, tapping, boring)</li>
+            <li>Parametric / macro programming</li>
+            <li>Sub-programs and subroutines</li>
+            <li>DNC interface and remote diagnostics</li>
+          </ul>
+        </div>
+      </div>
+
+      <h3>Automated Manufacturing Systems</h3>
+      <ul class="topic-list">
+        <li><strong>Flexible Manufacturing System (FMS)</strong></li>
+        <li class="sub">Components — CNC machining centres, material handling, tool management, computer control</li>
+        <li class="sub">FMS equipment and control — cell controller, DNC, scheduler, real-time monitoring</li>
+        <li><strong>Automated Guided Vehicle Systems (AGVS)</strong></li>
+        <li class="sub">Wire-guided, laser-guided, vision-guided navigation</li>
+        <li class="sub">Load/unload, towing, unit-load, forklift types</li>
+        <li class="sub">Traffic management, blocking, collision avoidance</li>
+        <li><strong>Automated Storage and Retrieval System (AS/RS)</strong></li>
+        <li class="sub">Unit-load, mini-load, person-on-board, deep-lane types</li>
+        <li class="sub">Storage/retrieval machine (SRM), aisle structure, control system</li>
+        <li class="sub">Throughput analysis — single and dual command cycles</li>
+        <li><strong>Computer Integrated Manufacturing (CIM)</strong> — integration of CAD/CAM/CAE/MRP/ERP</li>
+        <li><strong>Computer Aided Process Planning (CAPP)</strong></li>
+        <li class="sub">Variant (retrieval) CAPP — retrieve and modify standard plan</li>
+        <li class="sub">Generative CAPP — decision logic, GT codes, AI-based</li>
+      </ul>
+
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>System</th><th>Primary Function</th><th>Key Technology</th><th>Integration Point</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td><strong>CNC</strong></td><td>Precision machining</td><td>Servo drives, G-code</td><td>DNC, CAM</td></tr>
+            <tr><td><strong>DNC</strong></td><td>Program distribution</td><td>Network (Ethernet, OPC-UA)</td><td>CNC, MES</td></tr>
+            <tr><td><strong>FMS</strong></td><td>Flexible batch production</td><td>CNC + AGV + AS/RS</td><td>Scheduler, DNC</td></tr>
+            <tr><td><strong>AGVS</strong></td><td>Material transport</td><td>Laser / vision navigation</td><td>FMS, WMS</td></tr>
+            <tr><td><strong>AS/RS</strong></td><td>Automated storage</td><td>SRM, barcode / RFID</td><td>WMS, ERP</td></tr>
+            <tr><td><strong>CIM</strong></td><td>Total integration</td><td>Database, networking</td><td>All systems</td></tr>
+            <tr><td><strong>CAPP</strong></td><td>Process planning</td><td>GT codes, AI rules</td><td>CAD, MRP</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <hr class="divider" />
+
+    <!-- ══════════════════════════════════════════
+         UNIT 6
+    ══════════════════════════════════════════ -->
+    <section class="section" id="unit6">
+      <div class="section-label">Unit 06</div>
+      <h2 class="section-title"><span class="num">06.</span> Latest Technologies</h2>
+
+      <div class="callout violet">
+        <div class="callout-title">🚀 Unit Overview</div>
+        <p>Surveys the frontier technologies reshaping CAD/CAM in the era of Industry 4.0 — FEM, robotics, reverse engineering, cloud manufacturing, artificial intelligence, and machine learning — and their converging impact on the digital factory.</p>
+      </div>
+
+      <h3>Industry 4.0 &amp; Enabling Technologies</h3>
+
+      <div class="tech-grid">
+        <div class="tech-card">
+          <span class="tech-icon">🏭</span>
+          <h4>Industry 4.0</h4>
+          <p>Cyber-Physical Systems, IoT, smart factory integration.</p>
+        </div>
+        <div class="tech-card">
+          <span class="tech-icon">🔢</span>
+          <h4>FEM</h4>
+          <p>Finite Element Method — simulation backbone of modern CAE.</p>
+        </div>
+        <div class="tech-card">
+          <span class="tech-icon">🤖</span>
+          <h4>Robotics</h4>
+          <p>Collaborative robots, vision-guided assembly, digital twin.</p>
+        </div>
+        <div class="tech-card">
+          <span class="tech-icon">📡</span>
+          <h4>Reverse Engineering</h4>
+          <p>3D scanning → point cloud → CAD model reconstruction.</p>
+        </div>
+        <div class="tech-card">
+          <span class="tech-icon">🔍</span>
+          <h4>CAI</h4>
+          <p>Computer Aided Inspection — CMM, laser tracker, structured light.</p>
+        </div>
+        <div class="tech-card">
+          <span class="tech-icon">☁️</span>
+          <h4>Cloud Manufacturing</h4>
+          <p>On-demand, virtualised manufacturing resources and services.</p>
+        </div>
+        <div class="tech-card">
+          <span class="tech-icon">🧠</span>
+          <h4>AI in CAD/CAM</h4>
+          <p>Generative design, process optimisation, anomaly detection.</p>
+        </div>
+        <div class="tech-card">
+          <span class="tech-icon">📊</span>
+          <h4>Machine Learning</h4>
+          <p>Predictive maintenance, adaptive toolpaths, quality prediction.</p>
+        </div>
+      </div>
+
+      <h3>Detailed Topics</h3>
+      <ul class="topic-list">
+        <li><strong>Introduction to Industry 4.0</strong></li>
+        <li class="sub">Nine pillars — IoT, Big Data, AI, Cloud, Additive Mfg, AR, Autonomous robots, Simulation, Cybersecurity</li>
+        <li class="sub">Digital twin — virtual replica synchronised with physical asset in real time</li>
+        <li class="sub">Smart factory — connected, self-optimising production systems</li>
+        <li><strong>Finite Element Method (FEM)</strong></li>
+        <li class="sub">Discretisation, shape functions, stiffness matrix assembly [K]{u} = {F}</li>
+        <li class="sub">Linear static, eigenvalue (modal), non-linear, CFD applications</li>
+        <li class="sub">Commercial tools: ANSYS, Abaqus, NASTRAN, Altair OptiStruct</li>
+        <li><strong>Robotics</strong> — industrial, collaborative, mobile; ROS (Robot Operating System)</li>
+        <li><strong>Reverse engineering</strong></li>
+        <li class="sub">3D laser scanning, structured light, CT scanning → point cloud</li>
+        <li class="sub">Point cloud → mesh → NURBS surface — tools: Geomagic, CATIA RE</li>
+        <li class="sub">Applications: legacy part re-creation, quality inspection, competitive benchmarking</li>
+        <li><strong>Computer Aided Inspection (CAI)</strong></li>
+        <li class="sub">CMM (coordinate measuring machine), laser tracker, white-light interferometer</li>
+        <li class="sub">GD&amp;T verification; first-article inspection automation</li>
+        <li><strong>Cloud manufacturing</strong></li>
+        <li class="sub">Manufacturing-as-a-Service (MaaS) — on-demand CNC machining, 3D printing</li>
+        <li class="sub">Resource virtualisation, dynamic scheduling, global supply network</li>
+        <li class="sub">Platforms: Xometry, Hubs, 3DHubs, Fictiv</li>
+        <li><strong>Artificial Intelligence in manufacturing</strong></li>
+        <li class="sub">Generative design — topology optimisation using AI (Autodesk Fusion 360)</li>
+        <li class="sub">AI-driven process parameter selection for machining, welding, printing</li>
+        <li class="sub">Computer vision for automated quality inspection (defect detection)</li>
+        <li><strong>Machine Learning applications</strong></li>
+        <li class="sub">Predictive maintenance — vibration / temperature anomaly detection (LSTM, CNN)</li>
+        <li class="sub">Tool wear prediction from cutting force and acoustic emission signals</li>
+        <li class="sub">Adaptive toolpath generation based on real-time in-process metrology</li>
+      </ul>
+
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Technology</th><th>Input</th><th>Output / Function</th><th>Representative Tool</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td><strong>FEM</strong></td><td>CAD geometry, loads, BCs</td><td>Stress, deformation, mode shapes</td><td>ANSYS, Abaqus</td></tr>
+            <tr><td><strong>Reverse Engineering</strong></td><td>Physical part / scan</td><td>NURBS CAD model</td><td>Geomagic, CATIA</td></tr>
+            <tr><td><strong>CAI</strong></td><td>Manufactured part</td><td>Dimensional deviation report</td><td>CMM, PC-DMIS</td></tr>
+            <tr><td><strong>Cloud Mfg</strong></td><td>CAD + specs</td><td>Quoted &amp; manufactured part</td><td>Xometry, Hubs</td></tr>
+            <tr><td><strong>Generative Design (AI)</strong></td><td>Loads, constraints, mass target</td><td>Optimised topology geometry</td><td>Fusion 360, nTopology</td></tr>
+            <tr><td><strong>ML – Predictive Maint.</strong></td><td>Sensor time-series</td><td>Remaining useful life (RUL)</td><td>Azure ML, TensorFlow</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <blockquote>
+        The convergence of CAD, CAM, CAE, AI, and cloud technologies is dissolving the traditional boundaries between design and manufacturing — the digital twin now mirrors the entire product lifecycle, from parametric sketch to post-production inspection, in one continuously updated virtual model.
+      </blockquote>
+
+      <div class="pills">
+        <span class="pill violet">Industry 4.0</span>
+        <span class="pill cyan">Digital Twin</span>
+        <span class="pill indigo">FEM / FEA</span>
+        <span class="pill mint">Reverse Engineering</span>
+        <span class="pill orange">Cloud Manufacturing</span>
+        <span class="pill violet">Generative Design (AI)</span>
+        <span class="pill cyan">Predictive Maintenance (ML)</span>
+      </div>
+    </section>
+
+  </main>
+
+  <script>
+    // Scroll progress bar
+    window.addEventListener("scroll", () => {
+      const total = document.body.scrollHeight - window.innerHeight;
+      document.getElementById("progress").style.width = (window.scrollY / total) * 100 + "%";
+    });
+
+    // Section fade-in on scroll
+    const obs = new IntersectionObserver(
+      entries => entries.forEach(e => { if (e.isIntersecting) e.target.classList.add("visible"); }),
+      { threshold: 0.06 }
+    );
+    document.querySelectorAll(".section").forEach(s => obs.observe(s));
+  </script>
+</body>
+</html>
