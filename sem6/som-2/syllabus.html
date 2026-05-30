@@ -1,0 +1,564 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Strength of Materials – II | Course Syllabus</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=Source+Serif+4:ital,opsz,wght@0,8..60,300;0,8..60,400;0,8..60,600;1,8..60,300&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <style>
+    /* ── Tokens ── */
+    :root {
+      --bg:      #0e0f14;
+      --surface: #15171f;
+      --card:    #1c1f2b;
+      --border:  #2a2e40;
+      --accent:  #f5a623;
+      --accent2: #4fc3f7;
+      --accent3: #81c784;
+      --accent4: #ef5350;
+      --text:    #e8e9f0;
+      --muted:   #8890aa;
+      --heading: #ffffff;
+    }
+
+    /* ── Reset ── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: "Source Serif 4", Georgia, serif;
+      font-size: 17px;
+      line-height: 1.8;
+      min-height: 100vh;
+    }
+
+    body::before {
+      content: "";
+      position: fixed; inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+      pointer-events: none; z-index: 999; opacity: 0.45;
+    }
+
+    strong { color: var(--heading); font-weight: 600; }
+    em     { color: var(--accent); font-style: italic; }
+    p      { margin-bottom: 18px; color: var(--text); }
+
+    h3 {
+      font-family: "Playfair Display", serif;
+      font-size: 20px; color: var(--heading);
+      margin: 36px 0 14px; font-weight: 700;
+    }
+
+    blockquote {
+      border-left: 3px solid var(--accent);
+      margin: 28px 0; padding: 14px 24px;
+      background: var(--card); font-style: italic;
+      color: var(--muted); font-size: 16px; border-radius: 0 2px 2px 0;
+    }
+
+    /* ── Scroll progress bar ── */
+    #progress {
+      position: fixed; top: 0; left: 0; height: 3px;
+      background: linear-gradient(90deg, var(--accent), var(--accent2));
+      z-index: 1000; width: 0; transition: width 0.1s linear;
+    }
+
+    /* ── Layout ── */
+    .page {
+      max-width: 1020px;
+      margin: 0 auto;
+      padding: 0 28px 100px;
+    }
+    @media (max-width: 768px) { .page { padding: 0 16px 80px; } }
+
+    /* ── Hero ── */
+    .hero {
+      position: relative; overflow: hidden;
+      padding: 90px 40px 80px; text-align: center;
+      border-bottom: 1px solid var(--border);
+      background: radial-gradient(ellipse 80% 60% at 50% 0%, #1a2340 0%, var(--bg) 70%);
+    }
+    .hero::after {
+      content: ""; position: absolute; left: 50%; top: -60px;
+      transform: translateX(-50%); width: 600px; height: 600px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(245,166,35,0.07) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .hero-badge {
+      display: inline-block;
+      font-family: "JetBrains Mono", monospace;
+      font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase;
+      color: var(--accent); border: 1px solid var(--accent);
+      padding: 4px 14px; border-radius: 2px; margin-bottom: 24px;
+      opacity: 0; animation: fadeUp 0.6s 0.1s forwards;
+    }
+    .hero h1 {
+      font-family: "Playfair Display", serif;
+      font-size: clamp(28px, 5vw, 54px); font-weight: 900;
+      color: var(--heading); line-height: 1.15;
+      max-width: 860px; margin: 0 auto 20px;
+      opacity: 0; animation: fadeUp 0.7s 0.25s forwards;
+    }
+    .hero h1 em { color: var(--accent); font-style: normal; }
+    .hero-sub {
+      font-size: 16px; color: var(--muted);
+      max-width: 620px; margin: 0 auto 36px;
+      opacity: 0; animation: fadeUp 0.7s 0.4s forwards;
+    }
+    .hero-meta {
+      display: flex; flex-wrap: wrap; gap: 20px; justify-content: center;
+      opacity: 0; animation: fadeUp 0.7s 0.55s forwards;
+    }
+    .hero-meta span {
+      font-family: "JetBrains Mono", monospace; font-size: 12px;
+      color: var(--muted); background: var(--card);
+      border: 1px solid var(--border); padding: 6px 14px; border-radius: 2px;
+    }
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(18px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ── TOC ── */
+    .toc {
+      background: var(--card); border: 1px solid var(--border);
+      border-left: 3px solid var(--accent);
+      padding: 32px 36px; margin: 52px 0 60px; border-radius: 2px;
+    }
+    .toc h2 {
+      font-family: "Playfair Display", serif; font-size: 20px;
+      color: var(--heading); margin-bottom: 20px;
+    }
+    .toc ol { padding-left: 22px; }
+    .toc li { margin-bottom: 8px; }
+    .toc a {
+      color: var(--accent2); text-decoration: none;
+      font-family: "JetBrains Mono", monospace; font-size: 13px;
+      transition: color 0.2s;
+    }
+    .toc a:hover { color: var(--accent); }
+
+    /* ── Sections ── */
+    .section {
+      margin-bottom: 72px;
+      opacity: 0; transform: translateY(24px);
+      transition: opacity 0.55s, transform 0.55s;
+    }
+    .section.visible { opacity: 1; transform: translateY(0); }
+
+    .section-label {
+      font-family: "JetBrains Mono", monospace;
+      font-size: 10.5px; letter-spacing: 0.18em; text-transform: uppercase;
+      color: var(--accent); margin-bottom: 10px;
+    }
+    h2.section-title {
+      font-family: "Playfair Display", serif;
+      font-size: clamp(22px, 3.5vw, 34px); font-weight: 700;
+      color: var(--heading); line-height: 1.2;
+      margin-bottom: 28px; padding-bottom: 14px;
+      border-bottom: 1px solid var(--border);
+    }
+    h2.section-title .num {
+      color: var(--accent); font-size: 0.7em; font-style: italic; margin-right: 10px;
+    }
+
+    /* ── Topic list ── */
+    .topic-list {
+      list-style: none; padding: 0; margin: 0 0 24px;
+    }
+    .topic-list li {
+      position: relative;
+      padding: 10px 16px 10px 36px;
+      border-bottom: 1px solid var(--border);
+      font-size: 15.5px; color: var(--text);
+      transition: background 0.15s;
+    }
+    .topic-list li:last-child { border-bottom: none; }
+    .topic-list li:hover { background: rgba(245,166,35,0.04); }
+    .topic-list li::before {
+      content: "▸";
+      position: absolute; left: 12px; top: 10px;
+      color: var(--accent); font-size: 13px;
+    }
+
+    /* Sub-items (indented) */
+    .topic-list li.sub {
+      padding-left: 60px; font-size: 14.5px; color: var(--muted);
+    }
+    .topic-list li.sub::before {
+      content: "–";
+      left: 38px; color: var(--accent2);
+    }
+
+    /* ── Callout ── */
+    .callout {
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: 2px; padding: 22px 26px; margin: 28px 0;
+    }
+    .callout.orange { border-left: 3px solid var(--accent); }
+    .callout.blue   { border-left: 3px solid var(--accent2); }
+    .callout.green  { border-left: 3px solid var(--accent3); }
+    .callout-title {
+      font-family: "JetBrains Mono", monospace;
+      font-size: 11px; text-transform: uppercase; letter-spacing: 0.12em; margin-bottom: 10px;
+    }
+    .callout.orange .callout-title { color: var(--accent); }
+    .callout.blue   .callout-title { color: var(--accent2); }
+    .callout.green  .callout-title { color: var(--accent3); }
+    .callout p { margin-bottom: 0; font-size: 15px; }
+
+    /* ── Formula block ── */
+    .formula {
+      background: #0b0c12; border: 1px solid var(--border); border-radius: 2px;
+      padding: 18px 24px; margin: 22px 0;
+      font-family: "JetBrains Mono", monospace; font-size: 14px;
+      color: var(--accent2); overflow-x: auto; white-space: pre;
+    }
+
+    /* ── Feature cards ── */
+    .sample-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(270px, 1fr));
+      gap: 18px; margin: 28px 0;
+    }
+    .sample-card {
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: 2px; padding: 22px 24px;
+      transition: border-color 0.2s, transform 0.2s;
+    }
+    .sample-card:hover { border-color: var(--accent2); transform: translateY(-3px); }
+    .sample-id {
+      font-family: "JetBrains Mono", monospace; font-size: 11px;
+      color: var(--accent); letter-spacing: 0.12em; margin-bottom: 8px;
+    }
+    .sample-card h4 {
+      font-family: "Playfair Display", serif; font-size: 17px;
+      color: var(--heading); margin-bottom: 10px;
+    }
+    .sample-card p { font-size: 14px; color: var(--muted); margin: 0; }
+    .sample-card.highlight { border-color: var(--accent); background: #1f1f0e; }
+    .sample-card.highlight h4 { color: var(--accent); }
+
+    /* ── Divider ── */
+    .divider { border: none; border-top: 1px solid var(--border); margin: 60px 0; }
+
+    /* ── Pills ── */
+    .pills { display: flex; flex-wrap: wrap; gap: 10px; margin: 18px 0; }
+    .pill {
+      background: var(--card); border: 1px solid var(--border);
+      padding: 6px 14px; border-radius: 20px;
+      font-size: 13px; color: var(--text); font-family: "JetBrains Mono", monospace;
+    }
+    .pill.good { border-color: var(--accent3); color: var(--accent3); }
+    .pill.warn { border-color: var(--accent);  color: var(--accent); }
+    .pill.blue { border-color: var(--accent2); color: var(--accent2); }
+  </style>
+</head>
+<body>
+  <div id="progress"></div>
+
+  <!-- ── Hero ── -->
+  <header class="hero">
+    <div class="hero-badge">Mechanical Engineering · Core Subject</div>
+    <h1>Strength of <em>Materials</em> – II</h1>
+    <p class="hero-sub">A comprehensive unit-by-unit syllabus covering advanced stress analysis, elastic failure theories, energy methods, buckling, rotating bodies, and curved bar bending.</p>
+    <div class="hero-meta">
+      <span>🧱 6 Units</span>
+      <span>⚙️ Advanced Mechanics</span>
+      <span>📐 Analytical &amp; Numerical Methods</span>
+      <span>🎓 B.Tech / B.E. Level</span>
+    </div>
+  </header>
+
+  <main class="page">
+
+    <!-- ── TOC ── -->
+    <nav class="toc">
+      <h2>📋 Table of Contents</h2>
+      <ol>
+        <li><a href="#unit1">Unit 1 — Stress Tensors</a></li>
+        <li><a href="#unit2">Unit 2 — Theories of Elastic Failure</a></li>
+        <li><a href="#unit3">Unit 3 — Energy Methods</a></li>
+        <li><a href="#unit4">Unit 4 — Columns and Struts</a></li>
+        <li><a href="#unit5">Unit 5 — Rotating Rings &amp; Discs</a></li>
+        <li><a href="#unit6">Unit 6 — Bending of Curved Bars</a></li>
+      </ol>
+    </nav>
+
+    <!-- ── Unit 1 ── -->
+    <section class="section" id="unit1">
+      <div class="section-label">Unit 01</div>
+      <h2 class="section-title"><span class="num">01.</span> Stress Tensors</h2>
+
+      <div class="callout orange">
+        <div class="callout-title">🔷 Unit Overview</div>
+        <p>Establishes the mathematical language of continuum mechanics — Cartesian tensors — and uses it to rigorously derive strain and stress measures, their principal values, and the constitutive bridge between them via Hooke's law.</p>
+      </div>
+
+      <h3>Strain Analysis</h3>
+      <ul class="topic-list">
+        <li>Introduction to Cartesian tensors</li>
+        <li>Concept of strain</li>
+        <li>Derivation of the <em>small strain tensor</em> and compatibility equations</li>
+        <li>Principal strains and principal directions</li>
+        <li>Strain invariants</li>
+      </ul>
+
+      <h3>Stress Analysis</h3>
+      <ul class="topic-list">
+        <li>Derivation of <em>Cauchy relations</em></li>
+        <li>Differential equations of equilibrium</li>
+        <li>Symmetry of the stress tensor</li>
+        <li>Principal stresses and principal directions</li>
+        <li>Stress invariants</li>
+      </ul>
+
+      <h3>Constitutive Relations</h3>
+      <ul class="topic-list">
+        <li>Constitutive equations — general form</li>
+        <li>Generalised Hooke's law</li>
+        <li>Stress–strain relations for <em>isotropic</em> materials</li>
+      </ul>
+
+      <div class="formula">σᵢⱼ = λ εₖₖ δᵢⱼ + 2μ εᵢⱼ
+
+where  λ, μ = Lamé constants
+       δᵢⱼ  = Kronecker delta
+       εᵢⱼ  = small strain tensor</div>
+    </section>
+
+    <hr class="divider" />
+
+    <!-- ── Unit 2 ── -->
+    <section class="section" id="unit2">
+      <div class="section-label">Unit 02</div>
+      <h2 class="section-title"><span class="num">02.</span> Theories of Elastic Failure</h2>
+
+      <div class="callout blue">
+        <div class="callout-title">🔷 Unit Overview</div>
+        <p>Studies the classical failure theories with full derivations and graphical representations, then applies them to realistic combined loading scenarios in both 2-D and 3-D stress states.</p>
+      </div>
+
+      <h3>Failure Theories</h3>
+      <ul class="topic-list">
+        <li>Maximum Normal Stress Theory <em>(Rankine)</em></li>
+        <li>Maximum Shear Stress Theory <em>(Tresca)</em></li>
+        <li>Maximum Strain Energy Theory <em>(Haigh)</em></li>
+        <li>Maximum Distortion (shear strain) Energy Theory <em>(von Mises)</em></li>
+        <li>Maximum Normal (or Principal) Strain Theory <em>(St. Venant)</em></li>
+        <li>Derivations and graphical representations for each theory</li>
+      </ul>
+
+      <h3>Applications — Combined Loading</h3>
+      <ul class="topic-list">
+        <li>2-D &amp; 3-D stress systems</li>
+        <li class="sub">(i) Combined direct loading and bending</li>
+        <li class="sub">(ii) Combined torsional and direct loading</li>
+      </ul>
+
+      <div class="sample-grid">
+        <div class="sample-card">
+          <div class="sample-id">THEORY 01</div>
+          <h4>Tresca Criterion</h4>
+          <p>Failure when max shear stress reaches the yield value in simple tension: τ_max = σ_y / 2.</p>
+        </div>
+        <div class="sample-card highlight">
+          <div class="sample-id">THEORY 02 ★</div>
+          <h4>von Mises Criterion</h4>
+          <p>Failure when distortion strain energy equals that at yielding. Most widely used in engineering practice.</p>
+        </div>
+        <div class="sample-card">
+          <div class="sample-id">THEORY 03</div>
+          <h4>Rankine Criterion</h4>
+          <p>Failure when the largest principal stress equals tensile strength. Applicable to brittle materials.</p>
+        </div>
+      </div>
+    </section>
+
+    <hr class="divider" />
+
+    <!-- ── Unit 3 ── -->
+    <section class="section" id="unit3">
+      <div class="section-label">Unit 03</div>
+      <h2 class="section-title"><span class="num">03.</span> Energy Methods</h2>
+
+      <div class="callout green">
+        <div class="callout-title">🔷 Unit Overview</div>
+        <p>Develops strain energy concepts for various loading modes and uses energy principles to determine deformations in beams, shafts, and springs under different load application scenarios.</p>
+      </div>
+
+      <h3>Strain Energy — Definitions &amp; Expressions</h3>
+      <ul class="topic-list">
+        <li>Definition of strain energy; proof resilience; modulus of resilience</li>
+        <li>Strain energy when load is applied <em>gradually</em></li>
+        <li class="sub">U = P² L / (2AE)  — linear elastic case</li>
+        <li>Strain energy when load is applied <em>suddenly</em></li>
+        <li class="sub">Stress = 2 × stress under gradual load</li>
+        <li>Strain energy under <em>impact</em> loading</li>
+        <li class="sub">Energy method using equating kinetic and strain energies</li>
+      </ul>
+
+      <h3>Energy in Structural Members</h3>
+      <ul class="topic-list">
+        <li>Strain energy of beams in <em>bending</em>; beam deflections via Castigliano's theorem</li>
+        <li>Strain energy of shafts in <em>twisting</em></li>
+        <li>Energy methods for determining <em>spring deflection</em></li>
+      </ul>
+
+      <div class="formula">Castigliano's 2nd Theorem:
+
+  δᵢ = ∂U / ∂Pᵢ
+
+  where  U  = total strain energy
+         Pᵢ = applied force at point i
+         δᵢ = deflection at Pᵢ in its direction</div>
+    </section>
+
+    <hr class="divider" />
+
+    <!-- ── Unit 4 ── -->
+    <section class="section" id="unit4">
+      <div class="section-label">Unit 04</div>
+      <h2 class="section-title"><span class="num">04.</span> Columns and Struts</h2>
+
+      <div class="callout orange">
+        <div class="callout-title">🔷 Unit Overview</div>
+        <p>Analyses the stability of slender compression members from the theoretical Euler buckling load through empirical formulae to practical eccentric loading situations with rectangular and circular cross-sections.</p>
+      </div>
+
+      <h3>Buckling Fundamentals</h3>
+      <ul class="topic-list">
+        <li>Column under axial load — basic concepts</li>
+        <li>Concept of <em>instability</em> and buckling</li>
+        <li>Slenderness ratio and its significance</li>
+        <li>Derivation of <em>Euler's formulae</em> for the elastic buckling load (all four end conditions)</li>
+      </ul>
+
+      <h3>Empirical Formulae</h3>
+      <ul class="topic-list">
+        <li><em>Rankine–Gordon</em> formula — derivation and application</li>
+        <li>Johnson's empirical formula</li>
+        <li>Applications to axially loaded columns</li>
+      </ul>
+
+      <h3>Eccentric Compression</h3>
+      <ul class="topic-list">
+        <li>Eccentric compression of a strut with <em>rectangular</em> sections</li>
+        <li>Eccentric compression of a strut with <em>circular</em> sections</li>
+      </ul>
+
+      <div class="formula">Euler's Critical Load:
+
+  Pₑ = π² E I / (L_eff)²
+
+  L_eff values:
+    Both ends pinned   →  L_eff = L
+    One end fixed, other pinned  →  L_eff = 0.7 L
+    Both ends fixed    →  L_eff = 0.5 L
+    One end fixed, other free    →  L_eff = 2 L</div>
+
+      <div class="pills">
+        <span class="pill warn">Euler — Theoretical</span>
+        <span class="pill blue">Rankine-Gordon — Semi-empirical</span>
+        <span class="pill good">Johnson — Empirical</span>
+      </div>
+    </section>
+
+    <hr class="divider" />
+
+    <!-- ── Unit 5 ── -->
+    <section class="section" id="unit5">
+      <div class="section-label">Unit 05</div>
+      <h2 class="section-title"><span class="num">05.</span> Rotating Rings &amp; Discs</h2>
+
+      <div class="callout blue">
+        <div class="callout-title">🔷 Unit Overview</div>
+        <p>Analyses centrifugal stress fields in rotating bodies — from thin rings through uniform and variable-thickness discs to solid and hollow cylinders — with design criteria for uniform-strength discs.</p>
+      </div>
+
+      <h3>Rotating Discs</h3>
+      <ul class="topic-list">
+        <li>Stresses in uniform rotating rings</li>
+        <li>Stresses in uniform rotating discs</li>
+        <li>Rotating discs of <em>uniform strength</em> — derivation of profile</li>
+      </ul>
+
+      <h3>Rotating Cylinders</h3>
+      <ul class="topic-list">
+        <li>Stresses in rotating cylinders (general formulation)</li>
+        <li>Stresses in <em>hollow</em> cylinders</li>
+        <li>Stresses in <em>solid</em> cylinders</li>
+      </ul>
+
+      <div class="formula">Radial and Hoop stresses in a rotating disc (Lamé equations):
+
+  σᵣ = A - B/r² - ((3+ν)/8) ρω²r²
+  σ_θ = A + B/r² - ((1+3ν)/8) ρω²r²
+
+  Boundary conditions determine constants A and B.</div>
+    </section>
+
+    <hr class="divider" />
+
+    <!-- ── Unit 6 ── -->
+    <section class="section" id="unit6">
+      <div class="section-label">Unit 06</div>
+      <h2 class="section-title"><span class="num">06.</span> Bending of Curved Bars</h2>
+
+      <div class="callout green">
+        <div class="callout-title">🔷 Unit Overview</div>
+        <p>Extends beam bending theory to members with large initial curvature where Euler–Bernoulli assumptions break down. Covers neutral axis shift, stress distribution, and practical applications to crane hooks and circular rings.</p>
+      </div>
+
+      <h3>Theory of Curved Beams</h3>
+      <ul class="topic-list">
+        <li>Bending of beams with <em>large initial curvature</em> — Winkler–Bach theory</li>
+        <li>Position of neutral axis for <em>rectangular</em> cross-section</li>
+        <li>Position of neutral axis for <em>trapezoidal</em> cross-section</li>
+        <li>Position of neutral axis for <em>circular</em> cross-section</li>
+      </ul>
+
+      <h3>Applications</h3>
+      <ul class="topic-list">
+        <li>Stresses in <em>crane hooks</em> — trapezoidal and circular sections</li>
+        <li>Stresses in <em>circular rings</em> subjected to tension</li>
+        <li>Stresses in circular rings subjected to compression</li>
+      </ul>
+
+      <div class="formula">Winkler–Bach Formula for curved beams:
+
+  σ = M (y) / [A e (R_n + y)]
+
+  where  M   = bending moment
+         A   = cross-sectional area
+         e   = R_c - R_n  (eccentricity)
+         R_c = radius to centroidal axis
+         R_n = radius to neutral axis
+         y   = distance from neutral axis</div>
+
+      <blockquote>
+        In curved beams the neutral axis <strong>shifts towards the centre of curvature</strong>, unlike in straight beams where it passes through the centroid. This shift is the origin of the characteristic hyperbolic stress distribution.
+      </blockquote>
+    </section>
+
+  </main><!-- /.page -->
+
+  <script>
+    // Scroll progress bar
+    window.addEventListener("scroll", () => {
+      const total = document.body.scrollHeight - window.innerHeight;
+      document.getElementById("progress").style.width = (window.scrollY / total) * 100 + "%";
+    });
+
+    // Section fade-in
+    const obs = new IntersectionObserver(
+      entries => entries.forEach(e => { if (e.isIntersecting) e.target.classList.add("visible"); }),
+      { threshold: 0.08 }
+    );
+    document.querySelectorAll(".section").forEach(s => obs.observe(s));
+  </script>
+</body>
+</html>
