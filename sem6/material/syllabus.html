@@ -1,0 +1,930 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Materials Engineering | Course Syllabus</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=Source+Serif+4:ital,opsz,wght@0,8..60,300;0,8..60,400;0,8..60,600;1,8..60,300&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg:      #0e0f14;
+      --surface: #15171f;
+      --card:    #1c1f2b;
+      --border:  #2a2e40;
+      --accent:  #f5a623;
+      --accent2: #4fc3f7;
+      --accent3: #81c784;
+      --accent4: #ef5350;
+      --accent5: #ce93d8;
+      --accent6: #80cbc4;
+      --text:    #e8e9f0;
+      --muted:   #8890aa;
+      --heading: #ffffff;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: "Source Serif 4", Georgia, serif;
+      font-size: 17px;
+      line-height: 1.8;
+      min-height: 100vh;
+    }
+
+    body::before {
+      content: "";
+      position: fixed; inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+      pointer-events: none; z-index: 999; opacity: 0.45;
+    }
+
+    strong { color: var(--heading); font-weight: 600; }
+    em     { color: var(--accent6); font-style: italic; }
+    p      { margin-bottom: 18px; color: var(--text); }
+    h3 {
+      font-family: "Playfair Display", serif;
+      font-size: 19px; color: var(--heading);
+      margin: 32px 0 12px; font-weight: 700;
+    }
+    blockquote {
+      border-left: 3px solid var(--accent6);
+      margin: 28px 0; padding: 14px 24px;
+      background: var(--card); font-style: italic;
+      color: var(--muted); font-size: 16px; border-radius: 0 2px 2px 0;
+    }
+
+    /* ── Scroll progress ── */
+    #progress {
+      position: fixed; top: 0; left: 0; height: 3px;
+      background: linear-gradient(90deg, var(--accent6), var(--accent2));
+      z-index: 1000; width: 0; transition: width 0.1s linear;
+    }
+
+    /* ── Layout ── */
+    .page { max-width: 1020px; margin: 0 auto; padding: 0 28px 100px; }
+    @media (max-width: 768px) { .page { padding: 0 16px 80px; } }
+
+    /* ── Hero ── */
+    .hero {
+      position: relative; overflow: hidden;
+      padding: 90px 40px 80px; text-align: center;
+      border-bottom: 1px solid var(--border);
+      background: radial-gradient(ellipse 80% 60% at 50% 0%, #0d2020 0%, var(--bg) 70%);
+    }
+    .hero::after {
+      content: ""; position: absolute; left: 50%; top: -60px;
+      transform: translateX(-50%); width: 600px; height: 600px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(128,203,196,0.07) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .hero-badge {
+      display: inline-block;
+      font-family: "JetBrains Mono", monospace;
+      font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase;
+      color: var(--accent6); border: 1px solid var(--accent6);
+      padding: 4px 14px; border-radius: 2px; margin-bottom: 24px;
+      opacity: 0; animation: fadeUp 0.6s 0.1s forwards;
+    }
+    .hero h1 {
+      font-family: "Playfair Display", serif;
+      font-size: clamp(28px, 5vw, 54px); font-weight: 900;
+      color: var(--heading); line-height: 1.15;
+      max-width: 860px; margin: 0 auto 20px;
+      opacity: 0; animation: fadeUp 0.7s 0.25s forwards;
+    }
+    .hero h1 em { color: var(--accent6); font-style: normal; }
+    .hero-sub {
+      font-size: 16px; color: var(--muted);
+      max-width: 640px; margin: 0 auto 36px;
+      opacity: 0; animation: fadeUp 0.7s 0.4s forwards;
+    }
+    .hero-meta {
+      display: flex; flex-wrap: wrap; gap: 20px; justify-content: center;
+      opacity: 0; animation: fadeUp 0.7s 0.55s forwards;
+    }
+    .hero-meta span {
+      font-family: "JetBrains Mono", monospace; font-size: 12px;
+      color: var(--muted); background: var(--card);
+      border: 1px solid var(--border); padding: 6px 14px; border-radius: 2px;
+    }
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(18px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ── TOC ── */
+    .toc {
+      background: var(--card); border: 1px solid var(--border);
+      border-left: 3px solid var(--accent6);
+      padding: 32px 36px; margin: 52px 0 60px; border-radius: 2px;
+    }
+    .toc h2 {
+      font-family: "Playfair Display", serif; font-size: 20px;
+      color: var(--heading); margin-bottom: 20px;
+    }
+    .toc ol { padding-left: 22px; }
+    .toc li { margin-bottom: 8px; }
+    .toc a {
+      color: var(--accent2); text-decoration: none;
+      font-family: "JetBrains Mono", monospace; font-size: 13px;
+      transition: color 0.2s;
+    }
+    .toc a:hover { color: var(--accent6); }
+
+    /* ── Sections ── */
+    .section {
+      margin-bottom: 72px;
+      opacity: 0; transform: translateY(24px);
+      transition: opacity 0.55s, transform 0.55s;
+    }
+    .section.visible { opacity: 1; transform: translateY(0); }
+    .section-label {
+      font-family: "JetBrains Mono", monospace;
+      font-size: 10.5px; letter-spacing: 0.18em; text-transform: uppercase;
+      color: var(--accent6); margin-bottom: 10px;
+    }
+    h2.section-title {
+      font-family: "Playfair Display", serif;
+      font-size: clamp(22px, 3.5vw, 34px); font-weight: 700;
+      color: var(--heading); line-height: 1.2;
+      margin-bottom: 28px; padding-bottom: 14px;
+      border-bottom: 1px solid var(--border);
+    }
+    h2.section-title .num {
+      color: var(--accent6); font-size: 0.7em; font-style: italic; margin-right: 10px;
+    }
+
+    /* ── Topic list ── */
+    .topic-list { list-style: none; padding: 0; margin: 0 0 24px; }
+    .topic-list li {
+      position: relative;
+      padding: 10px 16px 10px 36px;
+      border-bottom: 1px solid var(--border);
+      font-size: 15.5px; color: var(--text);
+      transition: background 0.15s;
+    }
+    .topic-list li:last-child { border-bottom: none; }
+    .topic-list li:hover { background: rgba(128,203,196,0.04); }
+    .topic-list li::before {
+      content: "▸";
+      position: absolute; left: 12px; top: 10px;
+      color: var(--accent6); font-size: 13px;
+    }
+    .topic-list li.sub {
+      padding-left: 60px; font-size: 14.5px; color: var(--muted);
+    }
+    .topic-list li.sub::before { content: "–"; left: 38px; color: var(--accent2); }
+    .topic-list li.sub2 {
+      padding-left: 84px; font-size: 14px; color: #6a7490;
+    }
+    .topic-list li.sub2::before { content: "·"; left: 66px; color: var(--accent3); font-size: 16px; }
+
+    /* ── Callout ── */
+    .callout {
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: 2px; padding: 22px 26px; margin: 28px 0;
+    }
+    .callout.teal   { border-left: 3px solid var(--accent6); }
+    .callout.orange { border-left: 3px solid var(--accent); }
+    .callout.blue   { border-left: 3px solid var(--accent2); }
+    .callout.green  { border-left: 3px solid var(--accent3); }
+    .callout.red    { border-left: 3px solid var(--accent4); }
+    .callout.purple { border-left: 3px solid var(--accent5); }
+    .callout-title {
+      font-family: "JetBrains Mono", monospace;
+      font-size: 11px; text-transform: uppercase; letter-spacing: 0.12em; margin-bottom: 10px;
+    }
+    .callout.teal   .callout-title { color: var(--accent6); }
+    .callout.orange .callout-title { color: var(--accent); }
+    .callout.blue   .callout-title { color: var(--accent2); }
+    .callout.green  .callout-title { color: var(--accent3); }
+    .callout.red    .callout-title { color: var(--accent4); }
+    .callout.purple .callout-title { color: var(--accent5); }
+    .callout p { margin-bottom: 0; font-size: 15px; }
+
+    /* ── Formula block ── */
+    .formula {
+      background: #0b0c12; border: 1px solid var(--border); border-radius: 2px;
+      padding: 18px 24px; margin: 22px 0;
+      font-family: "JetBrains Mono", monospace; font-size: 13.5px;
+      color: var(--accent2); overflow-x: auto; white-space: pre;
+    }
+
+    /* ── Card grid ── */
+    .card-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+      gap: 18px; margin: 24px 0;
+    }
+    .card {
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: 2px; padding: 22px 24px;
+      transition: border-color 0.2s, transform 0.2s;
+    }
+    .card:hover { border-color: var(--accent6); transform: translateY(-3px); }
+    .card-id {
+      font-family: "JetBrains Mono", monospace; font-size: 10px;
+      color: var(--accent6); letter-spacing: 0.14em;
+      text-transform: uppercase; margin-bottom: 8px;
+    }
+    .card h4 {
+      font-family: "Playfair Display", serif; font-size: 16px;
+      color: var(--heading); margin-bottom: 10px;
+    }
+    .card ul { list-style: none; padding: 0; margin: 0; }
+    .card ul li {
+      font-size: 13.5px; color: var(--muted);
+      padding: 4px 0 4px 14px; border-bottom: 1px solid rgba(42,46,64,0.6);
+      position: relative;
+    }
+    .card ul li:last-child { border-bottom: none; }
+    .card ul li::before { content: "·"; position: absolute; left: 2px; color: var(--accent2); }
+    .card.hl-teal   { border-color: var(--accent6); background: #0d1f1f; }
+    .card.hl-teal   h4 { color: var(--accent6); }
+    .card.hl-orange { border-color: var(--accent);  background: #1f1a0e; }
+    .card.hl-orange h4 { color: var(--accent); }
+    .card.hl-red    { border-color: var(--accent4); background: #1f0e0e; }
+    .card.hl-red    h4 { color: var(--accent4); }
+    .card.hl-purple { border-color: var(--accent5); background: #1a1430; }
+    .card.hl-purple h4 { color: var(--accent5); }
+    .card.hl-green  { border-color: var(--accent3); background: #0f1a10; }
+    .card.hl-green  h4 { color: var(--accent3); }
+
+    /* ── Crystal system visual grid ── */
+    .crystal-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+      gap: 12px; margin: 24px 0;
+    }
+    .crystal-card {
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: 2px; padding: 16px 14px; text-align: center;
+      transition: border-color 0.2s, transform 0.2s;
+    }
+    .crystal-card:hover { border-color: var(--accent6); transform: translateY(-2px); }
+    .crystal-icon { font-size: 26px; display: block; margin-bottom: 8px; line-height: 1; }
+    .crystal-card h4 {
+      font-family: "JetBrains Mono", monospace; font-size: 11px;
+      color: var(--accent6); letter-spacing: 0.08em; margin-bottom: 4px;
+    }
+    .crystal-card p { font-size: 12px; color: var(--muted); margin: 0; line-height: 1.5; }
+
+    /* ── Flow steps ── */
+    .flow { display: flex; flex-wrap: wrap; gap: 14px; margin: 24px 0; }
+    .flow-step {
+      flex: 1; min-width: 150px;
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: 2px; padding: 16px 18px;
+      transition: border-color 0.2s;
+    }
+    .flow-step:hover { border-color: var(--accent6); }
+    .step-num {
+      font-family: "JetBrains Mono", monospace; font-size: 10px;
+      color: var(--accent6); letter-spacing: 0.12em; margin-bottom: 6px;
+    }
+    .flow-step h4 {
+      font-family: "Playfair Display", serif; font-size: 15px;
+      color: var(--heading); margin-bottom: 4px;
+    }
+    .flow-step p { font-size: 13px; color: var(--muted); margin: 0; }
+
+    /* ── Table ── */
+    .table-wrap { overflow-x: auto; margin: 28px 0; }
+    table { width: 100%; border-collapse: collapse; font-size: 15px; background: var(--card); border: 1px solid var(--border); }
+    thead th {
+      background: #0f1e1e; color: var(--accent6);
+      font-family: "JetBrains Mono", monospace;
+      font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase;
+      padding: 12px 16px; text-align: left; border-bottom: 1px solid var(--border);
+    }
+    tbody td { padding: 11px 16px; border-bottom: 1px solid var(--border); vertical-align: top; }
+    tbody tr:last-child td { border-bottom: none; }
+    tbody tr:hover td { background: rgba(128,203,196,0.03); }
+
+    /* ── Pills ── */
+    .pills { display: flex; flex-wrap: wrap; gap: 10px; margin: 18px 0; }
+    .pill {
+      background: var(--card); border: 1px solid var(--border);
+      padding: 6px 14px; border-radius: 20px;
+      font-size: 13px; color: var(--text); font-family: "JetBrains Mono", monospace;
+    }
+    .pill.teal   { border-color: var(--accent6); color: var(--accent6); }
+    .pill.good   { border-color: var(--accent3); color: var(--accent3); }
+    .pill.warn   { border-color: var(--accent);  color: var(--accent); }
+    .pill.blue   { border-color: var(--accent2); color: var(--accent2); }
+    .pill.red    { border-color: var(--accent4); color: var(--accent4); }
+    .pill.purple { border-color: var(--accent5); color: var(--accent5); }
+
+    /* ── Phase diagram visual ── */
+    .phase-band {
+      height: 48px; border-radius: 2px; overflow: hidden;
+      display: flex; border: 1px solid var(--border); margin: 24px 0;
+    }
+    .phase-seg {
+      flex: 1; display: flex; align-items: center; justify-content: center;
+      font-family: "JetBrains Mono", monospace; font-size: 11px;
+      padding: 4px; text-align: center; transition: flex 0.3s;
+    }
+    .phase-seg:hover { flex: 2.5; }
+    .ps1 { background: #0d1f1f; color: var(--accent6); border-right: 1px solid var(--border); }
+    .ps2 { background: #131a2a; color: var(--accent2); border-right: 1px solid var(--border); }
+    .ps3 { background: #1a1430; color: var(--accent5); border-right: 1px solid var(--border); }
+    .ps4 { background: #1f1a0e; color: var(--accent); border-right: 1px solid var(--border); }
+    .ps5 { background: #1f0e0e; color: var(--accent4); }
+
+    /* ── Divider ── */
+    .divider { border: none; border-top: 1px solid var(--border); margin: 60px 0; }
+  </style>
+</head>
+<body>
+  <div id="progress"></div>
+
+  <!-- ── Hero ── -->
+  <header class="hero">
+    <div class="hero-badge">Materials / Metallurgical Engineering · Core Subject</div>
+    <h1>Materials <em>Engineering</em></h1>
+    <p class="hero-sub">A comprehensive unit-by-unit syllabus covering crystallography, deformation mechanics, fracture, phase diagrams, heat treatment of steels, and advanced engineering materials.</p>
+    <div class="hero-meta">
+      <span>🔬 6 Units</span>
+      <span>⚗️ Structure–Property Relations</span>
+      <span>🧲 Metals, Ceramics &amp; Composites</span>
+      <span>🎓 B.Tech / B.E. Level</span>
+    </div>
+  </header>
+
+  <main class="page">
+
+    <!-- ── TOC ── -->
+    <nav class="toc">
+      <h2>📋 Table of Contents</h2>
+      <ol>
+        <li><a href="#unit1">Unit 1 — Crystallography and Associated Defects</a></li>
+        <li><a href="#unit2">Unit 2 — Deformation and Strengthening Mechanisms in Alloys</a></li>
+        <li><a href="#unit3">Unit 3 — Fracture in Alloys</a></li>
+        <li><a href="#unit4">Unit 4 — Phase Diagrams</a></li>
+        <li><a href="#unit5">Unit 5 — Phase Transformations and Heat Treatment of Steels</a></li>
+        <li><a href="#unit6">Unit 6 — Advanced Engineering Materials</a></li>
+      </ol>
+    </nav>
+
+    <!-- ══════════════════════════════════════════
+         UNIT 1
+    ══════════════════════════════════════════ -->
+    <section class="section" id="unit1">
+      <div class="section-label">Unit 01</div>
+      <h2 class="section-title"><span class="num">01.</span> Crystallography and Associated Defects</h2>
+
+      <div class="callout teal">
+        <div class="callout-title">🔬 Unit Overview</div>
+        <p>Introduces the atomic-scale architecture of engineering materials — from the geometry of unit cells and crystal systems through density calculations and directional/planar notation, to the real-world imperfections that control mechanical behaviour.</p>
+      </div>
+
+      <h3>Crystal Systems</h3>
+
+      <div class="crystal-grid">
+        <div class="crystal-card">
+          <span class="crystal-icon">⬡</span>
+          <h4>CUBIC</h4>
+          <p>a = b = c<br>α = β = γ = 90°<br>SC, BCC, FCC</p>
+        </div>
+        <div class="crystal-card">
+          <span class="crystal-icon">⬜</span>
+          <h4>TETRAGONAL</h4>
+          <p>a = b ≠ c<br>α = β = γ = 90°</p>
+        </div>
+        <div class="crystal-card">
+          <span class="crystal-icon">▭</span>
+          <h4>ORTHORHOMBIC</h4>
+          <p>a ≠ b ≠ c<br>α = β = γ = 90°</p>
+        </div>
+        <div class="crystal-card">
+          <span class="crystal-icon">◇</span>
+          <h4>RHOMBOHEDRAL</h4>
+          <p>a = b = c<br>α = β = γ ≠ 90°</p>
+        </div>
+        <div class="crystal-card">
+          <span class="crystal-icon">⬟</span>
+          <h4>HEXAGONAL</h4>
+          <p>a = b ≠ c<br>α = β = 90°, γ = 120°</p>
+        </div>
+        <div class="crystal-card">
+          <span class="crystal-icon">▱</span>
+          <h4>MONOCLINIC</h4>
+          <p>a ≠ b ≠ c<br>α = γ = 90° ≠ β</p>
+        </div>
+        <div class="crystal-card">
+          <span class="crystal-icon">⬡</span>
+          <h4>TRICLINIC</h4>
+          <p>a ≠ b ≠ c<br>α ≠ β ≠ γ ≠ 90°</p>
+        </div>
+      </div>
+
+      <h3>Crystallographic Fundamentals</h3>
+      <ul class="topic-list">
+        <li>Introduction to Materials Science and Engineering — structure–property–processing–performance paradigm</li>
+        <li>Basic concepts of crystals and <strong>unit cells</strong></li>
+        <li>Point coordinates, crystallographic directions — Miller indices [uvw]</li>
+        <li>Crystallographic planes — Miller indices (hkl); hexagonal — Miller-Bravais [uvtw]</li>
+        <li>Density computations — theoretical density ρ = nA / (V_c N_A)</li>
+        <li>Linear density and planar density — atoms per unit length / area on a direction or plane</li>
+        <li>Single crystals vs. polycrystalline materials</li>
+        <li>Polymorphism and allotropy (e.g. Fe: BCC ⇌ FCC, C: diamond ⇌ graphite)</li>
+        <li>Anisotropy and isotropy; non-crystalline (amorphous) solids</li>
+      </ul>
+
+      <div class="formula">Theoretical Density:
+
+  ρ = (n × A) / (V_c × N_A)
+
+  where  n   = number of atoms per unit cell
+         A   = atomic weight (g/mol)
+         V_c = volume of unit cell (cm³)
+         N_A = Avogadro's number (6.023 × 10²³ atoms/mol)
+
+APF (FCC) = 0.74   |   APF (BCC) = 0.68   |   APF (SC) = 0.52</div>
+
+      <h3>Imperfections in Solids</h3>
+      <div class="card-grid">
+        <div class="card hl-teal">
+          <div class="card-id">Defect Class 01 ★</div>
+          <h4>Point Defects</h4>
+          <ul>
+            <li>Vacancy (Schottky defect)</li>
+            <li>Interstitial impurity</li>
+            <li>Substitutional impurity</li>
+            <li>Frenkel defect (ionic crystals)</li>
+          </ul>
+        </div>
+        <div class="card">
+          <div class="card-id">Defect Class 02</div>
+          <h4>Dislocations (Line Defects)</h4>
+          <ul>
+            <li>Edge dislocation — extra half-plane</li>
+            <li>Screw dislocation — helical distortion</li>
+            <li>Mixed dislocation</li>
+            <li>Burgers vector <strong>b</strong></li>
+          </ul>
+        </div>
+        <div class="card">
+          <div class="card-id">Defect Class 03</div>
+          <h4>Interfacial Defects</h4>
+          <ul>
+            <li>Grain boundaries</li>
+            <li>Twin boundaries</li>
+            <li>Stacking faults</li>
+            <li>External surfaces</li>
+          </ul>
+        </div>
+        <div class="card">
+          <div class="card-id">Defect Class 04</div>
+          <h4>Bulk / Volume Defects</h4>
+          <ul>
+            <li>Pores and voids</li>
+            <li>Cracks</li>
+            <li>Inclusions and second-phase particles</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <hr class="divider" />
+
+    <!-- ══════════════════════════════════════════
+         UNIT 2
+    ══════════════════════════════════════════ -->
+    <section class="section" id="unit2">
+      <div class="section-label">Unit 02</div>
+      <h2 class="section-title"><span class="num">02.</span> Deformation &amp; Strengthening Mechanisms in Alloys</h2>
+
+      <div class="callout orange">
+        <div class="callout-title">⚙️ Unit Overview</div>
+        <p>Explains how metals deform plastically through dislocation motion on slip systems, and then systematically covers the four principal mechanisms used to impede that motion and thereby strengthen alloys.</p>
+      </div>
+
+      <h3>Dislocation Mechanics &amp; Slip</h3>
+      <ul class="topic-list">
+        <li>Basic concepts of plastic deformation — dislocation glide as the microscopic mechanism</li>
+        <li>Characteristics of dislocations — stress field, strain energy, line tension</li>
+        <li><strong>Slip systems</strong> — close-packed planes and directions</li>
+        <li class="sub">FCC: {111}⟨110⟩ — 12 slip systems</li>
+        <li class="sub">BCC: {110}⟨111⟩ — 12 slip systems (also {112}, {123})</li>
+        <li class="sub">HCP: (0001)⟨11̄20⟩ — 3 slip systems (limited ductility)</li>
+        <li>Slip in single crystals — Schmid's law and <strong>Critical Resolved Shear Stress (CRSS)</strong></li>
+        <li class="sub">τ_CRSS = σ cos φ cos λ</li>
+        <li>Plastic deformation of polycrystalline materials — grain compatibility, Taylor criterion</li>
+        <li>Deformation by <strong>twinning</strong> — mechanism, conditions, distinction from slip</li>
+      </ul>
+
+      <h3>Strengthening Mechanisms</h3>
+      <div class="card-grid">
+        <div class="card hl-orange">
+          <div class="card-id">Mechanism 01 ★</div>
+          <h4>Grain Size Reduction</h4>
+          <ul>
+            <li>Hall–Petch relationship: σ_y = σ₀ + k d^(−½)</li>
+            <li>Grain boundaries as dislocation barriers</li>
+            <li>TMCP, severe plastic deformation</li>
+          </ul>
+        </div>
+        <div class="card">
+          <div class="card-id">Mechanism 02</div>
+          <h4>Solid Solution Strengthening</h4>
+          <ul>
+            <li>Substitutional vs. interstitial solutes</li>
+            <li>Lattice strain field interactions</li>
+            <li>Cottrell atmosphere pinning</li>
+          </ul>
+        </div>
+        <div class="card">
+          <div class="card-id">Mechanism 03</div>
+          <h4>Strain Hardening (Work Hardening)</h4>
+          <ul>
+            <li>σ = K ε^n (true stress–strain)</li>
+            <li>Dislocation density increase</li>
+            <li>Recovery and recrystallisation reverse effect</li>
+          </ul>
+        </div>
+        <div class="card">
+          <div class="card-id">Mechanism 04</div>
+          <h4>Precipitation Hardening</h4>
+          <ul>
+            <li>Coherent precipitates — cutting</li>
+            <li>Incoherent precipitates — Orowan looping</li>
+            <li>Age hardening treatment sequence</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="formula">Hall–Petch Relationship:
+
+  σ_y = σ₀ + k_y × d^(−1/2)
+
+  where  σ₀  = friction stress (lattice resistance)
+         k_y = Hall–Petch slope (strengthening coefficient)
+         d   = average grain diameter
+
+Schmid's Law (single crystal yield):
+  τ_R = σ × cos φ × cos λ    (resolved shear stress)
+  Yield occurs when τ_R = τ_CRSS</div>
+    </section>
+
+    <hr class="divider" />
+
+    <!-- ══════════════════════════════════════════
+         UNIT 3
+    ══════════════════════════════════════════ -->
+    <section class="section" id="unit3">
+      <div class="section-label">Unit 03</div>
+      <h2 class="section-title"><span class="num">03.</span> Fracture in Alloys</h2>
+
+      <div class="callout red">
+        <div class="callout-title">⚠️ Unit Overview</div>
+        <p>Examines the three principal modes of failure — monotonic fracture (ductile and brittle), cyclic fatigue, and time-dependent creep — providing the fracture mechanics framework and the design parameters needed to prevent catastrophic failure.</p>
+      </div>
+
+      <h3>Fundamentals of Fracture</h3>
+      <ul class="topic-list">
+        <li>Failure vs. fracture — distinction between yielding, fracture, and fatigue failure</li>
+        <li><strong>Ductile fracture</strong> — necking, void nucleation, coalescence, cup-and-cone morphology</li>
+        <li><strong>Brittle fracture</strong> — cleavage, transgranular/intergranular, chevron markings</li>
+        <li>Principles of fracture mechanics — Griffith theory, energy balance approach</li>
+        <li>Stress concentration — Inglis equation: σ_max = σ_nom (1 + 2√(a/ρ))</li>
+        <li><strong>Fracture toughness K_Ic</strong> — plane-strain critical stress intensity factor</li>
+        <li class="sub">K_I = Y σ √(πa) ; fracture when K_I ≥ K_Ic</li>
+        <li class="sub">Units: MPa√m ; determines critical flaw size in design</li>
+      </ul>
+
+      <h3>Fatigue</h3>
+      <ul class="topic-list">
+        <li>Cyclic stresses — stress amplitude, mean stress, stress ratio R = σ_min / σ_max</li>
+        <li><strong>The S–N curve</strong> — endurance limit (steels) vs. fatigue strength (Al alloys)</li>
+        <li>Crack initiation — surface stress concentrations, slip bands, inclusions</li>
+        <li>Crack propagation — Paris law: da/dN = C (ΔK)^m</li>
+        <li>Factors affecting fatigue life</li>
+        <li class="sub">Mean stress (Goodman, Gerber criteria)</li>
+        <li class="sub">Surface finish, residual stress, shot peening</li>
+        <li class="sub">Geometric stress concentration (notches, keyways)</li>
+        <li>Environmental effects — corrosion fatigue, hydrogen embrittlement</li>
+      </ul>
+
+      <h3>Creep</h3>
+      <ul class="topic-list">
+        <li>Generalised creep behaviour — primary, secondary (steady-state), tertiary stages</li>
+        <li>Stress and temperature effects — Arrhenius-type dependence</li>
+        <li class="sub">ε̇_ss = A σ^n exp(−Q_c / RT)</li>
+        <li>Larson–Miller parameter for creep-rupture life prediction</li>
+        <li>Creep-resistant materials — Ni superalloys, ODS alloys, ceramics</li>
+      </ul>
+
+      <div class="formula">Fracture Mechanics:
+
+  K_I = Y σ √(πa)       Fracture when K_I ≥ K_Ic
+
+  Critical crack size:
+  a_c = (1/π)(K_Ic / Yσ)²
+
+Paris Fatigue Crack Growth Law:
+  da/dN = C (ΔK)^m     where ΔK = K_max − K_min
+
+Steady-State Creep Rate:
+  ε̇_ss = A σ^n exp(−Q_c / RT)</div>
+
+      <div class="pills">
+        <span class="pill red">K_Ic — Fracture Toughness</span>
+        <span class="pill warn">S–N Curve</span>
+        <span class="pill blue">Paris Law</span>
+        <span class="pill teal">Larson–Miller Parameter</span>
+        <span class="pill red">Stress Concentration</span>
+      </div>
+    </section>
+
+    <hr class="divider" />
+
+    <!-- ══════════════════════════════════════════
+         UNIT 4
+    ══════════════════════════════════════════ -->
+    <section class="section" id="unit4">
+      <div class="section-label">Unit 04</div>
+      <h2 class="section-title"><span class="num">04.</span> Phase Diagrams</h2>
+
+      <div class="callout blue">
+        <div class="callout-title">📊 Unit Overview</div>
+        <p>Develops the thermodynamic tools — phase rule, lever rule, tie lines — needed to read and interpret equilibrium phase diagrams, tracing microstructure evolution in isomorphous, eutectic, and iron–iron carbide systems.</p>
+      </div>
+
+      <h3>Thermodynamic Foundations</h3>
+      <ul class="topic-list">
+        <li>Solubility limit, solid solutions (substitutional and interstitial), phases, microstructure</li>
+        <li>Phase equilibria — thermodynamic equilibrium, free energy, driving forces</li>
+        <li>One-component (unary) phase diagrams — water, iron polymorphism</li>
+        <li><strong>Gibbs Phase Rule:</strong> F = C – P + 2 &nbsp;&nbsp;(F = degrees of freedom, C = components, P = phases)</li>
+        <li><strong>Tie Line Rule</strong> — determines phase compositions at a given overall composition and temperature</li>
+        <li><strong>Lever Rule</strong> — determines relative phase fractions: W_α = (C_o – C_L)/(C_α – C_L)</li>
+      </ul>
+
+      <h3>Binary Systems</h3>
+      <div class="phase-band" title="Hover a region to expand">
+        <div class="phase-seg ps1">Isomorphous<br>(complete solid solubility)</div>
+        <div class="phase-seg ps2">Eutectic<br>(limited solubility)</div>
+        <div class="phase-seg ps3">Eutectoid<br>(solid → 2 solids)</div>
+        <div class="phase-seg ps4">Peritectic<br>(L + S → S)</div>
+        <div class="phase-seg ps5">Monotectic<br>(L → L + S)</div>
+      </div>
+      <ul class="topic-list">
+        <li><strong>Binary isomorphous systems</strong> — Cu–Ni; liquidus and solidus curves; lever rule application</li>
+        <li>Development of microstructure in isomorphous alloys — equilibrium vs. non-equilibrium (coring)</li>
+        <li><strong>Binary eutectic alloys</strong> — Pb–Sn, Ag–Cu; eutectic reaction: L ⇌ α + β</li>
+        <li>Development of microstructure: hypoeutectic, eutectic, hypereutectic compositions</li>
+        <li><strong>Invariant reactions</strong></li>
+        <li class="sub">Eutectic: L ⇌ α + β (const. T)</li>
+        <li class="sub">Eutectoid: γ ⇌ α + β</li>
+        <li class="sub">Peritectic: L + α ⇌ β</li>
+        <li class="sub">Peritectoid: α + β ⇌ γ</li>
+      </ul>
+
+      <h3>Iron–Iron Carbide (Fe–Fe₃C) Phase Diagram</h3>
+      <ul class="topic-list">
+        <li>Key temperatures: A₁ (727 °C eutectoid), A₃ (austenite–ferrite boundary), A_cm (austenite–cementite)</li>
+        <li>Phases: α-ferrite (BCC), γ-austenite (FCC), δ-ferrite (BCC), cementite Fe₃C (orthorhombic)</li>
+        <li>Eutectoid reaction at 0.76 wt% C: γ (austenite) → α + Fe₃C (pearlite)</li>
+        <li>Development of microstructure in iron–carbon alloys</li>
+        <li class="sub">Hypoeutectoid steels (&lt; 0.76 wt% C) — proeutectoid ferrite + pearlite</li>
+        <li class="sub">Eutectoid steel — 100% pearlite (lamellar α + Fe₃C)</li>
+        <li class="sub">Hypereutectoid steels (&gt; 0.76 wt% C) — proeutectoid cementite + pearlite</li>
+        <li class="sub">Cast irons (&gt; 2.14 wt% C) — white, grey, malleable, ductile types</li>
+      </ul>
+
+      <div class="formula">Lever Rule (example — two-phase region):
+
+  Fraction of α phase:    W_α = (C_o − C_β) / (C_α − C_β)
+  Fraction of β phase:    W_β = (C_α − C_o) / (C_α − C_β)
+
+Gibbs Phase Rule:
+  F = C − P + 2
+  At eutectic point: C=2, P=3  →  F = 0  (invariant)</div>
+    </section>
+
+    <hr class="divider" />
+
+    <!-- ══════════════════════════════════════════
+         UNIT 5
+    ══════════════════════════════════════════ -->
+    <section class="section" id="unit5">
+      <div class="section-label">Unit 05</div>
+      <h2 class="section-title"><span class="num">05.</span> Phase Transformations &amp; Heat Treatment of Steels</h2>
+
+      <div class="callout orange">
+        <div class="callout-title">🔥 Unit Overview</div>
+        <p>Covers the kinetics of solid-state transformations in iron–carbon alloys using TTT and CCT diagrams, then applies this understanding to the full suite of industrial heat treatment processes — annealing, hardening, and tempering.</p>
+      </div>
+
+      <h3>Transformation Diagrams</h3>
+      <ul class="topic-list">
+        <li><strong>Isothermal Transformation (TTT) Diagrams</strong></li>
+        <li class="sub">Derived from isothermal holding experiments — start and finish curves</li>
+        <li class="sub">Upper nose: pearlite formation (coarse at high T, fine at low T)</li>
+        <li class="sub">Lower nose: bainite formation (upper bainite vs. lower bainite)</li>
+        <li class="sub">Martensite start (M_s) and finish (M_f) temperatures — athermal transformation</li>
+        <li><strong>Continuous Cooling Transformation (CCT) Diagrams</strong></li>
+        <li class="sub">Shifted to longer times and lower temperatures vs. TTT</li>
+        <li class="sub">Critical cooling rate to obtain fully martensitic structure</li>
+        <li>Mechanical behaviour of iron–carbon alloys during phase transformation</li>
+        <li class="sub">Hardness trends: martensite &gt; bainite &gt; fine pearlite &gt; coarse pearlite &gt; spheroidite</li>
+      </ul>
+
+      <h3>Heat Treatment Processes</h3>
+      <div class="flow">
+        <div class="flow-step">
+          <div class="step-num">Process 01</div>
+          <h4>Annealing</h4>
+          <p>Heat above A₃ / A₁, slow furnace cool. Relieves stress, refines grain, improves machinability.</p>
+        </div>
+        <div class="flow-step">
+          <div class="step-num">Process 02</div>
+          <h4>Normalising</h4>
+          <p>Heat above A₃, air cool. Finer pearlite than full anneal; uniform microstructure.</p>
+        </div>
+        <div class="flow-step">
+          <div class="step-num">Process 03</div>
+          <h4>Hardening</h4>
+          <p>Austenitise then quench (water/oil/air) to form martensite. High hardness and strength.</p>
+        </div>
+        <div class="flow-step">
+          <div class="step-num">Process 04</div>
+          <h4>Tempering</h4>
+          <p>Reheat martensite 150–650 °C. Reduces brittleness, improves toughness; tempered martensite.</p>
+        </div>
+      </div>
+
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Method of Annealing</th>
+              <th>Temperature Range</th>
+              <th>Purpose</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td><strong>Full Annealing</strong></td><td>A₃ + 50 °C (hypo) / A₁ + 50 °C (hyper)</td><td>Maximum softness, coarse pearlite</td></tr>
+            <tr><td><strong>Spheroidising</strong></td><td>Just below A₁ (~700 °C), long hold</td><td>Spheroidal carbides; maximum machinability</td></tr>
+            <tr><td><strong>Stress Relief</strong></td><td>500–600 °C</td><td>Remove residual stresses without microstructure change</td></tr>
+            <tr><td><strong>Process / In-process</strong></td><td>Below A₁</td><td>Restore ductility between cold-working steps</td></tr>
+            <tr><td><strong>Recrystallisation</strong></td><td>0.4–0.5 T_m</td><td>Replace work-hardened structure with new strain-free grains</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="formula">Martensite Hardness (approx.):
+
+  HRC ≈ 30 + 50 × (wt% C)    for C &lt; 0.6 wt%
+
+Tempering reduces hardness and improves toughness:
+  As tempering temperature ↑ → hardness ↓, toughness ↑
+
+Jominy End-Quench Test → Hardenability curve
+  Hardenability ∝ alloy content (Mn, Cr, Ni, Mo)</div>
+    </section>
+
+    <hr class="divider" />
+
+    <!-- ══════════════════════════════════════════
+         UNIT 6
+    ══════════════════════════════════════════ -->
+    <section class="section" id="unit6">
+      <div class="section-label">Unit 06</div>
+      <h2 class="section-title"><span class="num">06.</span> Advanced Engineering Materials</h2>
+
+      <div class="callout purple">
+        <div class="callout-title">🌐 Unit Overview</div>
+        <p>Surveys the frontier of engineering materials — ceramics, composites, nanomaterials, smart alloys, biomaterials, and sustainable polymers — and contextualises materials engineering within its economic, environmental, and regulatory landscape.</p>
+      </div>
+
+      <h3>Ceramics &amp; Composites</h3>
+      <div class="card-grid">
+        <div class="card hl-teal">
+          <div class="card-id">Material 01</div>
+          <h4>Ceramics</h4>
+          <ul>
+            <li>Structural: Al₂O₃, SiC, Si₃N₄, ZrO₂</li>
+            <li>Electronic: BaTiO₃, PZT, ferrites</li>
+            <li>Glasses and glass-ceramics</li>
+            <li>Applications: cutting tools, refractory, biomedical implants</li>
+          </ul>
+        </div>
+        <div class="card">
+          <div class="card-id">Material 02</div>
+          <h4>Particle-Reinforced Composites</h4>
+          <ul>
+            <li>Large-particle (WC–Co cemented carbide)</li>
+            <li>Dispersion-strengthened (ODS alloys)</li>
+            <li>Rule of mixtures (upper/lower bound)</li>
+          </ul>
+        </div>
+        <div class="card hl-orange">
+          <div class="card-id">Material 03 ★</div>
+          <h4>Fibre-Reinforced Composites</h4>
+          <ul>
+            <li>CFRP, GFRP, Kevlar/aramid</li>
+            <li>Continuous vs. discontinuous fibres</li>
+            <li>Longitudinal / transverse moduli</li>
+            <li>Aerospace, automotive, sports equipment</li>
+          </ul>
+        </div>
+      </div>
+
+      <h3>Emerging and Smart Materials</h3>
+      <ul class="topic-list">
+        <li><strong>Nanomaterials</strong></li>
+        <li class="sub">Carbon nanotubes (CNTs) — sp² hybridisation, exceptional E and σ</li>
+        <li class="sub">Graphene — single-atom layer, highest known thermal conductivity</li>
+        <li class="sub">Nanocomposites, quantum dots, nano-coatings</li>
+        <li class="sub">Processing: sol-gel, CVD, ball milling, electrodeposition</li>
+        <li><strong>Shape-Memory Alloys (SMA)</strong></li>
+        <li class="sub">Thermoelastic martensitic transformation — Nitinol (Ni–Ti)</li>
+        <li class="sub">One-way and two-way shape-memory effect; superelasticity</li>
+        <li class="sub">Applications: stents, actuators, orthodontic wires</li>
+      </ul>
+
+      <h3>Biomaterials &amp; Sustainable Polymers</h3>
+      <ul class="topic-list">
+        <li><strong>Biomaterials</strong></li>
+        <li class="sub">Metallic: Ti–6Al–4V, CoCrMo, 316L SS — bone implants</li>
+        <li class="sub">Ceramic: HA (hydroxyapatite), bioglass — bone scaffolds</li>
+        <li class="sub">Polymeric: UHMWPE (acetabular cups), silicone</li>
+        <li class="sub">Biocompatibility, osseointegration, corrosion in physiological environment</li>
+        <li><strong>Recyclable polymers</strong> — PET, HDPE, PP — mechanical and chemical recycling routes</li>
+        <li><strong>Biodegradable polymers</strong> — PLA, PHA, PCL — hydrolytic / enzymatic degradation</li>
+      </ul>
+
+      <h3>Economic, Environmental &amp; Societal Issues</h3>
+      <ul class="topic-list">
+        <li>Life-cycle assessment (LCA) — cradle-to-grave energy and emissions</li>
+        <li>Material substitution strategies — lightweight alloys replacing steel</li>
+        <li>Critical raw materials — rare earths, cobalt, lithium supply chain risks</li>
+        <li>Circular economy principles in materials design</li>
+        <li><strong>RoHS Directive (Restriction of Hazardous Substances)</strong></li>
+        <li class="sub">EU directive 2011/65/EU — restricts Pb, Hg, Cd, Cr⁶⁺, PBB, PBDE in EEE</li>
+        <li class="sub">Drives solder alloy reformulation (Sn–Ag–Cu SAC alloys)</li>
+        <li class="sub">WEEE directive — electronic waste management and recovery</li>
+        <li class="sub">REACH regulation — chemical safety registration and communication</li>
+      </ul>
+
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Material Class</th>
+              <th>Key Examples</th>
+              <th>Distinguishing Property</th>
+              <th>Typical Application</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td><strong>Ceramics</strong></td><td>Al₂O₃, SiC, ZrO₂</td><td>High hardness, refractoriness</td><td>Cutting tools, turbine liners</td></tr>
+            <tr><td><strong>Fibre Composites</strong></td><td>CFRP, GFRP</td><td>High specific strength/stiffness</td><td>Aerospace structures, wind blades</td></tr>
+            <tr><td><strong>Nanomaterials</strong></td><td>CNT, graphene</td><td>Extreme mechanical/electrical properties</td><td>Nano-electronics, reinforcement</td></tr>
+            <tr><td><strong>SMA</strong></td><td>Nitinol</td><td>Shape recovery, superelasticity</td><td>Stents, actuators, couplings</td></tr>
+            <tr><td><strong>Biomaterials</strong></td><td>Ti alloys, HA</td><td>Biocompatibility</td><td>Orthopaedic &amp; dental implants</td></tr>
+            <tr><td><strong>Biodegradable Polymers</strong></td><td>PLA, PHA</td><td>Controlled degradation rate</td><td>Packaging, drug delivery, sutures</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <blockquote>
+        The future of materials engineering lies at the intersection of sustainability and performance — designing materials that are not only strong, light, and conductive, but also manufactured responsibly, recycled efficiently, and compliant with evolving global regulations like RoHS and REACH.
+      </blockquote>
+
+      <div class="pills">
+        <span class="pill teal">Nanomaterials</span>
+        <span class="pill purple">Shape-Memory Alloys</span>
+        <span class="pill good">Biodegradable Polymers</span>
+        <span class="pill blue">CFRP Composites</span>
+        <span class="pill orange">Biomaterials</span>
+        <span class="pill warn">RoHS / REACH Compliant</span>
+        <span class="pill green">LCA &amp; Circular Economy</span>
+      </div>
+    </section>
+
+  </main>
+
+  <script>
+    // Scroll progress bar
+    window.addEventListener("scroll", () => {
+      const total = document.body.scrollHeight - window.innerHeight;
+      document.getElementById("progress").style.width = (window.scrollY / total) * 100 + "%";
+    });
+
+    // Section fade-in on scroll
+    const obs = new IntersectionObserver(
+      entries => entries.forEach(e => { if (e.isIntersecting) e.target.classList.add("visible"); }),
+      { threshold: 0.06 }
+    );
+    document.querySelectorAll(".section").forEach(s => obs.observe(s));
+  </script>
+</body>
+</html>
