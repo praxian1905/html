@@ -1,0 +1,850 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Manufacturing Technology | Course Syllabus</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=Source+Serif+4:ital,opsz,wght@0,8..60,300;0,8..60,400;0,8..60,600;1,8..60,300&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <style>
+    /* ── Tokens ── */
+    :root {
+      --bg:      #0e0f14;
+      --surface: #15171f;
+      --card:    #1c1f2b;
+      --border:  #2a2e40;
+      --accent:  #f5a623;
+      --accent2: #4fc3f7;
+      --accent3: #81c784;
+      --accent4: #ef5350;
+      --text:    #e8e9f0;
+      --muted:   #8890aa;
+      --heading: #ffffff;
+    }
+
+    /* ── Reset ── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: "Source Serif 4", Georgia, serif;
+      font-size: 17px;
+      line-height: 1.8;
+      min-height: 100vh;
+    }
+
+    body::before {
+      content: "";
+      position: fixed; inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+      pointer-events: none; z-index: 999; opacity: 0.45;
+    }
+
+    strong { color: var(--heading); font-weight: 600; }
+    em     { color: var(--accent); font-style: italic; }
+    p      { margin-bottom: 18px; color: var(--text); }
+
+    h3 {
+      font-family: "Playfair Display", serif;
+      font-size: 19px; color: var(--heading);
+      margin: 32px 0 12px; font-weight: 700;
+    }
+
+    blockquote {
+      border-left: 3px solid var(--accent);
+      margin: 28px 0; padding: 14px 24px;
+      background: var(--card); font-style: italic;
+      color: var(--muted); font-size: 16px; border-radius: 0 2px 2px 0;
+    }
+
+    /* ── Scroll progress bar ── */
+    #progress {
+      position: fixed; top: 0; left: 0; height: 3px;
+      background: linear-gradient(90deg, var(--accent), var(--accent2));
+      z-index: 1000; width: 0; transition: width 0.1s linear;
+    }
+
+    /* ── Layout ── */
+    .page { max-width: 1020px; margin: 0 auto; padding: 0 28px 100px; }
+    @media (max-width: 768px) { .page { padding: 0 16px 80px; } }
+
+    /* ── Hero ── */
+    .hero {
+      position: relative; overflow: hidden;
+      padding: 90px 40px 80px; text-align: center;
+      border-bottom: 1px solid var(--border);
+      background: radial-gradient(ellipse 80% 60% at 50% 0%, #1a2a1f 0%, var(--bg) 70%);
+    }
+    .hero::after {
+      content: ""; position: absolute; left: 50%; top: -60px;
+      transform: translateX(-50%); width: 600px; height: 600px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(129,199,132,0.06) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .hero-badge {
+      display: inline-block;
+      font-family: "JetBrains Mono", monospace;
+      font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase;
+      color: var(--accent); border: 1px solid var(--accent);
+      padding: 4px 14px; border-radius: 2px; margin-bottom: 24px;
+      opacity: 0; animation: fadeUp 0.6s 0.1s forwards;
+    }
+    .hero h1 {
+      font-family: "Playfair Display", serif;
+      font-size: clamp(28px, 5vw, 54px); font-weight: 900;
+      color: var(--heading); line-height: 1.15;
+      max-width: 860px; margin: 0 auto 20px;
+      opacity: 0; animation: fadeUp 0.7s 0.25s forwards;
+    }
+    .hero h1 em { color: var(--accent); font-style: normal; }
+    .hero-sub {
+      font-size: 16px; color: var(--muted);
+      max-width: 640px; margin: 0 auto 36px;
+      opacity: 0; animation: fadeUp 0.7s 0.4s forwards;
+    }
+    .hero-meta {
+      display: flex; flex-wrap: wrap; gap: 20px; justify-content: center;
+      opacity: 0; animation: fadeUp 0.7s 0.55s forwards;
+    }
+    .hero-meta span {
+      font-family: "JetBrains Mono", monospace; font-size: 12px;
+      color: var(--muted); background: var(--card);
+      border: 1px solid var(--border); padding: 6px 14px; border-radius: 2px;
+    }
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(18px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ── TOC ── */
+    .toc {
+      background: var(--card); border: 1px solid var(--border);
+      border-left: 3px solid var(--accent);
+      padding: 32px 36px; margin: 52px 0 60px; border-radius: 2px;
+    }
+    .toc h2 {
+      font-family: "Playfair Display", serif; font-size: 20px;
+      color: var(--heading); margin-bottom: 20px;
+    }
+    .toc ol { padding-left: 22px; }
+    .toc li { margin-bottom: 8px; }
+    .toc a {
+      color: var(--accent2); text-decoration: none;
+      font-family: "JetBrains Mono", monospace; font-size: 13px;
+      transition: color 0.2s;
+    }
+    .toc a:hover { color: var(--accent); }
+
+    /* ── Sections ── */
+    .section {
+      margin-bottom: 72px;
+      opacity: 0; transform: translateY(24px);
+      transition: opacity 0.55s, transform 0.55s;
+    }
+    .section.visible { opacity: 1; transform: translateY(0); }
+    .section-label {
+      font-family: "JetBrains Mono", monospace;
+      font-size: 10.5px; letter-spacing: 0.18em; text-transform: uppercase;
+      color: var(--accent); margin-bottom: 10px;
+    }
+    h2.section-title {
+      font-family: "Playfair Display", serif;
+      font-size: clamp(22px, 3.5vw, 34px); font-weight: 700;
+      color: var(--heading); line-height: 1.2;
+      margin-bottom: 28px; padding-bottom: 14px;
+      border-bottom: 1px solid var(--border);
+    }
+    h2.section-title .num {
+      color: var(--accent); font-size: 0.7em; font-style: italic; margin-right: 10px;
+    }
+
+    /* ── Topic list ── */
+    .topic-list { list-style: none; padding: 0; margin: 0 0 24px; }
+    .topic-list li {
+      position: relative;
+      padding: 10px 16px 10px 36px;
+      border-bottom: 1px solid var(--border);
+      font-size: 15.5px; color: var(--text);
+      transition: background 0.15s;
+    }
+    .topic-list li:last-child { border-bottom: none; }
+    .topic-list li:hover { background: rgba(245,166,35,0.04); }
+    .topic-list li::before {
+      content: "▸";
+      position: absolute; left: 12px; top: 10px;
+      color: var(--accent); font-size: 13px;
+    }
+    .topic-list li.sub {
+      padding-left: 60px; font-size: 14.5px; color: var(--muted);
+    }
+    .topic-list li.sub::before {
+      content: "–"; left: 38px; color: var(--accent2);
+    }
+    .topic-list li.sub2 {
+      padding-left: 84px; font-size: 14px; color: #6a7490;
+    }
+    .topic-list li.sub2::before {
+      content: "·"; left: 66px; color: var(--accent3); font-size: 16px;
+    }
+
+    /* ── Two-column topic grid ── */
+    .topic-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 18px; margin: 24px 0;
+    }
+    .topic-block {
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: 2px; padding: 20px 22px;
+      transition: border-color 0.2s, transform 0.2s;
+    }
+    .topic-block:hover { border-color: var(--accent2); transform: translateY(-3px); }
+    .topic-block-id {
+      font-family: "JetBrains Mono", monospace; font-size: 10px;
+      color: var(--accent); letter-spacing: 0.14em;
+      text-transform: uppercase; margin-bottom: 8px;
+    }
+    .topic-block h4 {
+      font-family: "Playfair Display", serif; font-size: 16px;
+      color: var(--heading); margin-bottom: 10px;
+    }
+    .topic-block ul {
+      list-style: none; padding: 0; margin: 0;
+    }
+    .topic-block ul li {
+      font-size: 13.5px; color: var(--muted);
+      padding: 4px 0 4px 14px;
+      border-bottom: 1px solid rgba(42,46,64,0.6);
+      position: relative;
+    }
+    .topic-block ul li:last-child { border-bottom: none; }
+    .topic-block ul li::before {
+      content: "·"; position: absolute; left: 2px;
+      color: var(--accent2);
+    }
+    .topic-block.highlight { border-color: var(--accent); background: #1a1f10; }
+    .topic-block.highlight h4 { color: var(--accent); }
+
+    /* ── Callout ── */
+    .callout {
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: 2px; padding: 22px 26px; margin: 28px 0;
+    }
+    .callout.orange { border-left: 3px solid var(--accent); }
+    .callout.blue   { border-left: 3px solid var(--accent2); }
+    .callout.green  { border-left: 3px solid var(--accent3); }
+    .callout.red    { border-left: 3px solid var(--accent4); }
+    .callout-title {
+      font-family: "JetBrains Mono", monospace;
+      font-size: 11px; text-transform: uppercase; letter-spacing: 0.12em; margin-bottom: 10px;
+    }
+    .callout.orange .callout-title { color: var(--accent); }
+    .callout.blue   .callout-title { color: var(--accent2); }
+    .callout.green  .callout-title { color: var(--accent3); }
+    .callout.red    .callout-title { color: var(--accent4); }
+    .callout p { margin-bottom: 0; font-size: 15px; }
+
+    /* ── Formula / code block ── */
+    .formula {
+      background: #0b0c12; border: 1px solid var(--border); border-radius: 2px;
+      padding: 18px 24px; margin: 22px 0;
+      font-family: "JetBrains Mono", monospace; font-size: 13.5px;
+      color: var(--accent2); overflow-x: auto; white-space: pre;
+    }
+
+    /* ── Flow steps ── */
+    .flow { display: flex; flex-wrap: wrap; gap: 14px; margin: 24px 0; }
+    .flow-step {
+      flex: 1; min-width: 140px;
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: 2px; padding: 16px 18px;
+    }
+    .step-num {
+      font-family: "JetBrains Mono", monospace; font-size: 10px;
+      color: var(--accent); letter-spacing: 0.12em; margin-bottom: 6px;
+    }
+    .flow-step h4 {
+      font-family: "Playfair Display", serif; font-size: 15px;
+      color: var(--heading); margin-bottom: 4px;
+    }
+    .flow-step p { font-size: 13px; color: var(--muted); margin: 0; }
+
+    /* ── Pills ── */
+    .pills { display: flex; flex-wrap: wrap; gap: 10px; margin: 18px 0; }
+    .pill {
+      background: var(--card); border: 1px solid var(--border);
+      padding: 6px 14px; border-radius: 20px;
+      font-size: 13px; color: var(--text); font-family: "JetBrains Mono", monospace;
+    }
+    .pill.good { border-color: var(--accent3); color: var(--accent3); }
+    .pill.warn { border-color: var(--accent);  color: var(--accent); }
+    .pill.blue { border-color: var(--accent2); color: var(--accent2); }
+    .pill.red  { border-color: var(--accent4); color: var(--accent4); }
+
+    /* ── Table ── */
+    .table-wrap { overflow-x: auto; margin: 28px 0; }
+    table { width: 100%; border-collapse: collapse; font-size: 15px; background: var(--card); border: 1px solid var(--border); }
+    thead th {
+      background: #20253a; color: var(--accent);
+      font-family: "JetBrains Mono", monospace;
+      font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase;
+      padding: 12px 16px; text-align: left; border-bottom: 1px solid var(--border);
+    }
+    tbody td { padding: 11px 16px; border-bottom: 1px solid var(--border); vertical-align: top; }
+    tbody tr:last-child td { border-bottom: none; }
+    tbody tr:hover td { background: rgba(255,255,255,0.025); }
+
+    /* ── Divider ── */
+    .divider { border: none; border-top: 1px solid var(--border); margin: 60px 0; }
+  </style>
+</head>
+<body>
+  <div id="progress"></div>
+
+  <!-- ── Hero ── -->
+  <header class="hero">
+    <div class="hero-badge">Mechanical Engineering · Core Subject</div>
+    <h1>Manufacturing <em>Technology</em></h1>
+    <p class="hero-sub">A comprehensive unit-by-unit syllabus spanning conventional machine tools, powder metallurgy, press tools, metrology, and advanced non-conventional machining processes.</p>
+    <div class="hero-meta">
+      <span>🏭 6 Units</span>
+      <span>⚙️ Conventional &amp; Non-conventional</span>
+      <span>🔬 Metrology &amp; Quality</span>
+      <span>🎓 B.Tech / B.E. Level</span>
+    </div>
+  </header>
+
+  <main class="page">
+
+    <!-- ── TOC ── -->
+    <nav class="toc">
+      <h2>📋 Table of Contents</h2>
+      <ol>
+        <li><a href="#unit1">Unit 1 — Conventional Machine Tools &amp; Holding Devices</a></li>
+        <li><a href="#unit2">Unit 2 — Powder Metallurgy &amp; Plastic Manufacturing</a></li>
+        <li><a href="#unit3">Unit 3 — Press Tools &amp; Design of Punch and Die</a></li>
+        <li><a href="#unit4">Unit 4 — Metrology</a></li>
+        <li><a href="#unit5">Unit 5 — Non-conventional Machining: Thermal Processes</a></li>
+        <li><a href="#unit6">Unit 6 — Non-conventional Machining: Mechanical &amp; Electrochemical</a></li>
+      </ol>
+    </nav>
+
+    <!-- ══════════════════════════════════════════
+         UNIT 1
+    ══════════════════════════════════════════ -->
+    <section class="section" id="unit1">
+      <div class="section-label">Unit 01</div>
+      <h2 class="section-title"><span class="num">01.</span> Conventional Machine Tools &amp; Holding Devices</h2>
+
+      <div class="callout orange">
+        <div class="callout-title">⚙️ Unit Overview</div>
+        <p>Covers the construction and working principles of specialised machine tools used in manufacturing, followed by a systematic study of workholding — from the fundamental principles of location and clamping to application-specific jigs and fixtures.</p>
+      </div>
+
+      <h3>Construction Detail of Manufacturing Machines</h3>
+      <div class="topic-grid">
+        <div class="topic-block">
+          <div class="topic-block-id">Machine 01</div>
+          <h4>Boring Machine</h4>
+          <ul>
+            <li>Types: horizontal, vertical, jig boring</li>
+            <li>Spindle and table construction</li>
+            <li>Operations: boring, facing, drilling</li>
+          </ul>
+        </div>
+        <div class="topic-block">
+          <div class="topic-block-id">Machine 02</div>
+          <h4>Broaching Machine</h4>
+          <ul>
+            <li>Pull &amp; push type broaches</li>
+            <li>Horizontal and vertical configurations</li>
+            <li>Internal and external broaching</li>
+          </ul>
+        </div>
+        <div class="topic-block">
+          <div class="topic-block-id">Machine 03</div>
+          <h4>Planer</h4>
+          <ul>
+            <li>Open-side and double-housing types</li>
+            <li>Table drive mechanisms</li>
+            <li>Large flat-surface machining</li>
+          </ul>
+        </div>
+        <div class="topic-block highlight">
+          <div class="topic-block-id">Machine 04 ★</div>
+          <h4>Tool &amp; Cutter Grinder</h4>
+          <ul>
+            <li>Universal T&amp;C grinder layout</li>
+            <li>Wheel types and dressing</li>
+            <li>Reconditioning of milling cutters</li>
+          </ul>
+        </div>
+      </div>
+
+      <h3>Holding Devices</h3>
+      <ul class="topic-list">
+        <li><strong>Jigs and Fixtures</strong> — definition, distinction, and purpose</li>
+        <li>Locating principles and locating devices</li>
+        <li class="sub">3-2-1 (six-point) location principle</li>
+        <li class="sub">V-locators, pin locators, flat locators</li>
+        <li>Clamping principles and clamping devices</li>
+        <li class="sub">Strap clamps, toggle clamps, pneumatic clamps</li>
+        <li>Drill bushes and drilling jigs</li>
+        <li class="sub">Fixed, renewable, and liner bushes</li>
+        <li class="sub">Plate jig, box jig, angle-plate jig</li>
+        <li><strong>Fixtures</strong></li>
+        <li class="sub">Turning fixture</li>
+        <li class="sub">Milling fixture</li>
+        <li class="sub">Grinding fixture</li>
+      </ul>
+
+      <div class="callout blue">
+        <div class="callout-title">💡 Key Distinction</div>
+        <p>A <strong>jig</strong> guides the cutting tool (e.g. a drill bush guides the drill), while a <strong>fixture</strong> only locates and clamps the workpiece — the tool is guided by the machine itself.</p>
+      </div>
+    </section>
+
+    <hr class="divider" />
+
+    <!-- ══════════════════════════════════════════
+         UNIT 2
+    ══════════════════════════════════════════ -->
+    <section class="section" id="unit2">
+      <div class="section-label">Unit 02</div>
+      <h2 class="section-title"><span class="num">02.</span> Powder Metallurgy &amp; Plastic Manufacturing</h2>
+
+      <div class="callout green">
+        <div class="callout-title">🧪 Unit Overview</div>
+        <p>Introduces two material-based manufacturing routes — powder metallurgy for metals and ceramics, and polymer processing via moulding and extrusion — with emphasis on process steps, parameters, and industrial applicability.</p>
+      </div>
+
+      <h3>Powder Metallurgy</h3>
+
+      <div class="flow">
+        <div class="flow-step">
+          <div class="step-num">STEP 01</div>
+          <h4>Powder Production</h4>
+          <p>Atomisation, reduction, electrolysis, mechanical comminution.</p>
+        </div>
+        <div class="flow-step">
+          <div class="step-num">STEP 02</div>
+          <h4>Mixing &amp; Blending</h4>
+          <p>Combining powders with lubricants and binders for uniformity.</p>
+        </div>
+        <div class="flow-step">
+          <div class="step-num">STEP 03</div>
+          <h4>Compacting</h4>
+          <p>Die compaction under high pressure to form the green compact.</p>
+        </div>
+        <div class="flow-step">
+          <div class="step-num">STEP 04</div>
+          <h4>Sintering</h4>
+          <p>Heating below melting point — diffusion bonds particles together.</p>
+        </div>
+        <div class="flow-step">
+          <div class="step-num">STEP 05</div>
+          <h4>Finishing</h4>
+          <p>Sizing, machining, impregnation, plating as required.</p>
+        </div>
+      </div>
+
+      <ul class="topic-list">
+        <li>Steps of powder metallurgy — detailed process chain</li>
+        <li>Compacting — cold and hot isostatic pressing</li>
+        <li>Sintering — solid-state, liquid-phase sintering mechanisms</li>
+        <li>Applications of powder metallurgy</li>
+        <li class="sub">Self-lubricating bearings, cemented carbide tools</li>
+        <li class="sub">Refractory metal parts (W, Mo filaments)</li>
+        <li class="sub">Filters and porous components</li>
+      </ul>
+
+      <h3>Plastics Manufacturing</h3>
+      <ul class="topic-list">
+        <li>Types of plastics — thermoplastics vs. thermosets</li>
+        <li><strong>Injection Moulding</strong></li>
+        <li class="sub">Process sequence: plasticising → injection → cooling → ejection</li>
+        <li class="sub">Applications: complex near-net-shape components</li>
+        <li class="sub">Merits: high production rate, excellent surface finish, automation</li>
+        <li class="sub">Demerits: high tooling cost, limited to thermoplastics</li>
+        <li><strong>Plastic Extrusion</strong></li>
+        <li class="sub">Screw extruder design and operation</li>
+        <li class="sub">Products: pipes, sheets, films, profiles</li>
+      </ul>
+
+      <div class="pills">
+        <span class="pill good">Self-lubricating Bearings</span>
+        <span class="pill good">Carbide Cutting Tools</span>
+        <span class="pill blue">Injection Moulding</span>
+        <span class="pill blue">Extrusion</span>
+        <span class="pill warn">High Tooling Costs</span>
+      </div>
+    </section>
+
+    <hr class="divider" />
+
+    <!-- ══════════════════════════════════════════
+         UNIT 3
+    ══════════════════════════════════════════ -->
+    <section class="section" id="unit3">
+      <div class="section-label">Unit 03</div>
+      <h2 class="section-title"><span class="num">03.</span> Press Tools &amp; Design of Punch and Die</h2>
+
+      <div class="callout orange">
+        <div class="callout-title">🔩 Unit Overview</div>
+        <p>Examines the full spectrum of press-working — from press types and operations to the terminology, rating, die types, and systematic design of punch-and-die sets, extending to the principles governing forging die design.</p>
+      </div>
+
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Topic</th>
+              <th>Key Aspects Covered</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Press Operations</strong></td>
+              <td>Blanking, punching, bending, drawing, coining, embossing, trimming</td>
+            </tr>
+            <tr>
+              <td><strong>Types of Presses</strong></td>
+              <td>Mechanical (eccentric, crankshaft), hydraulic, pneumatic; C-frame vs. straight-side</td>
+            </tr>
+            <tr>
+              <td><strong>Press Working Terminology</strong></td>
+              <td>Clearance, blank, punch, die, stripper, pilot, stock, scrap strip</td>
+            </tr>
+            <tr>
+              <td><strong>Press Rating</strong></td>
+              <td>Tonnage, stroke, shut height, bed area, speed (SPM)</td>
+            </tr>
+            <tr>
+              <td><strong>Types of Dies</strong></td>
+              <td>Simple, compound, combination, progressive, transfer dies</td>
+            </tr>
+            <tr>
+              <td><strong>Design of Die and Punch</strong></td>
+              <td>Clearance calculation, die land, punch face geometry, stripping force</td>
+            </tr>
+            <tr>
+              <td><strong>Forging Die Design</strong></td>
+              <td>Flash and gutter, draft angles, parting line, die material selection</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="formula">Shearing Force:
+
+  F = L × t × τ_s
+
+  where  L    = length of cut (perimeter of blank)
+         t    = sheet thickness
+         τ_s  = shear strength of material ≈ 0.6 × UTS
+
+Punch-Die Clearance (per side):
+  c = 0.005 to 0.08 × t  (depending on material)</div>
+    </section>
+
+    <hr class="divider" />
+
+    <!-- ══════════════════════════════════════════
+         UNIT 4
+    ══════════════════════════════════════════ -->
+    <section class="section" id="unit4">
+      <div class="section-label">Unit 04</div>
+      <h2 class="section-title"><span class="num">04.</span> Metrology</h2>
+
+      <div class="callout blue">
+        <div class="callout-title">📐 Unit Overview</div>
+        <p>Covers the science of measurement as applied to manufacturing — from fundamental dimensional and surface measurements through tolerance systems, precision instruments, gauge families, and optical interferometry for nano-scale surface inspection.</p>
+      </div>
+
+      <h3>Measurement Fundamentals</h3>
+      <ul class="topic-list">
+        <li>Dimensions, forms, and surface measurements</li>
+        <li>Limits, fits, and tolerances — IS / ISO system</li>
+        <li class="sub">Fundamental deviation, tolerance grade (IT01 – IT18)</li>
+        <li class="sub">Types of fits: clearance, interference, transition</li>
+        <li>Linear measurements — micrometer, vernier, height gauge</li>
+        <li>Angular measurements — sine bar, angle dekkor, autocollimator</li>
+        <li>Comparators — mechanical, optical, pneumatic, electrical</li>
+      </ul>
+
+      <h3>Gauges</h3>
+      <div class="topic-grid">
+        <div class="topic-block">
+          <div class="topic-block-id">Gauge 01</div>
+          <h4>Slip Gauge</h4>
+          <ul>
+            <li>Grade 00, 0, 1, 2 accuracy</li>
+            <li>Wringing technique</li>
+            <li>Master reference standard</li>
+          </ul>
+        </div>
+        <div class="topic-block">
+          <div class="topic-block-id">Gauge 02</div>
+          <h4>Standard Gauge</h4>
+          <ul>
+            <li>Workshop and inspection grades</li>
+            <li>Reference for shop-floor checking</li>
+          </ul>
+        </div>
+        <div class="topic-block">
+          <div class="topic-block-id">Gauge 03</div>
+          <h4>Limit Gauge</h4>
+          <ul>
+            <li>Go / No-Go principle</li>
+            <li>Taylor's principle of gauging</li>
+            <li>Bilateral and unilateral tolerances</li>
+          </ul>
+        </div>
+        <div class="topic-block highlight">
+          <div class="topic-block-id">Gauge 04 ★</div>
+          <h4>Plug &amp; Snap Gauge</h4>
+          <ul>
+            <li>Plug gauge — checks bores</li>
+            <li>Snap gauge — checks shafts</li>
+            <li>Progressive and double-ended types</li>
+          </ul>
+        </div>
+      </div>
+
+      <h3>Optical Metrology</h3>
+      <ul class="topic-list">
+        <li>Interferometry — principle of light-wave interference</li>
+        <li>Optical flat — contact and near-contact fringe patterns</li>
+        <li>Interferometer — NPL, Michelson, Twyman-Green types</li>
+        <li>Tolerance analysis in manufacturing and assembly</li>
+        <li class="sub">Worst-case tolerance stackup</li>
+        <li class="sub">Statistical (RSS) tolerance analysis</li>
+      </ul>
+
+      <div class="formula">Fringe Analysis (Optical Flat):
+
+  Surface error = (n × λ) / 2
+
+  where  n = number of fringes over a reference length
+         λ = wavelength of monochromatic light
+              ≈ 0.5893 µm (sodium D-line)
+
+Fundamental Tolerance (IT grades):
+  IT = 0.45 × D^(1/3) + 0.001 × D   (µm, D in mm)</div>
+    </section>
+
+    <hr class="divider" />
+
+    <!-- ══════════════════════════════════════════
+         UNIT 5
+    ══════════════════════════════════════════ -->
+    <section class="section" id="unit5">
+      <div class="section-label">Unit 05</div>
+      <h2 class="section-title"><span class="num">05.</span> Non-conventional Machining — Thermal Processes</h2>
+
+      <div class="callout red">
+        <div class="callout-title">⚡ Unit Overview</div>
+        <p>Studies thermal energy-based material removal — where heat rather than mechanical force drives cutting. Covers EDM in depth (including Wire-cut EDM), then Plasma Arc and Laser Beam Machining, concluding with Electron Beam technology.</p>
+      </div>
+
+      <h3>Electric Discharge Machining (EDM)</h3>
+      <ul class="topic-list">
+        <li><strong>Construction detail</strong> — machine structure, servo head, dielectric tank</li>
+        <li><strong>Principle</strong> — controlled spark erosion between tool and workpiece in dielectric</li>
+        <li><strong>Process parameters</strong></li>
+        <li class="sub">Discharge voltage and current</li>
+        <li class="sub">Pulse on-time (Tₒₙ) and off-time (Tₒff)</li>
+        <li class="sub">Duty cycle and frequency</li>
+        <li><strong>Material Removal Rate (MRR)</strong> — relationship with discharge energy</li>
+        <li><strong>Surface finish</strong> — Ra as function of pulse energy; recast layer</li>
+        <li><strong>Tool wear</strong> — electrode wear ratio; copper, graphite electrode materials</li>
+        <li><strong>Dielectric fluid</strong> — kerosene, EDM oil, deionised water; flushing methods</li>
+        <li><strong>Power and control circuits</strong> — RC circuit, transistorised pulse generator</li>
+        <li><strong>Wire-cut EDM (WEDM)</strong></li>
+        <li class="sub">Brass / stratified wire electrode (0.05–0.3 mm)</li>
+        <li class="sub">CNC contouring of complex 2D/3D profiles</li>
+        <li class="sub">No cutting force — ideal for hard, fragile materials</li>
+      </ul>
+
+      <div class="formula">EDM Material Removal Rate:
+
+  MRR ∝ I × Tₒₙ^0.4 / (Vm × ρ × Cp × Tm)
+
+  where  I   = discharge current (A)
+         Tₒₙ = pulse on-time (µs)
+         Vm  = melt volume fraction
+         ρ   = density of workpiece
+         Cp  = specific heat
+         Tm  = melting point</div>
+
+      <h3>Plasma Arc Machining (PAM)</h3>
+      <ul class="topic-list">
+        <li>Generation of plasma — ionised gas at 8 000–25 000 °C</li>
+        <li>Transferred and non-transferred arc configurations</li>
+        <li>Applications — cutting stainless steel, aluminium, titanium alloys</li>
+        <li>Limitations — HAZ, surface oxidation, noise, radiation</li>
+      </ul>
+
+      <h3>Laser Beam Machining (LBM)</h3>
+      <ul class="topic-list">
+        <li>Laser types — Nd:YAG, CO₂, fibre laser</li>
+        <li>Principle — photon energy → heat → melting/vaporisation</li>
+        <li>Process parameters — power density, pulse duration, assist gas</li>
+        <li>Applications — drilling, cutting, micro-machining, marking</li>
+        <li>Merits — no tool wear, no contact, high precision</li>
+        <li>Limitations — HAZ, reflectivity of metals, high capital cost</li>
+      </ul>
+
+      <h3>Electron Beam Machining (EBM)</h3>
+      <ul class="topic-list">
+        <li>Principle — focused high-velocity electron beam converts KE → heat</li>
+        <li>Vacuum environment requirement (10⁻⁴ to 10⁻⁶ torr)</li>
+        <li>Applications — micro-drilling, welding, lithography</li>
+        <li>Limitations — vacuum chamber size, X-ray shielding, cost</li>
+      </ul>
+
+      <div class="pills">
+        <span class="pill red">High Heat Input</span>
+        <span class="pill warn">Recast Layer (EDM)</span>
+        <span class="pill blue">Wire-Cut EDM</span>
+        <span class="pill blue">Laser Precision</span>
+        <span class="pill good">No Cutting Force</span>
+        <span class="pill good">Hard Material Capability</span>
+      </div>
+    </section>
+
+    <hr class="divider" />
+
+    <!-- ══════════════════════════════════════════
+         UNIT 6
+    ══════════════════════════════════════════ -->
+    <section class="section" id="unit6">
+      <div class="section-label">Unit 06</div>
+      <h2 class="section-title"><span class="num">06.</span> Non-conventional Machining — Mechanical &amp; Electrochemical</h2>
+
+      <div class="callout green">
+        <div class="callout-title">🌊 Unit Overview</div>
+        <p>Covers material removal by mechanical abrasion (AJM, WJM, AWJM, USM) and by electrochemical and chemical dissolution (ECM, CHM) — processes that produce no thermal damage and are suited to complex, hard, or delicate workpieces.</p>
+      </div>
+
+      <h3>Mechanical Abrasive Processes</h3>
+      <div class="topic-grid">
+        <div class="topic-block">
+          <div class="topic-block-id">Process 01</div>
+          <h4>Abrasive Jet Machining (AJM)</h4>
+          <ul>
+            <li>High-velocity abrasive + gas stream</li>
+            <li>Nozzle: WC, sapphire (0.18–0.4 mm)</li>
+            <li>Deburring, cleaning, frosting glass</li>
+          </ul>
+        </div>
+        <div class="topic-block">
+          <div class="topic-block-id">Process 02</div>
+          <h4>Water Jet Machining (WJM)</h4>
+          <ul>
+            <li>Pure water at 200–400 MPa</li>
+            <li>No abrasive — soft materials only</li>
+            <li>Food, foam, rubber, textiles</li>
+          </ul>
+        </div>
+        <div class="topic-block highlight">
+          <div class="topic-block-id">Process 03 ★</div>
+          <h4>Abrasive Water Jet (AWJM)</h4>
+          <ul>
+            <li>Water + garnet/SiC abrasive</li>
+            <li>Cuts metals, composites, stone</li>
+            <li>No HAZ — cold cutting process</li>
+          </ul>
+        </div>
+        <div class="topic-block">
+          <div class="topic-block-id">Process 04</div>
+          <h4>Ultrasonic Machining (USM)</h4>
+          <ul>
+            <li>Tool vibrates at 20–40 kHz</li>
+            <li>Abrasive slurry impact + cavitation</li>
+            <li>Ceramics, glass, hard brittle materials</li>
+          </ul>
+        </div>
+      </div>
+
+      <h3>Electrochemical Machining (ECM)</h3>
+      <ul class="topic-list">
+        <li><strong>Principle</strong> — anodic dissolution of workpiece (Faraday's law); tool is cathode</li>
+        <li><strong>Elements of ECM</strong></li>
+        <li class="sub">Power supply — low voltage (5–30 V), high current (50–40 000 A)</li>
+        <li class="sub">Tool (cathode) — copper, brass, stainless steel</li>
+        <li class="sub">Electrolyte — NaCl, NaNO₃ solution; flushed at high velocity</li>
+        <li class="sub">Inter-electrode gap — 0.1–0.6 mm controlled by servo feed</li>
+        <li><strong>Advantages</strong> — no tool wear, no thermal damage, complex shapes in one pass</li>
+        <li><strong>Applications</strong> — turbine blade profiling, gun rifling, die sinking</li>
+        <li><strong>Limitations</strong> — electrolyte disposal, poor accuracy for sharp corners, high power</li>
+      </ul>
+
+      <div class="formula">ECM Material Removal Rate (Faraday's Law):
+
+  MRR = (I × A) / (F × z × ρ)
+
+  where  I = current (A)
+         A = atomic weight of workpiece material
+         F = Faraday's constant (96 485 C/mol)
+         z = valency of dissolution
+         ρ = density of workpiece (g/cm³)</div>
+
+      <h3>Chemical Machining (CHM)</h3>
+      <ul class="topic-list">
+        <li><strong>Principle</strong> — controlled chemical dissolution using etchant; no current required</li>
+        <li><strong>Etchants and Maskants</strong></li>
+        <li class="sub">Etchants: FeCl₃ (for Cu), HF/HNO₃ (for Al), NaOH (for Al)</li>
+        <li class="sub">Maskants: elastomers, photoresists, pressure-sensitive tapes</li>
+        <li class="sub">Photochemical machining (PCM) uses photolithography for masking</li>
+        <li><strong>Advantages</strong> — simultaneous machining of complex contours, thin sheets, no burr</li>
+        <li><strong>Applications</strong> — PCBs, aerospace skin panels, decorative etching</li>
+        <li><strong>Limitations</strong> — undercutting, slow MRR, hazardous chemical handling</li>
+      </ul>
+
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Process</th>
+              <th>Energy Source</th>
+              <th>Tool Wear</th>
+              <th>HAZ</th>
+              <th>Typical MRR</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>AJM</td><td>Kinetic (abrasive)</td><td>Nozzle wear</td><td>None</td><td>Very low</td></tr>
+            <tr><td>AWJM</td><td>Kinetic (water + abrasive)</td><td>Nozzle wear</td><td>None</td><td>Moderate</td></tr>
+            <tr><td>USM</td><td>Mechanical vibration</td><td>Low</td><td>None</td><td>Low</td></tr>
+            <tr><td>ECM</td><td>Electrochemical</td><td>None</td><td>None</td><td>High</td></tr>
+            <tr><td>CHM</td><td>Chemical</td><td>None</td><td>None</td><td>Very low</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <blockquote>
+        Unlike thermal non-conventional processes, electrochemical and chemical machining produce <strong>no heat-affected zone</strong> and <strong>zero residual stress</strong> — making them ideal for aerospace and precision medical components where surface integrity is paramount.
+      </blockquote>
+    </section>
+
+  </main>
+
+  <script>
+    // Scroll progress bar
+    window.addEventListener("scroll", () => {
+      const total = document.body.scrollHeight - window.innerHeight;
+      document.getElementById("progress").style.width = (window.scrollY / total) * 100 + "%";
+    });
+
+    // Section fade-in
+    const obs = new IntersectionObserver(
+      entries => entries.forEach(e => { if (e.isIntersecting) e.target.classList.add("visible"); }),
+      { threshold: 0.06 }
+    );
+    document.querySelectorAll(".section").forEach(s => obs.observe(s));
+  </script>
+</body>
+</html>
