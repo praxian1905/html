@@ -1,0 +1,1027 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Wind and Solar Energy Systems | Course Syllabus</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=Source+Serif+4:ital,opsz,wght@0,8..60,300;0,8..60,400;0,8..60,600;1,8..60,300&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg:      #0e0f0a;
+      --surface: #13150e;
+      --card:    #1a1e12;
+      --border:  #2a3020;
+      --accent:  #f9d71c;
+      --accent2: #7ec8a0;
+      --accent3: #4fc3f7;
+      --accent4: #ef8c34;
+      --accent5: #ce93d8;
+      --accent6: #ef5350;
+      --text:    #e8ead8;
+      --muted:   #8a9070;
+      --heading: #f5f5e8;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: "Source Serif 4", Georgia, serif;
+      font-size: 17px;
+      line-height: 1.8;
+      min-height: 100vh;
+    }
+
+    body::before {
+      content: "";
+      position: fixed; inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+      pointer-events: none; z-index: 999; opacity: 0.45;
+    }
+
+    strong { color: var(--heading); font-weight: 600; }
+    em     { color: var(--accent); font-style: italic; }
+    p      { margin-bottom: 18px; color: var(--text); }
+    h3 {
+      font-family: "Playfair Display", serif;
+      font-size: 19px; color: var(--heading);
+      margin: 32px 0 12px; font-weight: 700;
+    }
+    blockquote {
+      border-left: 3px solid var(--accent);
+      margin: 28px 0; padding: 14px 24px;
+      background: var(--card); font-style: italic;
+      color: var(--muted); font-size: 16px; border-radius: 0 2px 2px 0;
+    }
+
+    /* ── Scroll progress ── */
+    #progress {
+      position: fixed; top: 0; left: 0; height: 3px;
+      background: linear-gradient(90deg, var(--accent), var(--accent4), var(--accent2));
+      z-index: 1000; width: 0; transition: width 0.1s linear;
+    }
+
+    /* ── Layout ── */
+    .page { max-width: 1020px; margin: 0 auto; padding: 0 28px 100px; }
+    @media (max-width: 768px) { .page { padding: 0 16px 80px; } }
+
+    /* ── Hero ── */
+    .hero {
+      position: relative; overflow: hidden;
+      padding: 90px 40px 80px; text-align: center;
+      border-bottom: 1px solid var(--border);
+      background: radial-gradient(ellipse 90% 65% at 50% 0%, #1e1e04 0%, var(--bg) 70%);
+    }
+    .hero::after {
+      content: ""; position: absolute; left: 50%; top: -80px;
+      transform: translateX(-50%); width: 700px; height: 700px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(249,215,28,0.08) 0%, transparent 65%);
+      pointer-events: none;
+    }
+    /* Sun rays decoration */
+    .hero::before {
+      content: "";
+      position: absolute; left: 50%; top: 0;
+      transform: translateX(-50%);
+      width: 2px; height: 100%;
+      background: linear-gradient(to bottom, rgba(249,215,28,0.15), transparent);
+      box-shadow:
+        -120px 0 0 rgba(249,215,28,0.04),
+        120px 0 0 rgba(249,215,28,0.04),
+        -240px 0 0 rgba(249,215,28,0.02),
+        240px 0 0 rgba(249,215,28,0.02);
+      pointer-events: none;
+    }
+    .hero-badge {
+      display: inline-block;
+      font-family: "JetBrains Mono", monospace;
+      font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase;
+      color: var(--accent); border: 1px solid var(--accent);
+      padding: 4px 14px; border-radius: 2px; margin-bottom: 24px;
+      opacity: 0; animation: fadeUp 0.6s 0.1s forwards;
+    }
+    .hero h1 {
+      font-family: "Playfair Display", serif;
+      font-size: clamp(28px, 5vw, 54px); font-weight: 900;
+      color: var(--heading); line-height: 1.15;
+      max-width: 860px; margin: 0 auto 20px;
+      opacity: 0; animation: fadeUp 0.7s 0.25s forwards;
+    }
+    .hero h1 em { color: var(--accent); font-style: normal; }
+    .hero-sub {
+      font-size: 16px; color: var(--muted);
+      max-width: 640px; margin: 0 auto 36px;
+      opacity: 0; animation: fadeUp 0.7s 0.4s forwards;
+    }
+    .hero-meta {
+      display: flex; flex-wrap: wrap; gap: 20px; justify-content: center;
+      opacity: 0; animation: fadeUp 0.7s 0.55s forwards;
+    }
+    .hero-meta span {
+      font-family: "JetBrains Mono", monospace; font-size: 12px;
+      color: var(--muted); background: var(--card);
+      border: 1px solid var(--border); padding: 6px 14px; border-radius: 2px;
+    }
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(18px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ── TOC ── */
+    .toc {
+      background: var(--card); border: 1px solid var(--border);
+      border-left: 3px solid var(--accent);
+      padding: 32px 36px; margin: 52px 0 60px; border-radius: 2px;
+    }
+    .toc h2 {
+      font-family: "Playfair Display", serif; font-size: 20px;
+      color: var(--heading); margin-bottom: 20px;
+    }
+    .toc ol { padding-left: 22px; }
+    .toc li { margin-bottom: 8px; }
+    .toc a {
+      color: var(--accent3); text-decoration: none;
+      font-family: "JetBrains Mono", monospace; font-size: 13px;
+      transition: color 0.2s;
+    }
+    .toc a:hover { color: var(--accent); }
+
+    /* ── Sections ── */
+    .section {
+      margin-bottom: 72px;
+      opacity: 0; transform: translateY(24px);
+      transition: opacity 0.55s, transform 0.55s;
+    }
+    .section.visible { opacity: 1; transform: translateY(0); }
+    .section-label {
+      font-family: "JetBrains Mono", monospace;
+      font-size: 10.5px; letter-spacing: 0.18em; text-transform: uppercase;
+      color: var(--accent); margin-bottom: 10px;
+    }
+    h2.section-title {
+      font-family: "Playfair Display", serif;
+      font-size: clamp(22px, 3.5vw, 34px); font-weight: 700;
+      color: var(--heading); line-height: 1.2;
+      margin-bottom: 28px; padding-bottom: 14px;
+      border-bottom: 1px solid var(--border);
+    }
+    h2.section-title .num {
+      color: var(--accent); font-size: 0.7em; font-style: italic; margin-right: 10px;
+    }
+
+    /* ── Topic list ── */
+    .topic-list { list-style: none; padding: 0; margin: 0 0 24px; }
+    .topic-list li {
+      position: relative;
+      padding: 10px 16px 10px 36px;
+      border-bottom: 1px solid var(--border);
+      font-size: 15.5px; color: var(--text);
+      transition: background 0.15s;
+    }
+    .topic-list li:last-child { border-bottom: none; }
+    .topic-list li:hover { background: rgba(249,215,28,0.04); }
+    .topic-list li::before {
+      content: "▸";
+      position: absolute; left: 12px; top: 10px;
+      color: var(--accent); font-size: 13px;
+    }
+    .topic-list li.sub {
+      padding-left: 60px; font-size: 14.5px; color: var(--muted);
+    }
+    .topic-list li.sub::before { content: "–"; left: 38px; color: var(--accent3); }
+    .topic-list li.sub2 {
+      padding-left: 84px; font-size: 14px; color: #5a6040;
+    }
+    .topic-list li.sub2::before { content: "·"; left: 66px; color: var(--accent2); font-size: 16px; }
+
+    /* ── Callouts ── */
+    .callout {
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: 2px; padding: 22px 26px; margin: 28px 0;
+    }
+    .callout.yellow { border-left: 3px solid var(--accent); }
+    .callout.green  { border-left: 3px solid var(--accent2); }
+    .callout.blue   { border-left: 3px solid var(--accent3); }
+    .callout.orange { border-left: 3px solid var(--accent4); }
+    .callout.purple { border-left: 3px solid var(--accent5); }
+    .callout.red    { border-left: 3px solid var(--accent6); }
+    .callout-title {
+      font-family: "JetBrains Mono", monospace;
+      font-size: 11px; text-transform: uppercase; letter-spacing: 0.12em; margin-bottom: 10px;
+    }
+    .callout.yellow .callout-title { color: var(--accent); }
+    .callout.green  .callout-title { color: var(--accent2); }
+    .callout.blue   .callout-title { color: var(--accent3); }
+    .callout.orange .callout-title { color: var(--accent4); }
+    .callout.purple .callout-title { color: var(--accent5); }
+    .callout.red    .callout-title { color: var(--accent6); }
+    .callout p { margin-bottom: 0; font-size: 15px; }
+
+    /* ── Formula block ── */
+    .formula {
+      background: #080900; border: 1px solid var(--border); border-radius: 2px;
+      padding: 18px 24px; margin: 22px 0;
+      font-family: "JetBrains Mono", monospace; font-size: 13.5px;
+      color: var(--accent3); overflow-x: auto; white-space: pre;
+    }
+
+    /* ── Card grid ── */
+    .card-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+      gap: 18px; margin: 24px 0;
+    }
+    .card {
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: 2px; padding: 22px 24px;
+      transition: border-color 0.2s, transform 0.2s;
+    }
+    .card:hover { border-color: var(--accent); transform: translateY(-3px); }
+    .card-id {
+      font-family: "JetBrains Mono", monospace; font-size: 10px;
+      color: var(--accent); letter-spacing: 0.14em;
+      text-transform: uppercase; margin-bottom: 8px;
+    }
+    .card h4 {
+      font-family: "Playfair Display", serif; font-size: 16px;
+      color: var(--heading); margin-bottom: 10px;
+    }
+    .card ul { list-style: none; padding: 0; margin: 0; }
+    .card ul li {
+      font-size: 13.5px; color: var(--muted);
+      padding: 4px 0 4px 14px; border-bottom: 1px solid rgba(42,48,32,0.8);
+      position: relative;
+    }
+    .card ul li:last-child { border-bottom: none; }
+    .card ul li::before { content: "·"; position: absolute; left: 2px; color: var(--accent3); }
+    .card.hl-yellow { border-color: var(--accent);  background: #1a1a02; }
+    .card.hl-yellow h4 { color: var(--accent); }
+    .card.hl-green  { border-color: var(--accent2); background: #0d1a12; }
+    .card.hl-green  h4 { color: var(--accent2); }
+    .card.hl-blue   { border-color: var(--accent3); background: #0a1520; }
+    .card.hl-blue   h4 { color: var(--accent3); }
+    .card.hl-orange { border-color: var(--accent4); background: #1a1005; }
+    .card.hl-orange h4 { color: var(--accent4); }
+    .card.hl-purple { border-color: var(--accent5); background: #160f1a; }
+    .card.hl-purple h4 { color: var(--accent5); }
+
+    /* ── Sun / wind illustration SVG strip ── */
+    .icon-strip {
+      display: flex; gap: 0; margin: 28px 0;
+      background: var(--card); border: 1px solid var(--border); border-radius: 2px; overflow: hidden;
+    }
+    .icon-seg {
+      flex: 1; padding: 20px 12px; text-align: center;
+      border-right: 1px solid var(--border); transition: background 0.2s, flex 0.3s;
+      cursor: default;
+    }
+    .icon-seg:last-child { border-right: none; }
+    .icon-seg:hover { background: rgba(249,215,28,0.05); flex: 1.6; }
+    .icon-seg .icon { font-size: 28px; display: block; margin-bottom: 8px; }
+    .icon-seg h4 {
+      font-family: "JetBrains Mono", monospace; font-size: 11px;
+      color: var(--accent); letter-spacing: 0.1em; margin-bottom: 4px;
+    }
+    .icon-seg p { font-size: 12px; color: var(--muted); margin: 0; line-height: 1.5; }
+
+    /* ── Betz / power curve visual ── */
+    .betz-bar {
+      margin: 24px 0; background: var(--card); border: 1px solid var(--border);
+      border-radius: 2px; padding: 20px 24px;
+    }
+    .betz-bar h4 {
+      font-family: "JetBrains Mono", monospace; font-size: 11px;
+      color: var(--accent); letter-spacing: 0.12em; margin-bottom: 14px; text-transform: uppercase;
+    }
+    .bar-track { height: 28px; background: #0d0e08; border-radius: 2px; overflow: hidden; position: relative; }
+    .bar-fill {
+      height: 100%; border-radius: 2px;
+      display: flex; align-items: center; padding: 0 10px;
+      font-family: "JetBrains Mono", monospace; font-size: 12px; color: #000;
+      font-weight: 600;
+    }
+    .bar-betz   { width: 59.3%; background: var(--accent); }
+    .bar-real   { width: 45%;   background: var(--accent2); }
+    .bar-theory { width: 100%;  background: #2a3020; color: var(--muted); }
+    .bar-labels { display: flex; justify-content: space-between; margin-top: 8px;
+      font-family: "JetBrains Mono", monospace; font-size: 11px; color: var(--muted); }
+
+    /* ── Flow steps ── */
+    .flow { display: flex; flex-wrap: wrap; gap: 14px; margin: 24px 0; }
+    .flow-step {
+      flex: 1; min-width: 150px;
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: 2px; padding: 16px 18px;
+      transition: border-color 0.2s;
+    }
+    .flow-step:hover { border-color: var(--accent); }
+    .step-num {
+      font-family: "JetBrains Mono", monospace; font-size: 10px;
+      color: var(--accent); letter-spacing: 0.12em; margin-bottom: 6px;
+    }
+    .flow-step h4 {
+      font-family: "Playfair Display", serif; font-size: 15px;
+      color: var(--heading); margin-bottom: 4px;
+    }
+    .flow-step p { font-size: 13px; color: var(--muted); margin: 0; }
+
+    /* ── Table ── */
+    .table-wrap { overflow-x: auto; margin: 28px 0; }
+    table { width: 100%; border-collapse: collapse; font-size: 15px; background: var(--card); border: 1px solid var(--border); }
+    thead th {
+      background: #151600; color: var(--accent);
+      font-family: "JetBrains Mono", monospace;
+      font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase;
+      padding: 12px 16px; text-align: left; border-bottom: 1px solid var(--border);
+    }
+    tbody td { padding: 11px 16px; border-bottom: 1px solid var(--border); vertical-align: top; }
+    tbody tr:last-child td { border-bottom: none; }
+    tbody tr:hover td { background: rgba(249,215,28,0.03); }
+
+    /* ── Pills ── */
+    .pills { display: flex; flex-wrap: wrap; gap: 10px; margin: 18px 0; }
+    .pill {
+      background: var(--card); border: 1px solid var(--border);
+      padding: 6px 14px; border-radius: 20px;
+      font-size: 13px; color: var(--text); font-family: "JetBrains Mono", monospace;
+    }
+    .pill.yellow { border-color: var(--accent);  color: var(--accent); }
+    .pill.green  { border-color: var(--accent2); color: var(--accent2); }
+    .pill.blue   { border-color: var(--accent3); color: var(--accent3); }
+    .pill.orange { border-color: var(--accent4); color: var(--accent4); }
+    .pill.purple { border-color: var(--accent5); color: var(--accent5); }
+    .pill.red    { border-color: var(--accent6); color: var(--accent6); }
+
+    /* ── Solar tech comparison bar ── */
+    .solar-band {
+      display: flex; height: 50px;
+      border: 1px solid var(--border); border-radius: 2px; overflow: hidden; margin: 24px 0;
+    }
+    .solar-seg {
+      flex: 1; display: flex; align-items: center; justify-content: center;
+      font-family: "JetBrains Mono", monospace; font-size: 11px;
+      text-align: center; padding: 6px; transition: flex 0.3s; cursor: default;
+    }
+    .solar-seg:hover { flex: 2.4; }
+    .ss1 { background: #1a1a02; color: var(--accent);  border-right: 1px solid var(--border); }
+    .ss2 { background: #0a1520; color: var(--accent3); border-right: 1px solid var(--border); }
+    .ss3 { background: #0d1a12; color: var(--accent2); border-right: 1px solid var(--border); }
+    .ss4 { background: #1a1005; color: var(--accent4); border-right: 1px solid var(--border); }
+    .ss5 { background: #160f1a; color: var(--accent5); }
+
+    /* ── Divider ── */
+    .divider { border: none; border-top: 1px solid var(--border); margin: 60px 0; }
+  </style>
+</head>
+<body>
+  <div id="progress"></div>
+
+  <!-- ── Hero ── -->
+  <header class="hero">
+    <div class="hero-badge">Electrical / Renewable Energy Engineering · Elective</div>
+    <h1>Wind &amp; Solar <em>Energy Systems</em></h1>
+    <p class="hero-sub">A comprehensive unit-by-unit syllabus spanning wind physics, generator topologies, solar resource estimation, photovoltaics, grid integration, and solar thermal power generation technologies.</p>
+    <div class="hero-meta">
+      <span>☀️ 6 Units</span>
+      <span>💨 Wind &amp; Solar</span>
+      <span>⚡ Grid Integration &amp; Power Electronics</span>
+      <span>🎓 B.Tech / B.E. Level</span>
+    </div>
+  </header>
+
+  <main class="page">
+
+    <!-- ── TOC ── -->
+    <nav class="toc">
+      <h2>📋 Table of Contents</h2>
+      <ol>
+        <li><a href="#unit1">Unit 1 — Physics of Wind Power</a></li>
+        <li><a href="#unit2">Unit 2 — Wind Generator Topologies</a></li>
+        <li><a href="#unit3">Unit 3 — The Solar Resource</a></li>
+        <li><a href="#unit4">Unit 4 — Solar Photovoltaic</a></li>
+        <li><a href="#unit5">Unit 5 — Network Integration Issues</a></li>
+        <li><a href="#unit6">Unit 6 — Solar Thermal Power Generation</a></li>
+      </ol>
+    </nav>
+
+    <!-- ══════════════════════════════════════════
+         UNIT 1
+    ══════════════════════════════════════════ -->
+    <section class="section" id="unit1">
+      <div class="section-label">Unit 01</div>
+      <h2 class="section-title"><span class="num">01.</span> Physics of Wind Power</h2>
+
+      <div class="callout yellow">
+        <div class="callout-title">💨 Unit Overview</div>
+        <p>Establishes the physical and statistical foundations of wind as an energy resource — from the historical development of wind technology and global capacity statistics, through aerodynamic power limits and rotor control strategies, to probabilistic wind speed modelling used in resource assessment.</p>
+      </div>
+
+      <h3>History &amp; Global Context</h3>
+      <ul class="topic-list">
+        <li>History of wind power — from windmills to modern multi-MW turbines</li>
+        <li>Indian wind energy statistics — installed capacity, growth trajectory, top states</li>
+        <li>Global statistics — leading nations, offshore vs. onshore capacity, IRENA targets</li>
+      </ul>
+
+      <h3>Aerodynamic Fundamentals</h3>
+      <ul class="topic-list">
+        <li><strong>Wind physics</strong> — kinetic energy flux, Bernoulli effect, atmospheric boundary layer</li>
+        <li><strong>Betz limit</strong> — theoretical maximum power extraction from wind</li>
+        <li class="sub">Cp_max = 16/27 ≈ 0.593 (59.3 % of available kinetic power)</li>
+        <li class="sub">Derived from actuator disc theory — momentum and energy balance</li>
+        <li><strong>Tip speed ratio (TSR / λ)</strong> — ratio of blade tip speed to wind speed</li>
+        <li class="sub">λ = ω R / V_w ; optimal λ maximises Cp</li>
+        <li><strong>Stall control</strong> — passive aerodynamic stall limits power at high winds; fixed pitch</li>
+        <li><strong>Pitch control</strong> — active blade pitching to regulate output and protect at high winds</li>
+      </ul>
+
+      <!-- Betz visual bar -->
+      <div class="betz-bar">
+        <h4>Power Coefficient Benchmark — Cp</h4>
+        <div style="margin-bottom:8px">
+          <div class="bar-track"><div class="bar-fill bar-theory">100 % — Theoretical Kinetic Power in Wind</div></div>
+        </div>
+        <div style="margin-bottom:8px">
+          <div class="bar-track"><div class="bar-fill bar-betz">59.3 % — Betz Limit (theoretical max)</div></div>
+        </div>
+        <div>
+          <div class="bar-track"><div class="bar-fill bar-real">40–50 % — Practical Cp (modern HAWT)</div></div>
+        </div>
+        <div class="bar-labels"><span>0 %</span><span>Cp → 100 %</span></div>
+      </div>
+
+      <h3>Wind Speed Statistics</h3>
+      <ul class="topic-list">
+        <li>Wind speed probability distributions — Weibull distribution (k, c parameters); Rayleigh as special case</li>
+        <li class="sub">f(v) = (k/c)(v/c)^(k−1) exp[−(v/c)^k]</li>
+        <li>Cumulative distribution function (CDF) — fraction of time wind exceeds a given speed</li>
+        <li>Wind power density — P/A = ½ρv³ ; importance of cube law</li>
+        <li>Capacity factor and annual energy production (AEP) estimation from CDF</li>
+      </ul>
+
+      <div class="formula">Betz Limit Derivation:
+
+  P_wind   = ½ ρ A v³              (available kinetic power)
+  P_turbine = Cp × ½ ρ A v³        (extracted power)
+
+  Maximum Cp = 16/27 ≈ 0.593  at  axial induction factor a = 1/3
+
+Weibull Wind Speed Distribution:
+  f(v) = (k/c)(v/c)^(k-1) exp[-(v/c)^k]
+
+  k = shape factor  (≈ 2 for Rayleigh; India sites: 1.8–2.5)
+  c = scale factor  [m/s]  ≈ 1.128 × V_mean</div>
+
+      <div class="pills">
+        <span class="pill yellow">Betz Limit 59.3 %</span>
+        <span class="pill green">Weibull Distribution</span>
+        <span class="pill blue">Tip Speed Ratio</span>
+        <span class="pill orange">Pitch Control</span>
+        <span class="pill green">Capacity Factor</span>
+      </div>
+    </section>
+
+    <hr class="divider" />
+
+    <!-- ══════════════════════════════════════════
+         UNIT 2
+    ══════════════════════════════════════════ -->
+    <section class="section" id="unit2">
+      <div class="section-label">Unit 02</div>
+      <h2 class="section-title"><span class="num">02.</span> Wind Generator Topologies</h2>
+
+      <div class="callout green">
+        <div class="callout-title">⚡ Unit Overview</div>
+        <p>Reviews the electrical machine and power electronics configurations used in modern wind turbines — from fixed-speed squirrel cage induction generators to fully-rated converter systems with permanent-magnet synchronous machines — including the control strategies employed for each.</p>
+      </div>
+
+      <h3>Wind Turbine Technology Overview</h3>
+      <ul class="topic-list">
+        <li>Review of modern wind turbine technologies — HAWT vs. VAWT, onshore vs. offshore</li>
+        <li><strong>Fixed-speed wind turbines</strong> — SCIG direct-on-line; simple but limited energy capture</li>
+        <li><strong>Variable-speed wind turbines</strong> — decoupled from grid frequency; maximum energy capture via MPPT</li>
+      </ul>
+
+      <h3>Generator Technologies</h3>
+      <div class="card-grid">
+        <div class="card hl-yellow">
+          <div class="card-id">Generator 01 ★</div>
+          <h4>DFIG — Doubly-Fed Induction Generator</h4>
+          <ul>
+            <li>Wound-rotor IM; stator direct to grid</li>
+            <li>Rotor connected via back-to-back converter (≈ 30 % rating)</li>
+            <li>Sub- and super-synchronous operation</li>
+            <li>Industry dominant — 1.5–3.5 MW class</li>
+          </ul>
+        </div>
+        <div class="card hl-blue">
+          <div class="card-id">Generator 02 ★</div>
+          <h4>PMSG — Permanent-Magnet Synchronous Generator</h4>
+          <ul>
+            <li>High-pole-count; gearless (direct-drive)</li>
+            <li>Full-rated back-to-back converter</li>
+            <li>High efficiency; better offshore reliability</li>
+            <li>Preferred for offshore &gt; 5 MW</li>
+          </ul>
+        </div>
+        <div class="card">
+          <div class="card-id">Generator 03</div>
+          <h4>SCIG — Squirrel-Cage Induction Generator</h4>
+          <ul>
+            <li>Fixed-speed; directly grid connected</li>
+            <li>Capacitor bank for reactive compensation</li>
+            <li>Robust, low cost, limited flexibility</li>
+          </ul>
+        </div>
+        <div class="card">
+          <div class="card-id">Generator 04</div>
+          <h4>EESG — Electrically Excited Sync. Gen.</h4>
+          <ul>
+            <li>Wound rotor; field current controllable</li>
+            <li>Full converter; medium-speed with gearbox</li>
+            <li>Reactive power control capability</li>
+          </ul>
+        </div>
+      </div>
+
+      <h3>Power Electronics &amp; Control</h3>
+      <ul class="topic-list">
+        <li><strong>Power electronics converters</strong></li>
+        <li class="sub">Diode rectifier + DC-link + VSI (early systems)</li>
+        <li class="sub">Back-to-back two-level VSC (most common)</li>
+        <li class="sub">Multilevel converters (NPC, MMC) for large offshore turbines</li>
+        <li><strong>Generator–converter configurations</strong></li>
+        <li class="sub">Type 1: Fixed-speed SCIG — no converter</li>
+        <li class="sub">Type 2: WRIG with variable rotor resistance</li>
+        <li class="sub">Type 3: DFIG — partial-scale converter (rotor-side)</li>
+        <li class="sub">Type 4: Full-converter (PMSG or SCIG) — complete grid decoupling</li>
+        <li><strong>Converter control</strong></li>
+        <li class="sub">Rotor-side converter (RSC) — active power / speed MPPT control</li>
+        <li class="sub">Grid-side converter (GSC) — DC-link voltage, reactive power control</li>
+        <li class="sub">Vector control (FOC) and direct torque control (DTC)</li>
+        <li class="sub">Phase-locked loop (PLL) for grid synchronisation</li>
+      </ul>
+
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Type</th><th>Generator</th><th>Converter Rating</th><th>Speed</th><th>Key Advantage</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td><strong>Type 1</strong></td><td>SCIG</td><td>None</td><td>Fixed</td><td>Simple, low cost</td></tr>
+            <tr><td><strong>Type 2</strong></td><td>WRIG</td><td>Small (rotor resistance)</td><td>Limited variable</td><td>Slight speed range</td></tr>
+            <tr><td><strong>Type 3</strong></td><td>DFIG</td><td>≈ 30 % rated</td><td>Variable ±30 %</td><td>Cost-efficient MPPT</td></tr>
+            <tr><td><strong>Type 4</strong></td><td>PMSG / SCIG</td><td>100 % rated</td><td>Full variable</td><td>Full grid decoupling, FRT</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <hr class="divider" />
+
+    <!-- ══════════════════════════════════════════
+         UNIT 3
+    ══════════════════════════════════════════ -->
+    <section class="section" id="unit3">
+      <div class="section-label">Unit 03</div>
+      <h2 class="section-title"><span class="num">03.</span> The Solar Resource</h2>
+
+      <div class="callout yellow">
+        <div class="callout-title">☀️ Unit Overview</div>
+        <p>Characterises sunlight as an engineering resource — covering the electromagnetic spectrum of solar radiation, the geometric relationships between the Earth, Sun, and observer that govern irradiance on a tilted surface, and the methods used to estimate site-specific solar energy availability.</p>
+      </div>
+
+      <h3>Solar Radiation</h3>
+      <ul class="topic-list">
+        <li>Introduction — solar constant G_sc = 1361 W/m² (outside atmosphere)</li>
+        <li><strong>Solar radiation spectra</strong> — AM0 (extraterrestrial), AM1.5 (terrestrial standard)</li>
+        <li class="sub">UV (&lt; 400 nm), visible (400–700 nm), NIR (700–2500 nm)</li>
+        <li class="sub">Atmospheric attenuation — Rayleigh scattering, aerosol absorption, water vapour</li>
+        <li>Beam (direct), diffuse, and reflected (albedo) irradiance components</li>
+        <li>Global Horizontal Irradiance (GHI) = DNI·cos(θ_z) + DHI</li>
+      </ul>
+
+      <h3>Solar Geometry</h3>
+      <div class="card-grid">
+        <div class="card hl-yellow">
+          <div class="card-id">Geometry 01</div>
+          <h4>Earth–Sun Angles</h4>
+          <ul>
+            <li>Declination angle δ — seasonal variation (±23.45°)</li>
+            <li>Equation of time — solar vs. clock time correction</li>
+            <li>Hour angle ω — 15°/hour from solar noon</li>
+            <li>Extraterrestrial irradiance vs. day of year</li>
+          </ul>
+        </div>
+        <div class="card hl-orange">
+          <div class="card-id">Geometry 02</div>
+          <h4>Observer–Sun Angles</h4>
+          <ul>
+            <li>Solar altitude angle α and zenith angle θ_z</li>
+            <li>Solar azimuth angle γ_s</li>
+            <li>Angle of incidence on tilted surface θ</li>
+            <li>Optimum tilt angle ≈ latitude ± seasonal correction</li>
+          </ul>
+        </div>
+      </div>
+
+      <ul class="topic-list">
+        <li><strong>Solar day length</strong> — sunset hour angle ω_s and day length N</li>
+        <li class="sub">cos(ω_s) = −tan(φ)·tan(δ) ; N = (2/15) ω_s hours</li>
+        <li><strong>Estimation of solar energy availability</strong></li>
+        <li class="sub">Clearness index K_T = H / H_o (measured to extraterrestrial ratio)</li>
+        <li class="sub">Liu–Jordan correlations for diffuse fraction</li>
+        <li class="sub">TMY (Typical Meteorological Year) data and satellite-derived irradiance (NASA POWER, PVGIS)</li>
+        <li class="sub">Perez transposition model — irradiance on tilted planes</li>
+      </ul>
+
+      <div class="formula">Key Solar Geometry Relations:
+
+  Declination:   δ = 23.45 × sin[360(284+n)/365]°   (n = day of year)
+
+  Cos(θ_z) = sin(φ)sin(δ) + cos(φ)cos(δ)cos(ω)
+             (φ = latitude, ω = hour angle)
+
+  Day Length:    N = (2/15) × arccos(-tan(φ)tan(δ))   hours
+
+  GHI  = DNI × cos(θ_z) + DHI
+  POA  = DNI × cos(θ) + DHI_sky + GHI × ρ × (1-cos β)/2</div>
+    </section>
+
+    <hr class="divider" />
+
+    <!-- ══════════════════════════════════════════
+         UNIT 4
+    ══════════════════════════════════════════ -->
+    <section class="section" id="unit4">
+      <div class="section-label">Unit 04</div>
+      <h2 class="section-title"><span class="num">04.</span> Solar Photovoltaic</h2>
+
+      <div class="callout orange">
+        <div class="callout-title">🔆 Unit Overview</div>
+        <p>Covers the semiconductor physics and technology of photovoltaic cells — from amorphous thin films to high-efficiency mono-crystalline silicon — and extends to module/array configuration, power conditioning electronics, and MPPT algorithms that extract maximum power under varying irradiance.</p>
+      </div>
+
+      <h3>PV Technologies</h3>
+
+      <div class="solar-band" title="Hover to expand">
+        <div class="solar-seg ss1">Mono-crystalline Si<br>η ≈ 20–24 %</div>
+        <div class="solar-seg ss2">Poly-crystalline Si<br>η ≈ 15–20 %</div>
+        <div class="solar-seg ss3">Amorphous Si<br>η ≈ 6–12 %</div>
+        <div class="solar-seg ss4">CdTe / CIGS<br>η ≈ 13–18 %</div>
+        <div class="solar-seg ss5">Perovskite / Multi-junction<br>η &gt; 25 %</div>
+      </div>
+
+      <div class="card-grid">
+        <div class="card hl-yellow">
+          <div class="card-id">Technology 01 ★</div>
+          <h4>Mono-Crystalline Silicon</h4>
+          <ul>
+            <li>Single crystal Czochralski or FZ growth</li>
+            <li>Highest efficiency (20–24 %)</li>
+            <li>Higher cost; best space-constrained sites</li>
+            <li>PERC, TOPCon, HJT architectures</li>
+          </ul>
+        </div>
+        <div class="card hl-blue">
+          <div class="card-id">Technology 02</div>
+          <h4>Poly-Crystalline Silicon</h4>
+          <ul>
+            <li>Multi-grain cast ingot; lower cost</li>
+            <li>Efficiency 15–20 %</li>
+            <li>Dominant utility-scale technology (legacy)</li>
+            <li>Higher temperature coefficient loss</li>
+          </ul>
+        </div>
+        <div class="card">
+          <div class="card-id">Technology 03</div>
+          <h4>Amorphous Silicon (a-Si)</h4>
+          <ul>
+            <li>Thin-film deposition on glass/flex substrate</li>
+            <li>Low efficiency (6–12 %); light-induced degradation</li>
+            <li>Better low-light and high-temp performance</li>
+            <li>BIPV, consumer electronics, low-cost applications</li>
+          </ul>
+        </div>
+      </div>
+
+      <h3>V–I Characteristics &amp; PV Modelling</h3>
+      <ul class="topic-list">
+        <li><strong>V–I characteristics of a PV cell</strong> — single-diode model</li>
+        <li class="sub">I = I_ph − I_o [exp(q(V+IR_s)/nkT) − 1] − (V+IR_s)/R_sh</li>
+        <li class="sub">Short-circuit current I_sc, open-circuit voltage V_oc, maximum power point (V_mp, I_mp)</li>
+        <li class="sub">Fill Factor FF = P_max / (V_oc × I_sc) ; effect of R_s and R_sh</li>
+        <li class="sub">Effect of irradiance (I_sc ∝ G) and temperature (V_oc decreases ≈ −2.3 mV/°C for Si)</li>
+        <li><strong>PV module and array</strong> — series strings for voltage, parallel strings for current</li>
+        <li>Partial shading — bypass diodes, module-level power electronics (MLPE)</li>
+        <li><strong>Power electronic converters for solar systems</strong></li>
+        <li class="sub">String inverter, central inverter, microinverter, DC optimiser</li>
+        <li class="sub">DC–DC boost converter (MPPT stage) + DC–AC VSI (grid stage)</li>
+      </ul>
+
+      <h3>MPPT Algorithms &amp; Converter Control</h3>
+      <div class="card-grid">
+        <div class="card hl-green">
+          <div class="card-id">MPPT 01 ★</div>
+          <h4>Perturb &amp; Observe (P&amp;O)</h4>
+          <ul>
+            <li>Perturb duty cycle; observe ΔP</li>
+            <li>Simple; oscillates around MPP</li>
+            <li>Most widely implemented</li>
+          </ul>
+        </div>
+        <div class="card">
+          <div class="card-id">MPPT 02</div>
+          <h4>Incremental Conductance (INC)</h4>
+          <ul>
+            <li>dP/dV = 0 at MPP → dI/dV = −I/V</li>
+            <li>Better tracking under rapid irradiance change</li>
+          </ul>
+        </div>
+        <div class="card">
+          <div class="card-id">MPPT 03</div>
+          <h4>Constant Voltage / Fractional V_oc</h4>
+          <ul>
+            <li>V_mp ≈ 0.76 × V_oc ; simple periodic sampling</li>
+            <li>Low complexity; some power loss</li>
+          </ul>
+        </div>
+        <div class="card">
+          <div class="card-id">MPPT 04</div>
+          <h4>AI / Model-Based MPPT</h4>
+          <ul>
+            <li>Fuzzy logic, ANN, sliding mode</li>
+            <li>Fast convergence; handles partial shading</li>
+            <li>Emerging in utility-scale inverters</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="formula">Single-Diode PV Cell Model:
+
+  I = I_ph − I_o [exp(q(V + I·R_s)/(n·k·T)) − 1] − (V + I·R_s)/R_sh
+
+  where  I_ph = photocurrent ∝ G (irradiance)
+         I_o  = dark saturation current ∝ T³ exp(-E_g/kT)
+         n    = ideality factor (1–2)
+         R_s  = series resistance  (parasitic loss)
+         R_sh = shunt resistance   (leakage loss)
+
+Fill Factor:
+  FF = P_mp / (V_oc × I_sc) = (V_mp × I_mp) / (V_oc × I_sc)</div>
+    </section>
+
+    <hr class="divider" />
+
+    <!-- ══════════════════════════════════════════
+         UNIT 5
+    ══════════════════════════════════════════ -->
+    <section class="section" id="unit5">
+      <div class="section-label">Unit 05</div>
+      <h2 class="section-title"><span class="num">05.</span> Network Integration Issues</h2>
+
+      <div class="callout blue">
+        <div class="callout-title">🔌 Unit Overview</div>
+        <p>Addresses the technical challenges of integrating large-scale wind and solar generation into modern power systems — grid codes, fault ride-through requirements, voltage/frequency regulation, power quality, and real-world interconnection experiences including hybrid and islanded operation.</p>
+      </div>
+
+      <h3>Grid Code Technical Requirements</h3>
+      <ul class="topic-list">
+        <li>Overview of grid code requirements — IEGC (India), ENTSO-E (Europe), FERC (USA)</li>
+        <li><strong>Fault Ride-Through (FRT) for wind farms</strong></li>
+        <li class="sub">Low Voltage Ride-Through (LVRT) — remain connected during voltage dips</li>
+        <li class="sub">High Voltage Ride-Through (HVRT) — tolerate voltage swells</li>
+        <li class="sub">Real power recovery ramp-rate requirements post-fault</li>
+        <li class="sub">Reactive current injection during fault (I_q ≥ 2 % rated per 1 % voltage deviation)</li>
+        <li><strong>Real and reactive power regulation</strong></li>
+        <li class="sub">Active power curtailment for frequency response</li>
+        <li class="sub">Reactive power range (power factor 0.95 lead/lag at PCC)</li>
+        <li><strong>Voltage and frequency operating limits</strong></li>
+        <li class="sub">Voltage range: 0.9–1.1 pu continuous ; frequency: 47.5–51.5 Hz (India)</li>
+      </ul>
+
+      <h3>Grid Disturbances &amp; Power Quality</h3>
+      <ul class="topic-list">
+        <li>Solar PV and wind farm behaviour during grid disturbances — power oscillations, ramp events</li>
+        <li><strong>Power quality issues</strong></li>
+        <li class="sub">Voltage flicker — tower shadow, turbulence-induced power pulsation</li>
+        <li class="sub">Harmonics — inverter switching; IEEE 1547 THD limits</li>
+        <li class="sub">Voltage unbalance in large distributed PV systems</li>
+        <li class="sub">Inrush and energisation transients</li>
+        <li>Power system interconnection experiences — Denmark (offshore), Germany (Energiewende), India (ISTS)</li>
+      </ul>
+
+      <h3>Hybrid &amp; Isolated Operations</h3>
+      <div class="flow">
+        <div class="flow-step">
+          <div class="step-num">Mode 01</div>
+          <h4>Grid-Connected Hybrid</h4>
+          <p>Wind + PV + BESS behind the meter or at utility scale. Grid provides balancing.</p>
+        </div>
+        <div class="flow-step">
+          <div class="step-num">Mode 02</div>
+          <h4>Island / Microgrid</h4>
+          <p>Isolated operation with diesel backup. Frequency and voltage controlled by storage or genset.</p>
+        </div>
+        <div class="flow-step">
+          <div class="step-num">Mode 03</div>
+          <h4>Diesel Offset</h4>
+          <p>Wind/PV reduces diesel consumption in remote sites; spinning reserve maintained.</p>
+        </div>
+        <div class="flow-step">
+          <div class="step-num">Mode 04</div>
+          <h4>100 % Renewable Island</h4>
+          <p>Wind + PV + BESS + hydrogen storage — El Hierro model; no fossil backup.</p>
+        </div>
+      </div>
+
+      <div class="callout blue">
+        <div class="callout-title">🌐 Global Experience</div>
+        <p>Countries like <strong>Denmark</strong> routinely exceed 100 % instantaneous wind penetration, while <strong>Germany</strong> manages &gt; 50 % renewable share. India's <strong>RE-rich states</strong> (Tamil Nadu, Rajasthan, Gujarat) face curtailment challenges — key case studies for integration strategy.</p>
+      </div>
+    </section>
+
+    <hr class="divider" />
+
+    <!-- ══════════════════════════════════════════
+         UNIT 6
+    ══════════════════════════════════════════ -->
+    <section class="section" id="unit6">
+      <div class="section-label">Unit 06</div>
+      <h2 class="section-title"><span class="num">06.</span> Solar Thermal Power Generation</h2>
+
+      <div class="callout orange">
+        <div class="callout-title">🔥 Unit Overview</div>
+        <p>Surveys concentrating solar power (CSP) technologies that use optical concentration to generate high-temperature heat for thermodynamic power cycles — from parabolic troughs and central receivers to dish-Stirling systems, Fresnel reflectors, and solar ponds — with elementary thermodynamic analysis of each.</p>
+      </div>
+
+      <h3>CSP Technology Overview</h3>
+
+      <div class="icon-strip">
+        <div class="icon-seg">
+          <span class="icon">🔭</span>
+          <h4>Parabolic Trough</h4>
+          <p>Line-focus; HTF in receiver tube</p>
+        </div>
+        <div class="icon-seg">
+          <span class="icon">🗼</span>
+          <h4>Central Receiver</h4>
+          <p>Point-focus; heliostat field + tower</p>
+        </div>
+        <div class="icon-seg">
+          <span class="icon">📡</span>
+          <h4>Parabolic Dish</h4>
+          <p>Point-focus; Stirling engine at focus</p>
+        </div>
+        <div class="icon-seg">
+          <span class="icon">🪞</span>
+          <h4>Fresnel Reflector</h4>
+          <p>Flat mirrors approximate trough</p>
+        </div>
+        <div class="icon-seg">
+          <span class="icon">🌊</span>
+          <h4>Solar Pond</h4>
+          <p>Salinity gradient stores heat</p>
+        </div>
+      </div>
+
+      <div class="card-grid">
+        <div class="card hl-yellow">
+          <div class="card-id">CSP 01 ★ — Mature Technology</div>
+          <h4>Parabolic Trough Collector (PTC)</h4>
+          <ul>
+            <li>Single-axis tracking parabolic mirror</li>
+            <li>HTF: synthetic oil (390 °C) or molten salt (550 °C)</li>
+            <li>Steam Rankine cycle; efficiency ≈ 14–16 %</li>
+            <li>Largest installed CSP base; thermal storage (TES) viable</li>
+            <li>Example: Rajasthan Solar Park, Ivanpah (USA)</li>
+          </ul>
+        </div>
+        <div class="card hl-orange">
+          <div class="card-id">CSP 02 ★ — High Temperature</div>
+          <h4>Central Receiver (Power Tower)</h4>
+          <ul>
+            <li>Thousands of heliostats track sun → tower receiver</li>
+            <li>Concentration ratio: 300–1 000×; T &gt; 550 °C</li>
+            <li>Working fluid: molten salt, steam, air (sCO₂ future)</li>
+            <li>Large TES enables dispatchable solar power</li>
+            <li>Example: Crescent Dunes, Noor III (Morocco)</li>
+          </ul>
+        </div>
+        <div class="card hl-green">
+          <div class="card-id">CSP 03 — Modular</div>
+          <h4>Parabolic Dish–Stirling</h4>
+          <ul>
+            <li>Two-axis tracking paraboloid; point focus</li>
+            <li>Stirling engine at focal point; no water needed</li>
+            <li>Highest solar-to-electric efficiency (≈ 30 %)</li>
+            <li>Modular (10–50 kW units); remote power</li>
+          </ul>
+        </div>
+        <div class="card">
+          <div class="card-id">CSP 04 — Low Cost</div>
+          <h4>Linear Fresnel Reflector (LFR)</h4>
+          <ul>
+            <li>Flat mirror strips approximate parabolic trough</li>
+            <li>Lower concentration; simpler, cheaper structure</li>
+            <li>Suitable for process heat and DSG (direct steam)</li>
+            <li>Lower land use than PTC</li>
+          </ul>
+        </div>
+        <div class="card">
+          <div class="card-id">CSP 05 — Unique</div>
+          <h4>Solar Pond</h4>
+          <ul>
+            <li>Salinity gradient suppresses natural convection</li>
+            <li>Lower zone stores heat at 70–90 °C</li>
+            <li>ORC (organic Rankine cycle) for power generation</li>
+            <li>Also useful for desalination and industrial heat</li>
+          </ul>
+        </div>
+      </div>
+
+      <h3>Elementary Analysis</h3>
+      <ul class="topic-list">
+        <li>Optical efficiency — intercept factor, reflectivity, transmissivity, absorptivity</li>
+        <li>Concentration ratio C = A_aperture / A_receiver ; maximum C_theoretical = 1/sin²(θ_sun)</li>
+        <li>Thermal efficiency — absorbed heat vs. optical input; radiation and convection losses from receiver</li>
+        <li>Overall solar-to-electric efficiency: η_sys = η_optical × η_thermal × η_cycle</li>
+        <li>Thermal storage — sensible heat (molten salt two-tank), latent heat (PCM), thermochemical</li>
+        <li>Capacity factor improvement with TES — CSP + 6–15 h storage → CF &gt; 75 %</li>
+      </ul>
+
+      <div class="formula">CSP Elementary Analysis:
+
+  Optical efficiency:
+  η_opt = ρ_mirror × τ_cover × α_absorber × γ (intercept factor) × cos θ
+
+  Thermal receiver efficiency:
+  η_th  = α·G·C − U_L·(T_r − T_amb) / (G·C)
+
+  Overall system efficiency:
+  η_sys = η_opt × η_th × η_Rankine
+
+  Maximum theoretical concentration ratio (2D):
+  C_max (trough) = 1 / sin(θ_s) ≈ 215 ×
+  C_max (dish)   = 1 / sin²(θ_s) ≈ 46 200 ×   (θ_s = 0.267° half-angle)</div>
+
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Technology</th>
+              <th>Focus Type</th>
+              <th>Concentration</th>
+              <th>Max Temp (°C)</th>
+              <th>η_sys (%)</th>
+              <th>TES Feasibility</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td><strong>Parabolic Trough</strong></td><td>Line</td><td>70–80×</td><td>400</td><td>14–16</td><td>✅ Proven</td></tr>
+            <tr><td><strong>Central Receiver</strong></td><td>Point</td><td>300–1000×</td><td>565+</td><td>16–20</td><td>✅ Best-in-class</td></tr>
+            <tr><td><strong>Parabolic Dish</strong></td><td>Point</td><td>1000–3000×</td><td>750+</td><td>25–30</td><td>⚠️ Limited</td></tr>
+            <tr><td><strong>Linear Fresnel</strong></td><td>Line</td><td>25–100×</td><td>300</td><td>8–12</td><td>✅ Possible</td></tr>
+            <tr><td><strong>Solar Pond</strong></td><td>Volumetric</td><td>1×</td><td>90</td><td>1–2</td><td>✅ Inherent</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <blockquote>
+        CSP with thermal energy storage represents one of the few renewable technologies capable of delivering fully <strong>dispatchable, on-demand</strong> solar power — making it complementary to the non-dispatchable nature of PV and wind, particularly for evening peak demand coverage.
+      </blockquote>
+
+      <div class="pills">
+        <span class="pill yellow">Parabolic Trough — Mature</span>
+        <span class="pill orange">Power Tower — High Temp</span>
+        <span class="pill green">Dish-Stirling — Highest η</span>
+        <span class="pill blue">Fresnel — Low Cost</span>
+        <span class="pill purple">Solar Pond — Unique</span>
+        <span class="pill yellow">Molten Salt TES</span>
+        <span class="pill green">Dispatchable Solar</span>
+      </div>
+    </section>
+
+  </main>
+
+  <script>
+    // Scroll progress bar
+    window.addEventListener("scroll", () => {
+      const total = document.body.scrollHeight - window.innerHeight;
+      document.getElementById("progress").style.width = (window.scrollY / total) * 100 + "%";
+    });
+
+    // Section fade-in on scroll
+    const obs = new IntersectionObserver(
+      entries => entries.forEach(e => { if (e.isIntersecting) e.target.classList.add("visible"); }),
+      { threshold: 0.06 }
+    );
+    document.querySelectorAll(".section").forEach(s => obs.observe(s));
+  </script>
+</body>
+</html>
